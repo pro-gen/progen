@@ -1,0 +1,14 @@
+#progen.roles.factory = standalone* | distributed (optional)
+progen.roles.factory=distributed
+ 
+progen.role=dispatcher
+
+#opcional [Registry.REGISTRY_PORT]
+#progen.role.dispatcher.port=1088
+
+#opcional InetAddress.getLocalHost().getHostName();
+#progen.role.dispatcher.bindAddress=nombre o ip
+
+
+progen.outputers=NullOutputer
+progen.datacollector.total=0

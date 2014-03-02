@@ -1,0 +1,6 @@
+#fichero de test de MultipleExperimenter
+
+progen.experimenter=on
+
+progen.experimenter.loop=1;5;1
+progen.experimenter.list=1 | 3 | 5

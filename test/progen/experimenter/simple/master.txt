@@ -1,0 +1,3 @@
+#fichero de test de SimpleExperimenter
+
+progen.experiment.file=test.progen.experimenter.simple.experimenterSimple.txt

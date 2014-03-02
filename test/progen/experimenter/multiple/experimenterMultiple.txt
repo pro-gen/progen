@@ -1,0 +1,13 @@
+#fichero de test de MultipleExperimenter
+
+progen.population.size = 10
+progen.population.init-depth-interval = 4
+
+progen.max-generation = 1
+
+progen.total.RPB=1
+progen.functionSet0=DoublePlus, DoubleMinus, DoubleX, DoubleY
+progen.functionSet0.return=double
+progen.RPB0.functionSet=0
+
+	
