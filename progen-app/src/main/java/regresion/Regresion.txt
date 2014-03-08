@@ -1,0 +1,66 @@
+#***********************************************
+#        Experiment properties file            *
+#***********************************************
+
+#***********************************************
+#        PROJECT                               *
+#***********************************************
+progen.population.init-mode=half&half(grow=50%,full=0.5)
+#progen.population.init-mode=full
+#progen.population.init-mode=grow
+progen.population.size=500
+progen.population.depth-interval=3,5
+#progen.population.max-nodes=400
+progen.max-generation=100
+
+#***********************************************
+#        FUNCTION SETS and ADFS                *
+#***********************************************
+
+progen.functionSet0=DoublePlus, DoubleMinus, DoubleX, DoubleY, ADF0
+progen.functionSet0.return=double
+
+progen.functionSet1=DoublePlus, DoubleMult, DoubleX
+progen.functionSet1.return=double
+
+progen.total.RPB=1
+
+progen.RPB0.functionSet=0
+
+progen.total.ADF=2
+
+progen.ADF0.functionSet=1
+progen.ADF0.interface=double$$double$$double
+
+progen.ADF1.functionSet=1
+progen.ADF1.interface=double$$double$$double
+
+
+
+#***********************************************
+#        GENNETICS OPERATORS                   *
+#***********************************************
+
+progen.total.operators=3
+
+progen.gennetic.operator0.class=PointMutation
+progen.gennetic.operator0.selector = RandomSelector
+progen.gennetic.operator0.probability=33%
+
+progen.gennetic.operator1.class=PointMutation
+#progen.gennetic.operator1.class=TreeMutation
+progen.gennetic.operator1.probability=0.33
+progen.gennetic.operator1.selector = Tournament
+progen.gennetic.operator1.selector.size = 4
+
+progen.gennetic.operator2.class=Reproduction
+progen.gennetic.operator2.probability=0.34
+progen.gennetic.operator2.selector = Tournament
+progen.gennetic.operator2.selector.size = 4
+
+
+#***********************************************
+#        OUTPUT CONFIGURATION                  *
+#***********************************************
+#progen.output.experiment=ruta absoluta donde crear los ficheros de salida
+

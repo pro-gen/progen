@@ -1,0 +1,85 @@
+		#***********************************************
+		#        Experiment properties file            *
+		#***********************************************
+
+
+#----PROJECT----
+
+#The project must be written in a java file with the same name that you specify in this property.
+#it will be also used to name output files.
+prp_project_name: BlockStacking.BlockStacking
+
+#Available: English, Espaol
+prp_language: espaol
+
+#Output: detailed or summarized
+output_mode: detailed       
+prp_hypergp: off
+prp_hgp_generations: 5
+prp_hgp_convergence_limit: 80%
+
+#----POPULATION----
+
+#You can load the initial population from an XML file if you dont want it to be generated randomly
+prp_load_population: population.xml
+prp_population_size: 1000
+prp_random_seed: 1234567890
+#Full, grow, half and half
+prp_initialization_mode: grow
+#Valid depth range for the initial population trees
+prp_depth_interval: 3, 5
+#Maximun number of attempts to generate a valid tree (both for the initial population and during the evolution)
+prp_max_attempts: 1000
+
+
+#----INDIVIDUALS----
+
+#valid trees during the evolution
+prp_max_nodes: 20
+prp_max_depth: 10
+
+
+#----FUNCTIONS and ADFS----
+
+#if you want to use ADF?S name them like ADF0, ADF1 and so. To refer its branches use ARG0, ARG1...
+
+prp_num_function_sets: 1
+prp_function_set_0: DUFc, NOTFc, EQFc, MSFc, MTFc, CS, NN, TB  
+prp_return_type_fs_0: boolean
+
+prp_number_of_trees: 1
+prp_tree0_function_set_number: 0
+
+prp_number_of_adfs: 0
+
+
+
+#----EVOLUTION----
+
+prp_generations: 100
+#Evolution will stop when this value (or any other inside the allowed error interval) is reached
+prp_stop_fitness: 0
+#Upper and lower bounds from the stop_fitness value. Reaching a value in this interval will also stop the evolution
+#prp_error_interval: 5, 0
+#checkpoints. Valid values are either a list of integers or/and the word "every" followed by an integer.
+#prp_checkpoints: 10, 47, 82, every 100
+
+#exact number or percentage value
+prp_elitism: 10%
+
+prp_GP_operator_number: 3
+prp_GP_op1_name: Crossover(internal=1.0)
+prp_GP_op1_probability: 0.5
+prp_GP_op1_selection: RandomSelector(amongTheBest=100%)
+
+prp_GP_op2_name: PointMutation(internal=1.0)
+prp_GP_op2_probability: 0.35
+prp_GP_op2_selection: Tournament(size=4)
+
+prp_GP_op3_name: Reproduction(internal=1.0)
+prp_GP_op3_probability: 0.15
+prp_GP_op3_selection: Roulette
+
+
+
+

@@ -1,0 +1,46 @@
+#***********************************************
+#        Experiment properties file            *
+#***********************************************
+
+#***********************************************
+#        PROJECT                               *
+#***********************************************
+
+progen.population.init-mode=half&half:grow=50%,full=0.5
+progen.population.size=500
+progen.population.init-depth-interval=3,5
+progen.max-generation=10
+
+#***********************************************
+#        SIZE LIMITATIONS                      *
+#***********************************************
+
+progen.population.max-nodes=400
+
+#***********************************************
+#        FUNCTION SETS and ADFS                *
+#***********************************************
+
+progen.functionSet0=
+progen.functionSet0.return=
+
+progen.total.RPB=1
+
+progen.RPB0.functionSet=0
+
+
+#***********************************************
+#        GENNETICS OPERATORS                   *
+#***********************************************
+
+progen.total.operators=2
+
+progen.gennetic.operator0.class=PointMutation
+progen.gennetic.operator0.selector = RandomSelector
+progen.gennetic.operator0.probability=50%
+
+progen.gennetic.operator1.class=StandarCrossover
+progen.gennetic.operator1.probability=0.33
+progen.gennetic.operator1.selector = Tournament
+progen.gennetic.operator1.selector.size = 4
+

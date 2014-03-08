@@ -1,0 +1,3 @@
+progen.experimenter=off
+progen.experimenter.population.size=10;50;10
+progen.experimenter.init-mode=grow | half&half$$grow=50%
