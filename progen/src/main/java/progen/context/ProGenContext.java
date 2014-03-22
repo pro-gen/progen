@@ -1,9 +1,6 @@
 package progen.context;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -64,7 +61,7 @@ public class ProGenContext {
     } else {
 
       try {
-        FileInputStream fis = new FileInputStream(file);
+        InputStream fis = ProGenContext.class.getClassLoader().getResourceAsStream(file);
 
         proGenProps = new ProGenContext();
         proGenProps.loadOtherPropertiesFile("ProGen.conf");
@@ -415,8 +412,7 @@ public class ProGenContext {
    * @throws FileNotFoundException
    * @throws IOException
    */
-  private void loadOtherPropertiesFile(String propertyFile)
-      throws FileNotFoundException, IOException {
+  private void loadOtherPropertiesFile(String propertyFile) throws FileNotFoundException, IOException {
     Properties otherProperties;
     Enumeration<Object> keys;
     String key;
@@ -432,9 +428,7 @@ public class ProGenContext {
       } catch (FileNotFoundException fnfe) {
         // look for in user project
 
-        propertyFile = proGenProps.properties.getProperty(
-            "progen.user.home").replace('.', File.separatorChar)
-            + propertyFile;
+        propertyFile = proGenProps.properties.getProperty("progen.user.home").replace('.', File.separatorChar) + propertyFile;
         fis = new FileInputStream(propertyFile);
         otherProperties.load(fis);
         fis.close();

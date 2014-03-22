@@ -5,3 +5,7 @@
 *.war
 *.ear
 progen/target
+.classpath
+.project
+*/.settings/*
+*/.idea/*
