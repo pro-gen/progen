@@ -208,7 +208,7 @@ public class ProGenContext {
    */
   private static String getProperty(String key) {
     if (proGenProps == null) {
-      throw new UninitializedPropertiesException();
+      throw new UninitializedContextException();
     }
     return proGenProps.properties.getProperty(key);
   }

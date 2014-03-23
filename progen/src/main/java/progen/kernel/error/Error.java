@@ -1,7 +1,7 @@
 package progen.kernel.error;
 
 import progen.context.ProGenContext;
-import progen.context.UninitializedPropertiesException;
+import progen.context.UninitializedContextException;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -55,7 +55,7 @@ public class Error {
         Locale locale = new Locale(defaultLanguage);
         Locale.setDefault(locale);
         error.literals = ResourceBundle.getBundle("progen.kernel.error.strings", locale);
-      } catch (UninitializedPropertiesException e) {
+      } catch (UninitializedContextException e) {
         // do nothing, because the error has a default language
       }
     }

@@ -8,7 +8,7 @@ import progen.kernel.error.Error;
  *
  * @see progen.context.ProGenContext#makeInstance(String)
  */
-public class UninitializedPropertiesException extends RuntimeException {
+public class UninitializedContextException extends RuntimeException {
 
 	/** Para serialización. */
 	private static final long serialVersionUID = -1926903181381689034L;
@@ -16,7 +16,7 @@ public class UninitializedPropertiesException extends RuntimeException {
 	/**
 	 * Constructor genérico de la excepción. 
 	 */
-	public UninitializedPropertiesException() {
+	public UninitializedContextException() {
 		super(Error.get(19).trim());
 	}
 
