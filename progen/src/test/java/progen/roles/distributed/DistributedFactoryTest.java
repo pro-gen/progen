@@ -1,4 +1,4 @@
-package test.progen.roles.distributed;
+package progen.roles.distributed;
 
 import org.junit.After;
 import org.junit.Before;

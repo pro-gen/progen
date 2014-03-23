@@ -1,4 +1,4 @@
-package test.progen.output.plugins;
+package progen.output.plugins;
 
 import junit.framework.TestCase;
 import progen.output.plugins.Worst;

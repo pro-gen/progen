@@ -1,4 +1,4 @@
-package test.progen.experimenter.property.condition;
+package progen.experimenter.property.condition;
 
 import org.junit.After;
 import org.junit.Before;

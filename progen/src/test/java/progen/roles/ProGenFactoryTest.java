@@ -1,4 +1,4 @@
-package test.progen.roles;
+package progen.roles;
 
 import org.junit.After;
 import org.junit.Before;

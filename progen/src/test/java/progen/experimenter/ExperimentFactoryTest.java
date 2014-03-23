@@ -1,4 +1,4 @@
-package test.progen.experimenter;
+package progen.experimenter;
 
 import org.junit.After;
 import org.junit.Before;

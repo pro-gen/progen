@@ -1,4 +1,4 @@
-package test.progen.kernel.tree;
+package progen.kernel.tree;
 
 import org.junit.Before;
 import org.junit.Test;

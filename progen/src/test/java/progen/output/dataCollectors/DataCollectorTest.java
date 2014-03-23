@@ -1,4 +1,4 @@
-package test.progen.output.dataCollectors;
+package progen.output.dataCollectors;
 
 import org.junit.Before;
 import org.junit.Test;

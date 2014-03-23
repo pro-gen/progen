@@ -1,4 +1,4 @@
-package test.progen.kernel.evolution.operators;
+package progen.kernel.evolution.operators;
 
 import org.junit.Before;
 import org.junit.Test;

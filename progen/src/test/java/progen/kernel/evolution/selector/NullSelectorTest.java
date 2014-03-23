@@ -1,4 +1,4 @@
-package test.progen.kernel.evolution.selector;
+package progen.kernel.evolution.selector;
 
 import org.junit.Before;
 import org.junit.Test;

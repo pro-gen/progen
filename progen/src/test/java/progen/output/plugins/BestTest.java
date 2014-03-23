@@ -1,4 +1,4 @@
-package test.progen.output.plugins;
+package progen.output.plugins;
 
 import org.junit.Before;
 import org.junit.Test;

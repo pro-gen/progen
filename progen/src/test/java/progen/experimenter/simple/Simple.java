@@ -1,4 +1,4 @@
-package test.progen.experimenter.simple;
+package progen.experimenter.simple;
 
 import progen.kernel.population.Individual;
 import progen.userprogram.UserProgram;

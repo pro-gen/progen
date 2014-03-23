@@ -1,4 +1,4 @@
-package test.progen.output.outputers;
+package progen.output.outputers;
 
 import org.junit.Before;
 import org.junit.Test;

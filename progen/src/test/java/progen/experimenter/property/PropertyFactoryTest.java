@@ -1,4 +1,4 @@
-package test.progen.experimenter.property;
+package progen.experimenter.property;
 
 import org.junit.After;
 import org.junit.Before;
