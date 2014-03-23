@@ -12,104 +12,74 @@ import static org.junit.Assert.*;
 
 public class ProGenContextTest {
 
-  private ProGenContext proGen;
+  private ProGenContext proGenContext;
 
   @Before
   public void setUp() throws Exception {
-    proGen = ProGenContext.makeInstance();
-    /*ProGenContext.setProperty("optional", "property optional");
-    ProGenContext.setProperty("optional.int", Integer.MAX_VALUE + "");
-    ProGenContext.setProperty("optional.string", "Lorem ipsum dolor sit");
-    ProGenContext.setProperty("optional.double", Math.PI + "");
-    ProGenContext.setProperty("optional.percent", "0.87");
-    ProGenContext.setProperty("mandatory.string", "Lorem ipsum dolor sit amet");
-    ProGenContext.setProperty("mandatory.percent.string", "99%");
-    ProGenContext.setProperty("mandatory.percent.double", "0.75");
-    ProGenContext.setProperty("suboptional.percent", "option(suboption1=0.60,suboption2=40%)");
-    ProGenContext.setProperty("option.suboptions", "value(subopt1=1,suboptA=A)");
-*/
+    proGenContext = ProGenContext.makeInstance();
   }
 
   @Test
   public void testMakeInstance() {
     ProGenContext props = ProGenContext.makeInstance();
-    assertEquals(proGen, props);
+    assertEquals(proGenContext, props);
   }
 
   @Test
   public void testMakeInstanceFile(){
     ProGenContext props = ProGenContext.makeInstance("test.properties");
     assertNotNull(props);
-    assertNotEquals(proGen, props);
-    assertEquals("OK", ProGenContext.getMandatoryProperty("property"));
+    assertNotEquals(proGenContext, props);
+    assertEquals("success", ProGenContext.getMandatoryProperty("property"));
   }
 
-  @Ignore@Test
+  @Test
   public void testGetOptionalPropertyStringInt() {
     int defaultValue = 9;
     int value = ProGenContext.getOptionalProperty("optional.int", defaultValue);
-    assertFalse(value == defaultValue);
-    assertEquals(value, Integer.MAX_VALUE);
-
-    value = ProGenContext.getOptionalProperty("optional.undefined", defaultValue);
-    assertTrue(value == defaultValue);
+    assertEquals(defaultValue, value);
   }
 
-  @Ignore@Test
+  @Test
   public void testGetOptionalPropertyString() {
     String defaultValue = "default";
-    String value = ProGenContext.getOptionalProperty("optional.string",
-        defaultValue);
-    assertFalse(value.equals(defaultValue));
-    assertTrue(value.equals("Lorem ipsum dolor sit"));
-
-    value = ProGenContext.getOptionalProperty("optional.undefined",
-        defaultValue);
-    assertTrue(value.equals(defaultValue));
+    String value = ProGenContext.getOptionalProperty("optional.string", defaultValue);
+    assertEquals(defaultValue, value);
   }
 
-  @Ignore@Test
+  @Test
   public void testGetOptionalPropertyStringDouble() {
     double defaultValue = Math.E;
-    double value = ProGenContext.getOptionalProperty("optional.double",
-        defaultValue);
-    assertFalse(new BigDecimal(value).equals(new BigDecimal(defaultValue)));
-    assertTrue(new BigDecimal(value).equals(new BigDecimal(Math.PI)));
-
-    value = ProGenContext.getOptionalProperty("optional.undefined",
-        defaultValue);
-    assertTrue(new BigDecimal(value).equals(new BigDecimal(Math.E)));
+    double value = ProGenContext.getOptionalProperty("optional.double", defaultValue);
+    assertEquals(defaultValue, value, 0.0d);
   }
 
-  @Ignore@Test(expected = UndefinedMandatoryPropertyException.class)
+  @Test(expected = UndefinedMandatoryPropertyException.class)
   public void testGetMandatoryProperty() {
-    String mandatory = ProGenContext
-        .getMandatoryProperty("mandatory.string");
-    assertTrue(mandatory.equals("Lorem ipsum dolor sit amet"));
-    // throws exception
-    ProGenContext.getMandatoryPercent("undefined.mandatory");
+    ProGenContext.getMandatoryProperty("mandatory.property");
+    fail("Mandatory property not throws new Exception");
   }
 
-  @Ignore@Test
+  @Test
   public void testGetSuboptionPercent() {
-    String option;
+    String propertyName = "optional.suboption.percent";
     double defaultPercent = 0.33;
-    double subOption1;
-    double subOption2;
-    double subOption3;
-    option = ProGenContext.getOptionalProperty("suboptional.percent", "");
-    subOption1 = ProGenContext.getSuboptionPercent("suboptional.percent",
-        "suboption1", defaultPercent);
-    subOption2 = ProGenContext.getSuboptionPercent("suboptional.percent",
-        "suboption2", defaultPercent);
-    subOption3 = ProGenContext.getSuboptionPercent("suboptional.percent",
-        "suboption3", defaultPercent);
-
-    assertTrue(option.compareTo("option") == 0);
-    assertTrue(new BigDecimal(subOption1).equals(new BigDecimal(0.6)));
-    assertTrue(new BigDecimal(subOption2).equals(new BigDecimal(0.4)));
-    assertTrue(new BigDecimal(subOption3).equals(new BigDecimal(
-        defaultPercent)));
+    double value1 = 0.4;
+    double value2 = 0.5;
+    double value3 = 0.1;
+    String propertyValue = String.format("valor(sub1=%f,sub2=%f,sub3=%f)", value1, value2, value3);
+    
+    double subOption;
+    ProGenContext.setProperty(propertyName, propertyValue);
+    subOption = ProGenContext.getSuboptionPercent(propertyName, "sub1", defaultPercent);
+    assertEquals(subOption, value1, 0.0);
+    subOption = ProGenContext.getSuboptionPercent(propertyName, "sub2", defaultPercent);
+    assertEquals(subOption, value2, 0.0);
+    subOption = ProGenContext.getSuboptionPercent(propertyName, "sub3", defaultPercent);
+    assertEquals(subOption, value3, 0.0);
+    subOption = ProGenContext.getSuboptionPercent(propertyName, "sub4", defaultPercent);
+    assertEquals(subOption, defaultPercent, 0.0);
+    
   }
 
   @Ignore@Test
@@ -182,15 +152,13 @@ public class ProGenContextTest {
 
   @Ignore@Test
   public void testSetProperty() {
-    String value = "Lorem ipsum";
-    String initialProperty = ProGenContext
-        .getMandatoryProperty("mandatory.string");
-    ProGenContext.setProperty("mandatory.string", value);
-    String modifiedProperty = ProGenContext
-        .getMandatoryProperty("mandatory.string");
-    assertFalse(initialProperty.compareTo(modifiedProperty) == 0);
-    assertTrue(modifiedProperty.compareTo(value) == 0);
-
+	String defaultValue = "default";
+	String newProperty = "new.property";
+    String value = ProGenContext.getOptionalProperty(newProperty, defaultValue);
+    assertEquals(defaultValue, value);
+    ProGenContext.setProperty(newProperty, newProperty);
+    value = ProGenContext.getOptionalProperty(newProperty, defaultValue);
+    assertEquals(newProperty, value);
   }
 
   @Ignore@Test(expected = MissingContextFileException.class)
