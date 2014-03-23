@@ -41,13 +41,13 @@ public class ProGenContextTest {
   
   @Test(expected=MissingContextFileException.class)
   public void testMakeInstanceNullFile(){
-	  ProGenContext props = ProGenContext.makeInstance(null);
+	  ProGenContext.makeInstance(null);
 	  fail("MissingContextFileException must be thrown");
   }
   
   @Test(expected=MissingContextFileException.class)
   public void testMakeInstanceNotFoundFile(){
-	  ProGenContext props = ProGenContext.makeInstance("file-not-found.properties");
+	  ProGenContext.makeInstance("file-not-found.properties");
 	  fail("MissingContextFileException must be thrown");
   }
   
@@ -80,10 +80,30 @@ public class ProGenContextTest {
   }
 
   @Test
-  public void testGetOptionalPropertyStringDouble() {
+  public void testGetOptionalPropertyDouble() {
     double defaultValue = Math.E;
+    double definedValue = Math.PI;
+    ProGenContext.setProperty("optional.double", definedValue+"");
     double value = ProGenContext.getOptionalProperty("optional.double", defaultValue);
+    assertEquals(definedValue, value, 0.0d);
+    value = ProGenContext.getOptionalProperty("optional.double.missing", defaultValue);
     assertEquals(defaultValue, value, 0.0d);
+  }
+  
+  @Test
+  public void testGetOptionalPropertyBoolean(){
+    ProGenContext.setProperty("optional.boolean", false+"");
+    boolean value = ProGenContext.getOptionalProperty("optional.boolean", true);
+    assertEquals(value, false);
+    value = ProGenContext.getOptionalProperty("optional.boolean.undefined", true);
+    assertEquals(value, true);
+  }
+  
+  @Test(expected = UninitializedContextException.class)
+  public void testUninitializedContextException(){
+    ProGenContext.clearContext();
+    ProGenContext.getMandatoryProperty("mandatory");
+    fail("UnititializedContextException must be thrown");
   }
 
   @Test(expected = UndefinedMandatoryPropertyException.class)
@@ -169,24 +189,45 @@ public class ProGenContextTest {
     assertEquals(0.4, percent, 0.0);
   }
 
-  @Ignore@Test(expected = UndefinedMandatoryPropertyException.class)
-  public void testGetMandatoryPercent() {
-    double percent;
-    percent = ProGenContext.getMandatoryPercent("mandatory.percent.string");
-    assertTrue(new BigDecimal(percent).equals(new BigDecimal(0.99)));
-    percent = ProGenContext.getMandatoryPercent("mandatory.percent.double");
-    assertTrue(new BigDecimal(percent).equals(new BigDecimal(0.75)));
-    ProGenContext.getMandatoryPercent("undefined.property");
+  @Test(expected = UndefinedMandatoryPropertyException.class)
+  public void testGetMandatoryPercentUndefined() {
+    ProGenContext.getMandatoryPercent("mandatory.percent");
+    fail("UndefinedMandatoryPropertyException must be thrown");
   }
 
-  @Ignore@Test
+  @Test
+  public void testGetMandatoryPercent() {
+    String propertyName = "percent";
+    String valueString = "40%";
+    String valueNumber = "0.5";
+    ProGenContext.setProperty(propertyName+"String", valueString);
+    ProGenContext.setProperty(propertyName+"Number", valueNumber);
+    
+    double percent = ProGenContext.getMandatoryPercent(propertyName+"String");
+    assertEquals(0.4, percent, 0.0);
+    percent = ProGenContext.getMandatoryPercent(propertyName+"Number");
+    assertEquals(0.5, percent, 0.0);
+  }
+
+  @Test
   public void testGetFamilyOptions() {
-    List<String> properties = ProGenContext.getFamilyOptions("optional.");
-    assertTrue(properties.size() == 4);
-    properties = ProGenContext.getFamilyOptions("mandatory.percent");
-    assertTrue(properties.size() == 2);
+    String propertyName = "property.family.";
+    setUpFamilyOptions(propertyName);
+    
+    List<String> properties = ProGenContext.getFamilyOptions(propertyName);
+    assertEquals(10, properties.size());
+    assertTrue(properties.get(4).startsWith(propertyName));
+    
     properties = ProGenContext.getFamilyOptions("undefined.family");
-    assertTrue(properties.size() == 0);
+    assertEquals(0, properties.size());
+  }
+
+  private void setUpFamilyOptions(String propertyName) {
+    int totalPropertyFamily = 10;
+    for(int propertyId = 0 ; propertyId < totalPropertyFamily; propertyId++){
+      ProGenContext.setProperty(propertyName+propertyId, "value "+propertyId);
+    }
+    
   }
 
   @Ignore@Test
