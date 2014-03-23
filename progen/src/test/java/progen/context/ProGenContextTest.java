@@ -1,5 +1,6 @@
 package progen.context;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -18,6 +19,11 @@ public class ProGenContextTest {
   public void setUp() throws Exception {
     proGenContext = ProGenContext.makeInstance();
   }
+  
+  @After
+  public void tearDown(){
+    ProGenContext.clearContext();
+  }
 
   @Test
   public void testMakeInstance() {
@@ -32,12 +38,38 @@ public class ProGenContextTest {
     assertNotEquals(proGenContext, props);
     assertEquals("success", ProGenContext.getMandatoryProperty("property"));
   }
+  
+  @Test(expected=MissingContextFileException.class)
+  public void testMakeInstanceNullFile(){
+	  ProGenContext props = ProGenContext.makeInstance(null);
+	  fail("MissingContextFileException must be thrown");
+  }
+  
+  @Test(expected=MissingContextFileException.class)
+  public void testMakeInstanceNotFoundFile(){
+	  ProGenContext props = ProGenContext.makeInstance("file-not-found.properties");
+	  fail("MissingContextFileException must be thrown");
+  }
+  
+  @Test
+  public void testClearContext(){
+    ProGenContext currentContext = ProGenContext.makeInstance();
+    assertEquals(proGenContext, currentContext);
+    ProGenContext.clearContext();
+    currentContext = ProGenContext.makeInstance();
+    assertNotEquals(proGenContext, currentContext);
+  }
 
   @Test
   public void testGetOptionalPropertyStringInt() {
     int defaultValue = 9;
-    int value = ProGenContext.getOptionalProperty("optional.int", defaultValue);
-    assertEquals(defaultValue, value);
+    int value = 42;
+    ProGenContext.setProperty("optional.int.defined", value+"");
+    int contextValue = ProGenContext.getOptionalProperty("optional.int.default", defaultValue);
+    assertEquals(defaultValue, contextValue);
+    contextValue = ProGenContext.getOptionalProperty("optional.int.defined", defaultValue);
+    assertEquals(value, contextValue);
+    assertNotEquals(value, defaultValue);
   }
 
   @Test
@@ -67,9 +99,9 @@ public class ProGenContextTest {
     double value1 = 0.4;
     double value2 = 0.5;
     double value3 = 0.1;
-    String propertyValue = String.format("valor(sub1=%f,sub2=%f,sub3=%f)", value1, value2, value3);
-    
+    String propertyValue = "valor(sub1="+value1+",sub2="+value2+",sub3="+value3+")";
     double subOption;
+    
     ProGenContext.setProperty(propertyName, propertyValue);
     subOption = ProGenContext.getSuboptionPercent(propertyName, "sub1", defaultPercent);
     assertEquals(subOption, value1, 0.0);
@@ -82,52 +114,59 @@ public class ProGenContextTest {
     
   }
 
-  @Ignore@Test
+  @Test
   public void testGetParameter() {
-    String option;
-    String subOption1;
-    String subOptionA;
-    String optionNotDefined;
-
-    option = ProGenContext.getOptionalProperty("option.suboptions", "");
-    subOption1 = ProGenContext.getParameter("option.suboptions", "subopt1");
-    subOptionA = ProGenContext.getParameter("option.suboptions", "suboptA");
-    optionNotDefined = ProGenContext.getParameter("option.notDefined", "subopt1");
-
-    assertTrue(option.compareTo("value") == 0);
-    assertTrue(subOption1.compareTo("1") == 0);
-    assertTrue(subOptionA.compareTo("A") == 0);
-    assertNull(optionNotDefined);
-
+    ProGenContext.setProperty("option", "value(parameter=42");
+    String parameterValue = ProGenContext.getParameter("option", "parameter.undefined");
+    assertNull(parameterValue);
+    parameterValue = ProGenContext.getParameter("option", "parameter");
+    assertNotNull(parameterValue);
+    assertEquals("42", parameterValue);
   }
 
-  @Ignore@Test
+  @Test
   public void testGetParameters() {
-    Map<String, String> option1 = ProGenContext.getParameters("option.suboptions");
-    assertTrue(option1.size() == 2);
-    assertTrue(option1.containsKey("subopt1"));
-    assertTrue(option1.containsKey("suboptA"));
-
-    Map<String, String> option2 = ProGenContext.getParameters("option.suboptions.notExists");
-    assertTrue(option2.size() == 0);
+    ProGenContext.setProperty("options", "value(param1=a, param2=b, param3=c");
+    Map<String, String> option = ProGenContext.getParameters("options");
+    assertEquals(3, option.size());
+    assertTrue(option.containsKey("param1"));
+    assertTrue(option.containsKey("param2"));
+  }
+  
+  @Test
+  public void testGetParametersUndefined(){
+    Map<String, String> option = ProGenContext.getParameters("option.suboptions.notExists");
+    assertEquals(0, option.size());
 
     ProGenContext.setProperty("option.without.params", "value");
-    Map<String, String> option3 = ProGenContext.getParameters("option.without.params");
-    assertTrue(option3.size() == 0);
+    option = ProGenContext.getParameters("option.without.params");
+    assertEquals(0, option.size());
 
+  }
+  
+  @Test(expected=MalformedParameterException.class)
+  public void testGetParameterMalformed(){
+    ProGenContext.setProperty("mal.formed.parameter", "value(a:1;b:2)");
+    ProGenContext.getParameters("mal.formed.parameter");
+    fail("MalformedParameterException must be thrown");
   }
 
 
-  @Ignore@Test
+  @Test
   public void testGetOptionalPercent() {
-    String defaultPercent = "0.25";
-    double percent = ProGenContext.getOptionalPercent("optional.percent",
-        defaultPercent);
-    assertEquals(percent, 0.87, 0.0);
-    assertNotSame(percent, Double.parseDouble(defaultPercent));
-    percent = ProGenContext.getOptionalPercent("undefined.percent",
-        defaultPercent);
-    assertEquals(percent, Double.parseDouble(defaultPercent), 0.001);
+    String percentOption = "percent";
+    String percentNumber = "0.25";
+    String percentString = "40%";
+    String defaultPercent = "0.5";
+    
+    double percent = ProGenContext.getOptionalPercent("undefined.percent", defaultPercent);
+    assertEquals(percent, Double.parseDouble(defaultPercent), 0.0);
+    ProGenContext.setProperty(percentOption, percentNumber);
+    percent = ProGenContext.getOptionalPercent(percentOption, defaultPercent);
+    assertEquals(Double.parseDouble(percentNumber), percent, 0.0);
+    ProGenContext.setProperty(percentOption, percentString);
+    percent = ProGenContext.getOptionalPercent(percentOption, defaultPercent);
+    assertEquals(0.4, percent, 0.0);
   }
 
   @Ignore@Test(expected = UndefinedMandatoryPropertyException.class)
