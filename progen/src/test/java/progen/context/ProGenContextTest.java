@@ -1,18 +1,22 @@
 package progen.context;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.List;
+import java.util.Map;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.*;
-
 public class ProGenContextTest {
-
+  
   private ProGenContext proGenContext;
 
   @Before
