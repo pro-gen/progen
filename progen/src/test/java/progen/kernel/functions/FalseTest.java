@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -30,12 +31,11 @@ public class FalseTest {
   @Test
   public void trueTest() {
     assertTrue(falseFunction instanceof Terminal);
-    assertTrue(falseFunction.getArity() == 0);
-    assertTrue(falseFunction.getReturnType().equals("boolean"));
-    assertTrue(falseFunction.getSignature().equals("boolean"));
-    assertTrue(falseFunction.getSymbol().equals("FALSE"));
-    assertTrue(falseFunction.getValue().equals(false));
-
+    assertEquals(0, falseFunction.getArity());
+    assertEquals("boolean", falseFunction.getReturnType());
+    assertEquals("boolean", falseFunction.getSignature());
+    assertEquals("FALSE", falseFunction.getSymbol());
+    assertEquals(false, falseFunction.getValue());
   }
 
   @Test
@@ -44,6 +44,16 @@ public class FalseTest {
     UserProgram userProgram = null;
     HashMap<String, Object> returnAddr = null;
     assertFalse((Boolean) falseFunction.evaluate(arguments, userProgram, returnAddr));
+  }
+ 
+  @Test
+  public void setValueTest(){
+    falseFunction.setValue(null);
+    assertEquals(0, falseFunction.getArity());
+    assertEquals("boolean", falseFunction.getReturnType());
+    assertEquals("boolean", falseFunction.getSignature());
+    assertEquals("FALSE", falseFunction.getSymbol());
+    assertEquals(false, falseFunction.getValue());
   }
 
 }
