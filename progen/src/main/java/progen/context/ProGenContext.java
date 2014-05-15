@@ -393,7 +393,7 @@ public class ProGenContext {
     try {
       proGenProps.calculateProperties();
       proGenProps.loadOtherProperties();
-    } catch (java.io.FileNotFoundException fnfe) {
+    } catch (FileNotFoundException fnfe) {
       throw new MissingContextFileException(fnfe.getMessage());
     } catch (IOException ioe) {
       throw new MissingContextFileException(ioe.getMessage());
