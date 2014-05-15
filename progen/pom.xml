@@ -11,6 +11,7 @@
 
 	<properties>
 		<jdk.version>1.7</jdk.version>
+	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<master.file>master_standalone.txt</master.file>
 	</properties>
 
@@ -28,8 +29,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
 				<configuration>
-					<encoding>UTF-8</encoding>
+					<encoding>${project.build.sourceEncoding}</encoding>
 					<source>${jdk.version}</source>
 					<target>${jdk.version}</target>
 				</configuration>
@@ -38,18 +40,6 @@
 				<groupId>org.eluder.coveralls</groupId>
 				<artifactId>coveralls-maven-plugin</artifactId>
 				<version>2.2.0</version>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<configuration>
-					<executable>java</executable>
-					<mainClass>progen.ProGen</mainClass>
-					<arguments>
-						<argument>${master.file}</argument>
-					</arguments>
-					<workingDirectory>target/classes</workingDirectory>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
@@ -63,6 +53,19 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.3</version>
+				<configuration>
+					<executable>java</executable>
+					<mainClass>progen.ProGen</mainClass>
+					<arguments>
+						<argument>${master.file}</argument>
+					</arguments>
+					<workingDirectory>target/classes</workingDirectory>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
