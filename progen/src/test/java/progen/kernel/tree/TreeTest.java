@@ -1,16 +1,17 @@
 package progen.kernel.tree;
 
-import org.junit.Before;
-import org.junit.Test;
-import progen.context.ProGenContext;
-import progen.kernel.grammar.Grammar;
-import progen.kernel.tree.Full;
-import progen.kernel.tree.Tree;
-import progen.userprogram.UserProgram;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import progen.context.ProGenContext;
+import progen.kernel.grammar.Grammar;
+import progen.userprogram.UserProgram;
+
+@Ignore
 public class TreeTest {
 
   private Tree tree;

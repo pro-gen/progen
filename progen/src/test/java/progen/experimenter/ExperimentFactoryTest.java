@@ -1,17 +1,15 @@
 package progen.experimenter;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import progen.context.ProGenContext;
-import progen.experimenter.Experimenter;
-import progen.experimenter.ExperimenterFactory;
-import progen.experimenter.MultipleExperimenter;
-import progen.experimenter.SimpleExperimenter;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import progen.context.ProGenContext;
 
 public class ExperimentFactoryTest {
 
@@ -28,20 +26,20 @@ public class ExperimentFactoryTest {
     ProGenContext.clearContext();
   }
 
-  @Test
+  @Test@Ignore
   public void testMakeInstance() {
     experimenter = ExperimenterFactory.makeInstance();
     assertTrue(experimenter instanceof SimpleExperimenter);
   }
 
-  @Test
+  @Test@Ignore
   public void testSimpleExperimenter() {
     ProGenContext.setProperty("progen.experimenter", "off");
     experimenter = ExperimenterFactory.makeInstance();
     assertTrue(experimenter instanceof SimpleExperimenter);
   }
 
-  @Test
+  @Test@Ignore
   public void testMultipleExperimenter() {
     ProGenContext.setProperty("progen.experimenter", "on");
     experimenter = ExperimenterFactory.makeInstance();

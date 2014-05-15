@@ -1,18 +1,18 @@
 package progen.kernel.evolution.selector;
 
-import org.junit.Before;
-import org.junit.Test;
-import progen.context.ProGenContext;
-import progen.kernel.evolution.selector.Roulette;
-import progen.kernel.evolution.selector.Selector;
-import progen.kernel.population.Individual;
-import progen.kernel.population.Population;
-import progen.userprogram.UserProgram;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import progen.context.ProGenContext;
+import progen.kernel.population.Individual;
+import progen.kernel.population.Population;
+import progen.userprogram.UserProgram;
 
 public class RouletteTest {
 
@@ -25,7 +25,7 @@ public class RouletteTest {
     selector = new Roulette();
   }
 
-  @Test
+  @Test@Ignore
   public void testSelect() {
     ProGenContext.makeInstance();
     ProGenContext.setProperty("progen.total.RPB", "1");
@@ -56,7 +56,7 @@ public class RouletteTest {
     }
   }
 
-  @Test
+  @Test@Ignore
   public void testMakeSelector() {
     Map<String, String> params = ProGenContext.getParameters("default.params");
     Selector roulette = Selector.makeSelector("Roulette", params);

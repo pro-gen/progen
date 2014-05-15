@@ -1,20 +1,19 @@
 package progen.experimenter;
 
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+
 import progen.context.ProGenContext;
-import progen.experimenter.Experimenter;
-import progen.experimenter.ExperimenterFactory;
-import progen.experimenter.SimpleExperimenter;
 import progen.kernel.population.Individual;
 import progen.kernel.population.Population;
 import progen.output.HistoricalData;
 import progen.userprogram.UserProgram;
-
-import java.io.File;
-
-import static org.junit.Assert.assertTrue;
 
 public class SimpleExperimenterTest {
 
@@ -37,7 +36,7 @@ public class SimpleExperimenterTest {
    * Comprueba que al inicializar el experimenter, se hayan creado las carpetas
    * correspondientes, así como se hayan copiado los ficheros mínimos.
    */
-  @Test
+  @Test@Ignore
   public void testConstructExperimenterDefault() {
     String outputDir = ProGenContext.getMandatoryProperty("progen.output.dir");
     String masterFile = ProGenContext.getMandatoryProperty("progen.masterfile");
@@ -62,14 +61,14 @@ public class SimpleExperimenterTest {
     assertTrue(file.canWrite());
   }
 
-  @Test
+  @Test@Ignore
   public void testConstructExperimenterUserDefinedRelativeOutputPath() {
     ProGenContext.setProperty("progen.output.dir", "../relativeOutputSimple");
     experimenter = new SimpleExperimenter();
     testConstructExperimenterDefault();
   }
 
-  @Test
+  @Test@Ignore
   public void testConstructExperimenterUserDefinedAbsoluteOutputPath() {
     String outputPath = System.getProperty("java.io.tmpdir") + File.separator + "ProGenOut";
     ProGenContext.setProperty("progen.output.dir", outputPath);
@@ -81,7 +80,7 @@ public class SimpleExperimenterTest {
    * Comprueba que si no se define explícitamente, ExperimentFactory devuelve
    * una instancia de SimpleExperimenter
    */
-  @Test
+  @Test@Ignore
   public void testMakeSimpleExperimenterDefault() {
     experimenter = ExperimenterFactory.makeInstance();
     assertTrue("No es una instancia de SimpleExperimenter",
@@ -92,7 +91,7 @@ public class SimpleExperimenterTest {
    * Comprueba que si se define explícitamente, ExperimentFactory devuelve
    * una instancia de SimpleExperimenter
    */
-  @Test
+  @Test@Ignore
   public void testMakeSimpleExperimenterOff() {
     ProGenContext.setProperty("progen.experimenter", "off");
     experimenter = ExperimenterFactory.makeInstance();
@@ -104,7 +103,7 @@ public class SimpleExperimenterTest {
    * Comprueba que al ser un experimenter simple, únicamente se ejecuta una
    * vez.
    */
-  @Test
+  @Test@Ignore
   public void testIsDone() {
     int loopIteration = -1;
     while (!experimenter.isDone()) {
@@ -119,7 +118,7 @@ public class SimpleExperimenterTest {
    * Genera una serie de resultados en la carpeta que define ProGen por defecto
    * user.bin/../outputs/<nombreExperimento>/results
    */
-  @Test
+  @Test@Ignore
   public void testGenerateResults() {
     File outputDir;
     boolean masterFile = false;

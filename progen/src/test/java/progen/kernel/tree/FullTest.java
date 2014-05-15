@@ -1,14 +1,13 @@
 package progen.kernel.tree;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+
 import progen.context.ProGenContext;
 import progen.kernel.grammar.Grammar;
-import progen.kernel.tree.Full;
-import progen.kernel.tree.IncompatibleOptionsInitTreeMethodException;
-import progen.kernel.tree.Node;
-
-import static org.junit.Assert.assertTrue;
 
 public class FullTest {
 
@@ -150,38 +149,8 @@ public class FullTest {
     assertTrue(node.getMaximunDepth() >= minDepth);
     assertTrue(node.getTotalNodes() <= maxNodes);
   }
-
-  @Test
-  public void testGpHashDyn() {
-    minDepth = 2;
-    maxDepth = 10;
-    maxNodes = 40;
-    ProGenContext.setProperty("progen.total.RPB", "1");
-    ProGenContext.setProperty("progen.RPB0.functionSet", "0");
-    ProGenContext.setProperty("progen.functionSet0", "BitAnd, BitOr, BitXor, BitNot, BitMult, BitSum, BitVrotd, A0, Hval, Bit32ERC");
-    ProGenContext.setProperty("progen.functionSet0.return", "Integer");
-    ProGenContext.setProperty("progen.population.init-depth-interval", minDepth + "," + maxDepth);
-    ProGenContext.setProperty("progen.population.max-nodes", maxNodes + "");
-    ProGenContext.setProperty("progen.experiment.file", "app.gpHashDyn.gpHashDyn.txt");
-
-    grammar = Grammar.makeInstance("RPB0");
-    node = new Node(grammar.getAxiom());
-    full = new Full();
-    full.generate(grammar, node);
-    assertTrue(node.getMaximunDepth() <= maxDepth);
-    assertTrue(node.getMaximunDepth() >= minDepth);
-    assertTrue(node.getTotalNodes() <= maxNodes);
-  }
-
-  @Test(timeout = 2000000)
-  public void testSimulatePopulation() {
-    int size = 1000;
-    for (int i = 0; i < size; i++) {
-      testGpHashDyn();
-    }
-  }
-
-  //	@Test(timeout=20000)
+  
+  @Test(timeout=20000)@Ignore
   public void testComplexGrammar() {
     minDepth = 5;
     maxDepth = 16;
@@ -208,7 +177,7 @@ public class FullTest {
     testGenerateMinimunDepth();
   }
 
-  @Test
+  @Test@Ignore
   public void testMixedFunctionTrees() {
     ProGenContext.setProperty("progen.functionSet0", "DoublePlus, DoubleX, DoubleMinus, DoubleMult, DoubleY, DoubleEquals");
     ProGenContext.setProperty("progen.functionSet0.return", "boolean");

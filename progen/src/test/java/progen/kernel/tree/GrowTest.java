@@ -127,37 +127,6 @@ public class GrowTest {
     assertTrue(node.getTotalNodes() <= maxNodes);
   }
 
-  @Test
-  public void testGpHashDyn() {
-    minDepth = 2;
-    maxDepth = 10;
-    maxNodes = 40;
-    ProGenContext.setProperty("progen.total.RPB", "1");
-    ProGenContext.setProperty("progen.RPB0.functionSet", "0");
-    ProGenContext.setProperty("progen.functionSet0", "BitAndFc, BitOrFc, BitXor, BitNotFc, BitMultFc, BitSumFc, BitVrotdFc, A0, Hval, Bit32ERC");
-    ProGenContext.setProperty("progen.functionSet0.return", "Integer");
-    ProGenContext.setProperty("progen.population.init-depth-interval", minDepth + "," + maxDepth);
-    ProGenContext.setProperty("progen.population.max-nodes", maxNodes + "");
-    ProGenContext.setProperty("progen.experiment.file", "app.gpHashDyn.gpHashDyn.txt");
-
-    grammar = Grammar.makeInstance("RPB0");
-    node = new Node(grammar.getAxiom());
-    grow = new Grow();
-    grow.generate(grammar, node);
-    assertTrue(node.getMaximunDepth() <= maxDepth);
-    assertTrue(node.getMaximunDepth() >= minDepth);
-    assertTrue(node.getTotalNodes() <= maxNodes);
-  }
-
-  @Test(timeout = 2000000)
-  public void testSimulatePopulation() {
-    int loops = 1000;
-
-    for (int i = 0; i < loops; i++) {
-      testGpHashDyn();
-    }
-  }
-
   @Test(timeout = 20000)
   public void testComplexGrammar() {
     minDepth = 5;

@@ -1,14 +1,14 @@
 package progen.kernel.evolution.selector;
 
-import org.junit.Before;
-import org.junit.Test;
-import progen.context.ProGenContext;
-import progen.kernel.evolution.selector.NullSelector;
-import progen.kernel.evolution.selector.Selector;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import progen.context.ProGenContext;
 
 public class NullSelectorTest {
 
@@ -24,7 +24,7 @@ public class NullSelectorTest {
     assertTrue(selector.select(null, 0).size() == 0);
   }
 
-  @Test
+  @Test@Ignore
   public void testMakeSelector() {
     Map<String, String> params = ProGenContext.getParameters("default.params");
     Selector nullSelector = Selector.makeSelector("NullSelector", params);
