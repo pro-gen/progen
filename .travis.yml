@@ -15,6 +15,6 @@ addons:
         It was designed to be efficient, elegant, highly modular, and very easy to
         use.
     notification_email: ignacio.reta.progen@gmail.com
-    build_command_prepend: 
-    build_command: 
-    branch_pattern: coverity_scan
+    build_command_prepend: mvn validate
+    build_command: mvn validate
+    branch_pattern: master
