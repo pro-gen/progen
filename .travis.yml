@@ -4,17 +4,12 @@ env:
   - secure: aom/1XC5Unc8Y7xpeKj/XaiugRaYX5jYFJw+0g6H9h4IGT9ZnM1i62fOV38Y2a9J7yHInw9UuDR/yWXuOYn3dz3HRt/UYi3KY5s/DHjnf7pF2GX1iTy/tFzqnyxf4Zx4X+Wc63KYc4477ajvqevatfMCMD4s4J63kP8ZCBwNNPE=
 jdk:
 - oraclejdk7
-script:
-- cd progen
-- mvn clean verify jacoco:report coveralls:jacoco
 addons:
   coverity_scan:
     project:
       name: pro-gen/progen
-      description: ProGen is a powerful Genetic Programming framework wrote in Java.
-        It was designed to be efficient, elegant, highly modular, and very easy to
-        use.
+      description: ProGen is a powerful Genetic Programming framework wrote in Java. It was designed to be efficient, elegant, highly modular, and very easy to use.
     notification_email: ignacio.reta.progen@gmail.com
-    build_command_prepend: mvn validate
-    build_command: mvn validate
+    build_command_prepend: cd progen
+    build_command: mvn clean verify jacoco:report coveralls:jacoco
     branch_pattern: master
