@@ -16,17 +16,10 @@ import progen.userprogram.UserProgram;
  */
 public class And extends NonTerminal{
 
-	/**
-	 * Constructor por defecto.
-	 */
 	public And() {
 		super("boolean$$boolean$$boolean", "&&");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see progen.kernel.functions.Function#evaluate(java.util.List, progen.userprogram.UserProgram, java.util.HashMap)
-	 */
 	@Override
 	public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
 		Boolean operador1 = (Boolean) arguments.get(0).evaluate(userProgram, returnAddr);

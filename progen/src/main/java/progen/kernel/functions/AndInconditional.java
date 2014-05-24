@@ -22,10 +22,6 @@ public class AndInconditional extends NonTerminal{
 		super("boolean$$boolean$$boolean", "&");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see progen.kernel.functions.Function#evaluate(java.util.List, progen.userprogram.UserProgram, java.util.HashMap)
-	 */
 	@Override
 	public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
 		Boolean operador1 = (Boolean) arguments.get(0).evaluate(userProgram, returnAddr);
