@@ -1,6 +1,10 @@
 package progen.context;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -432,37 +436,42 @@ public class ProGenContext {
    */
   private void loadOtherPropertiesFile(String propertyFile) throws IOException {
     Properties otherProperties;
+    if (propertyFile != null) {
+      otherProperties = new Properties();
+      try {
+        findPropertiesAbsolutePath(propertyFile, otherProperties);
+      } catch (FileNotFoundException fnfe) {
+        findPropertiesUserProjectPath(propertyFile, otherProperties);
+      }
+      chekProperties(otherProperties);
+    }
+  }
+
+  private void chekProperties(Properties otherProperties) {
     Enumeration<Object> keys;
     String key;
     String value;
-    if (propertyFile != null) {
-      InputStream fis;
-      otherProperties = new Properties();
-      // look for in absolute path
-      try {
-        fis = getResource(propertyFile);
-        otherProperties.load(fis);
-        fis.close();
-      } catch (FileNotFoundException fnfe) {
-        // look for in user project
-
-        propertyFile = proGenProps.properties.getProperty("progen.user.home").replace('.', File.separatorChar) + propertyFile;
-        fis = getResource(propertyFile);
-        otherProperties.load(fis);
-        fis.close();
-      }
-      keys = otherProperties.keys();
-      while (keys.hasMoreElements()) {
-        key = (String) keys.nextElement();
-
-        if (proGenProps.properties.containsKey(key)) {
-          throw new DuplicatedPropertyException(key);
-        } else {
-          value = otherProperties.getProperty(key);
-          proGenProps.properties.put(key, value);
-        }
+    keys = otherProperties.keys();
+    while (keys.hasMoreElements()) {
+      key = (String) keys.nextElement();
+      if (proGenProps.properties.containsKey(key)) {
+        throw new DuplicatedPropertyException(key);
+      } else {
+        value = otherProperties.getProperty(key);
+        proGenProps.properties.put(key, value);
       }
     }
+  }
+
+  private void findPropertiesUserProjectPath(String propertyFile, Properties otherProperties) throws IOException {
+    propertyFile = proGenProps.properties.getProperty("progen.user.home").replace('.', File.separatorChar) + propertyFile;
+    findPropertiesAbsolutePath(propertyFile, otherProperties);
+  }
+
+  private void findPropertiesAbsolutePath(String propertyFile, Properties otherProperties) throws IOException {
+    InputStream fis = getResource(propertyFile);
+    otherProperties.load(fis);
+    fis.close();
   }
 
   /**
@@ -504,17 +513,7 @@ public class ProGenContext {
         otherProperties.load(fis);
         fis.close();
       }
-      keys = otherProperties.keys();
-      while (keys.hasMoreElements()) {
-        key = (String) keys.nextElement();
-
-        if (proGenProps.properties.containsKey(key)) {
-          throw new DuplicatedPropertyException(key);
-        } else {
-          value = otherProperties.getProperty(key);
-          proGenProps.properties.put(key, value);
-        }
-      }
+      chekProperties(otherProperties);
     }
   }
 
@@ -531,19 +530,23 @@ public class ProGenContext {
   @SuppressWarnings("static-access")
   private void calculateProperties() {
     String userHome = proGenProps.getProperty("progen.experiment.file");
-    String experimentName;
     if (userHome != null) {
-      // delete .txt
-      userHome = userHome.substring(0, userHome.lastIndexOf("."));
-      // get the experiment name
-      experimentName = userHome.substring(userHome.lastIndexOf(".") + 1, userHome.length());
-
-      // delete experiment File
-      userHome = userHome.substring(0, userHome.lastIndexOf(".") + 1);
-
-      proGenProps.properties.setProperty("progen.user.home", userHome);
-      proGenProps.properties.setProperty("progen.experiment.name", experimentName);
+      setUserHome(userHome);
     }
+  }
+
+  private void setUserHome(String userHome) {
+    userHome = userHome.substring(0, userHome.lastIndexOf("."));
+    setExperimentName(userHome);
+    userHome = userHome.substring(0, userHome.lastIndexOf(".") + 1);
+
+    proGenProps.properties.setProperty("progen.user.home", userHome);
+  }
+
+  private void setExperimentName(String userHome) {
+    String experimentName;
+    experimentName = userHome.substring(userHome.lastIndexOf(".") + 1, userHome.length());
+    proGenProps.properties.setProperty("progen.experiment.name", experimentName);
   }
 
   /**
