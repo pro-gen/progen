@@ -11,11 +11,11 @@ import progen.kernel.error.Error;
  */
 public class DuplicatedPropertyException extends RuntimeException {
 
-	/**
-	 * Para serialización.
-	 */
 	private static final long serialVersionUID = 2058933988829590605L;
 
+	public DuplicatedPropertyException() {
+      super(Error.get(17).trim());
+  }
 	
 	/**
 	 * Constructor de la clase. Recibe el nombre de la propiedad que está duplicada.
