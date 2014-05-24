@@ -11,14 +11,14 @@ public class DuplicatedPropertyExceptionTest {
   
   
   @Test
-  public void testMissingContextFileExceptionString() {
+  public void testString() {
     exception.expect(DuplicatedPropertyException.class);
     exception.expectMessage("Already defined property.(extra)");
     throw new DuplicatedPropertyException("extra");
   }
 
   @Test
-  public void testDuplicatedPropertyException() {
+  public void test() {
       exception.expect(DuplicatedPropertyException.class);
       exception.expectMessage("Already defined property.");
       throw new DuplicatedPropertyException();

@@ -12,7 +12,6 @@ import progen.kernel.error.Error;
  */
 public class MalformedParameterException extends RuntimeException {
 
-	/** Para serialización. */
 	private static final long serialVersionUID = -1647531135847340217L;
 
 	/**

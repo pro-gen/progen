@@ -10,7 +10,6 @@ import progen.kernel.error.Error;
  */
 public class UnknownPropertyException extends RuntimeException {
 
-	/** Para serialización. */
 	private static final long serialVersionUID = -19384753823145179L;
 
 	/**

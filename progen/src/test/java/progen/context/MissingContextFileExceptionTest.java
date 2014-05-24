@@ -11,14 +11,14 @@ public class MissingContextFileExceptionTest {
   
   
   @Test
-  public void testMissingContextFileExceptionString() {
+  public void testString() {
     exception.expect(MissingContextFileException.class);
     exception.expectMessage("File not found.(extra)");
     throw new MissingContextFileException("extra");
   }
 
   @Test
-  public void testMissingContextFileException() {
+  public void test() {
       exception.expect(MissingContextFileException.class);
       exception.expectMessage("File not found");
       throw new MissingContextFileException();
