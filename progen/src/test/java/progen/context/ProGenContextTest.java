@@ -16,16 +16,16 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 public class ProGenContextTest {
-  
+
   private ProGenContext proGenContext;
 
   @Before
   public void setUp() throws Exception {
     proGenContext = ProGenContext.makeInstance();
   }
-  
+
   @After
-  public void tearDown(){
+  public void tearDown() {
     ProGenContext.clearContext();
   }
 
@@ -36,27 +36,27 @@ public class ProGenContextTest {
   }
 
   @Test
-  public void testMakeInstanceFile(){
+  public void testMakeInstanceFile() {
     ProGenContext props = ProGenContext.makeInstance("test.properties");
     assertNotNull(props);
     assertNotEquals(proGenContext, props);
     assertEquals("success", ProGenContext.getMandatoryProperty("property"));
   }
-  
-  @Test(expected=MissingContextFileException.class)
-  public void testMakeInstanceNullFile(){
-	  ProGenContext.makeInstance(null);
-	  fail("MissingContextFileException must be thrown");
+
+  @Test(expected = MissingContextFileException.class)
+  public void testMakeInstanceNullFile() {
+    ProGenContext.makeInstance(null);
+    fail("MissingContextFileException must be thrown");
   }
-  
-  @Test(expected=MissingContextFileException.class)
-  public void testMakeInstanceNotFoundFile(){
-	  ProGenContext.makeInstance("file-not-found.properties");
-	  fail("MissingContextFileException must be thrown");
+
+  @Test(expected = MissingContextFileException.class)
+  public void testMakeInstanceNotFoundFile() {
+    ProGenContext.makeInstance("file-not-found.properties");
+    fail("MissingContextFileException must be thrown");
   }
-  
+
   @Test
-  public void testClearContext(){
+  public void testClearContext() {
     ProGenContext currentContext = ProGenContext.makeInstance();
     assertEquals(proGenContext, currentContext);
     ProGenContext.clearContext();
@@ -68,7 +68,7 @@ public class ProGenContextTest {
   public void testGetOptionalPropertyStringInt() {
     int defaultValue = 9;
     int value = 42;
-    ProGenContext.setProperty("optional.int.defined", value+"");
+    ProGenContext.setProperty("optional.int.defined", value + "");
     int contextValue = ProGenContext.getOptionalProperty("optional.int.default", defaultValue);
     assertEquals(defaultValue, contextValue);
     contextValue = ProGenContext.getOptionalProperty("optional.int.defined", defaultValue);
@@ -87,24 +87,24 @@ public class ProGenContextTest {
   public void testGetOptionalPropertyDouble() {
     double defaultValue = Math.E;
     double definedValue = Math.PI;
-    ProGenContext.setProperty("optional.double", definedValue+"");
+    ProGenContext.setProperty("optional.double", definedValue + "");
     double value = ProGenContext.getOptionalProperty("optional.double", defaultValue);
     assertEquals(definedValue, value, 0.0d);
     value = ProGenContext.getOptionalProperty("optional.double.missing", defaultValue);
     assertEquals(defaultValue, value, 0.0d);
   }
-  
+
   @Test
-  public void testGetOptionalPropertyBoolean(){
-    ProGenContext.setProperty("optional.boolean", false+"");
+  public void testGetOptionalPropertyBoolean() {
+    ProGenContext.setProperty("optional.boolean", false + "");
     boolean value = ProGenContext.getOptionalProperty("optional.boolean", true);
     assertEquals(value, false);
     value = ProGenContext.getOptionalProperty("optional.boolean.undefined", true);
     assertEquals(value, true);
   }
-  
+
   @Test(expected = UninitializedContextException.class)
-  public void testUninitializedContextException(){
+  public void testUninitializedContextException() {
     ProGenContext.clearContext();
     ProGenContext.getMandatoryProperty("mandatory");
     fail("UnititializedContextException must be thrown");
@@ -123,9 +123,9 @@ public class ProGenContextTest {
     double value1 = 0.4;
     double value2 = 0.5;
     double value3 = 0.1;
-    String propertyValue = "valor(sub1="+value1+",sub2="+value2+",sub3="+value3+")";
+    String propertyValue = "valor(sub1=" + value1 + ",sub2=" + value2 + ",sub3=" + value3 + ")";
     double subOption;
-    
+
     ProGenContext.setProperty(propertyName, propertyValue);
     subOption = ProGenContext.getSuboptionPercent(propertyName, "sub1", defaultPercent);
     assertEquals(subOption, value1, 0.0);
@@ -135,7 +135,7 @@ public class ProGenContextTest {
     assertEquals(subOption, value3, 0.0);
     subOption = ProGenContext.getSuboptionPercent(propertyName, "sub4", defaultPercent);
     assertEquals(subOption, defaultPercent, 0.0);
-    
+
   }
 
   @Test
@@ -156,9 +156,9 @@ public class ProGenContextTest {
     assertTrue(option.containsKey("param1"));
     assertTrue(option.containsKey("param2"));
   }
-  
+
   @Test
-  public void testGetParametersUndefined(){
+  public void testGetParametersUndefined() {
     Map<String, String> option = ProGenContext.getParameters("option.suboptions.notExists");
     assertEquals(0, option.size());
 
@@ -167,14 +167,13 @@ public class ProGenContextTest {
     assertEquals(0, option.size());
 
   }
-  
-  @Test(expected=MalformedParameterException.class)
-  public void testGetParameterMalformed(){
+
+  @Test(expected = MalformedParameterException.class)
+  public void testGetParameterMalformed() {
     ProGenContext.setProperty("mal.formed.parameter", "value(a:1;b:2)");
     ProGenContext.getParameters("mal.formed.parameter");
     fail("MalformedParameterException must be thrown");
   }
-
 
   @Test
   public void testGetOptionalPercent() {
@@ -182,7 +181,7 @@ public class ProGenContextTest {
     String percentNumber = "0.25";
     String percentString = "40%";
     String defaultPercent = "0.5";
-    
+
     double percent = ProGenContext.getOptionalPercent("undefined.percent", defaultPercent);
     assertEquals(percent, Double.parseDouble(defaultPercent), 0.0);
     ProGenContext.setProperty(percentOption, percentNumber);
@@ -204,12 +203,12 @@ public class ProGenContextTest {
     String propertyName = "percent";
     String valueString = "40%";
     String valueNumber = "0.5";
-    ProGenContext.setProperty(propertyName+"String", valueString);
-    ProGenContext.setProperty(propertyName+"Number", valueNumber);
-    
-    double percent = ProGenContext.getMandatoryPercent(propertyName+"String");
+    ProGenContext.setProperty(propertyName + "String", valueString);
+    ProGenContext.setProperty(propertyName + "Number", valueNumber);
+
+    double percent = ProGenContext.getMandatoryPercent(propertyName + "String");
     assertEquals(0.4, percent, 0.0);
-    percent = ProGenContext.getMandatoryPercent(propertyName+"Number");
+    percent = ProGenContext.getMandatoryPercent(propertyName + "Number");
     assertEquals(0.5, percent, 0.0);
   }
 
@@ -217,27 +216,28 @@ public class ProGenContextTest {
   public void testGetFamilyOptions() {
     String propertyName = "property.family.";
     setUpFamilyOptions(propertyName);
-    
+
     List<String> properties = ProGenContext.getFamilyOptions(propertyName);
     assertEquals(10, properties.size());
     assertTrue(properties.get(4).startsWith(propertyName));
-    
+
     properties = ProGenContext.getFamilyOptions("undefined.family");
     assertEquals(0, properties.size());
   }
 
   private void setUpFamilyOptions(String propertyName) {
     int totalPropertyFamily = 10;
-    for(int propertyId = 0 ; propertyId < totalPropertyFamily; propertyId++){
-      ProGenContext.setProperty(propertyName+propertyId, "value "+propertyId);
+    for (int propertyId = 0; propertyId < totalPropertyFamily; propertyId++) {
+      ProGenContext.setProperty(propertyName + propertyId, "value " + propertyId);
     }
-    
+
   }
 
-  @Ignore@Test
+  @Ignore
+  @Test
   public void testSetProperty() {
-	String defaultValue = "default";
-	String newProperty = "new.property";
+    String defaultValue = "default";
+    String newProperty = "new.property";
     String value = ProGenContext.getOptionalProperty(newProperty, defaultValue);
     assertEquals(defaultValue, value);
     ProGenContext.setProperty(newProperty, newProperty);
@@ -245,17 +245,20 @@ public class ProGenContextTest {
     assertEquals(newProperty, value);
   }
 
-  @Ignore@Test(expected = MissingContextFileException.class)
+  @Ignore
+  @Test(expected = MissingContextFileException.class)
   public void testThrowMissingContextFile() {
     ProGenContext.makeInstance("missing.context.file");
   }
 
-  @Ignore@Test(expected = UndefinedMandatoryPropertyException.class)
+  @Ignore
+  @Test(expected = UndefinedMandatoryPropertyException.class)
   public void testThrowUndefindedMandatoryProperty() {
     ProGenContext.getMandatoryProperty("undefined.mandatory.option");
   }
 
-  @Ignore@Test(expected = MalformedParameterException.class)
+  @Ignore
+  @Test(expected = MalformedParameterException.class)
   public void testMalformedSuboptions() {
     String defaultValue = "value";
     String defaultSubOpt1 = "1";
@@ -263,28 +266,27 @@ public class ProGenContextTest {
 
     String value, subOpt1, subOptA;
 
-    ProGenContext.setProperty("option.suboptions.format1",
-        "value(subopt1=1, suboptA=A)");
-    ProGenContext.setProperty("option.suboptions.format2",
-        "value(subopt1=1, suboptA=A)");
-    ProGenContext.setProperty("option.suboptions.format3",
-        "value(subopt1=1, suboptA=A)");
-    ProGenContext.setProperty("option.suboptions.format4",
-        "value(subopt1=1,     suboptA=A    )");
-    ProGenContext.setProperty("option.suboptions.format5",
-        "value(subopt1=1,   suboptA;A)");
+    ProGenContext.setProperty("option.suboptions.format1", "value(subopt1=1, suboptA=A)");
+    ProGenContext.setProperty("option.suboptions.format2", "value(subopt1=1, suboptA=A)");
+    ProGenContext.setProperty("option.suboptions.format3", "value(subopt1=1, suboptA=A)");
+    ProGenContext.setProperty("option.suboptions.format4", "value(subopt1=1,     suboptA=A    )");
+    ProGenContext.setProperty("option.suboptions.format5", "value(subopt1=1,   suboptA;A)");
 
     for (int i = 1; i <= 5; i++) {
-      value = ProGenContext
-          .getMandatoryProperty("option.suboptions.format" + i);
-      subOpt1 = ProGenContext.getParameter(
-          "option.suboptions.format" + i, "subopt1");
-      subOptA = ProGenContext.getParameter(
-          "option.suboptions.format" + i, "suboptA");
+      value = ProGenContext.getMandatoryProperty("option.suboptions.format" + i);
+      subOpt1 = ProGenContext.getParameter("option.suboptions.format" + i, "subopt1");
+      subOptA = ProGenContext.getParameter("option.suboptions.format" + i, "suboptA");
       assertTrue(defaultValue.equals(value));
       assertTrue(defaultSubOpt1.equals(subOpt1));
       assertTrue(defaultSubOptA.equals(subOptA));
     }
   }
 
+  @Test
+  public void loadExtraConfigurationTest() {
+    ProGenContext.setProperty("progen.experiment.file", "userexperiment-test.txt");
+    ProGenContext.loadExtraConfiguration();
+    assertEquals("success", ProGenContext.getMandatoryProperty("property"));
+    assertEquals("userexperiment-test", ProGenContext.getMandatoryProperty("progen.experiment.name"));
+  }
 }
