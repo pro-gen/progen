@@ -155,29 +155,39 @@ public abstract class Function implements Comparable<Function> {
     String classPathUser = ProGenContext.getOptionalProperty("progen.user.home", classPathProGen);
 
     if (!functionName.startsWith("ADF")) {
-      try {
-        function = (Function) Class.forName(classPathUser + functionName).newInstance();
-      } catch (Exception e) {
-        // Do not find the class in user package
-        try {
-          function = (Function) Class.forName(classPathProGen + functionName).newInstance();
-        } catch (Exception e1) {
-          // Do not find the class in
-          // progen.kernel.functions package
-          throw new FunctionNotFoundException(functionName);
-        }
-
-      }
+      function = loadReagularFunction(functionName, classPathProGen, classPathUser);
     } else {
-      try {
-        function = new progen.kernel.functions.ADF(functionName);
+      function = loadFunctionADF(functionName);
+    }
+    return function;
+  }
 
-      } catch (NullPointerException npe) {
-        throw new UndefinedFunctionSetException(Error.get(3) + " (" + functionName + ")");
-      } catch (Exception e) {
-        // this situation is impossible
+  private static Function loadFunctionADF(String functionName) {
+    Function function;
+    try {
+      function = new progen.kernel.functions.ADF(functionName);
+    } catch (NullPointerException npe) {
+      throw new UndefinedFunctionSetException(Error.get(3) + " (" + functionName + ")");
+    } catch (Exception e) {
+      // this situation is impossible
+      throw new FunctionNotFoundException(functionName);
+    }
+    return function;
+  }
+
+  private static Function loadReagularFunction(String functionName, String classPathProGen, String classPathUser) {
+    Function function;
+    try {
+      function = (Function) Class.forName(classPathUser + functionName).newInstance();
+    } catch (Exception e) {
+      // Do not find the class in user package
+      try {
+        function = (Function) Class.forName(classPathProGen + functionName).newInstance();
+      } catch (Exception e1) {
+        // Do not find the class in progen.kernel.functions package
         throw new FunctionNotFoundException(functionName);
       }
+
     }
     return function;
   }
