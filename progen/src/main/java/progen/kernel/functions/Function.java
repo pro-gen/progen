@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import progen.context.ProGenContext;
-import progen.kernel.error.Error;
 import progen.kernel.grammar.FunctionNotFoundException;
 import progen.kernel.grammar.UndefinedFunctionSetException;
 import progen.kernel.tree.Node;
@@ -163,16 +162,7 @@ public abstract class Function implements Comparable<Function> {
   }
 
   private static Function loadFunctionADF(String functionName) {
-    Function function;
-    try {
-      function = new progen.kernel.functions.ADF(functionName);
-    } catch (NullPointerException npe) {
-      throw new UndefinedFunctionSetException(Error.get(3) + " (" + functionName + ")");
-    } catch (Exception e) {
-      // this situation is impossible
-      throw new FunctionNotFoundException(functionName);
-    }
-    return function;
+    return new ADF(functionName);
   }
 
   private static Function loadReagularFunction(String functionName, String classPathProGen, String classPathUser) {
