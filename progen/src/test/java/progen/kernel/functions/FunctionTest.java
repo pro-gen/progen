@@ -6,13 +6,16 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 
-
 import java.util.HashMap;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import progen.context.ProGenContext;
+import progen.context.UndefinedMandatoryPropertyException;
+import progen.kernel.grammar.FunctionNotFoundException;
 import progen.kernel.tree.Node;
 import progen.userprogram.UserProgram;
 
@@ -23,6 +26,11 @@ public class FunctionTest {
   @Before
   public void setUp(){
     function = new FunctionSample();
+  }
+  
+  @After
+  public void tearDown(){
+    ProGenContext.clearContext();
   }
 
   @Test
@@ -115,6 +123,49 @@ public class FunctionTest {
     function = new FunctionComplexSample();
     assertEquals("complexFunction", function.evaluate(any(List.class), any(UserProgram.class), any(HashMap.class)));
   }
+  
+  @Test
+  public void testLoadADF(){
+    ProGenContext.makeInstance();
+    ProGenContext.setProperty("progen.ADF0.interface", "object$$object$$$object");
+    function = Function.load("ADF0");
+    assertEquals("ADF0", function.getSymbol());
+    assertEquals(2, function.getArity());
+  }
+  
+  @Test(expected=UndefinedMandatoryPropertyException.class)
+  public void testLoadADFUndefinedFunctionSetException(){
+    ProGenContext.makeInstance();
+    function = Function.load("ADF0");
+    fail("exception must be expected");
+  }
+  
+  @Test
+  public void testLoadKernelFunction(){
+    ProGenContext.makeInstance();
+    function = Function.load("And");
+    assertEquals("&&", function.getSymbol());
+    assertEquals(2, function.getArity());
+    assertEquals("boolean", function.getReturnType().toString());
+  }
+  
+  @Test
+  public void testLoadUserFunction(){
+    ProGenContext.makeInstance();
+    ProGenContext.setProperty("progen.user.home", "userprogram.");
+    function = Function.load("FunctionExample");
+    assertEquals("TEST", function.getSymbol());
+    assertEquals(2, function.getArity());
+    assertEquals("boolean", function.getReturnType().toString());
+  }
+  
+  @Test(expected=FunctionNotFoundException.class)
+  public void testLoadNotFoundFunction(){
+    ProGenContext.makeInstance();
+    function = Function.load("NotFoundFunction");
+    fail("exception must be thrown");
+  }
+  
   
   private class FunctionSample extends Function {
 
