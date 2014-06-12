@@ -21,7 +21,7 @@ public class FactoryNotFoundException extends RuntimeException {
 	 * @param msg nombre de clase donde se encontraba la implemenación de la fábrica concreta.
 	 */
 	public FactoryNotFoundException(String msg) {
-		super(Error.get(20));
+		super(Error.get(20)+ " ["+msg+"]");
 	}
 
 }

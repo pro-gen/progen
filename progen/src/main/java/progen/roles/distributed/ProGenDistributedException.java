@@ -4,6 +4,8 @@ import progen.kernel.error.Error;
 
 public class ProGenDistributedException extends RuntimeException {
 
+  private static final long serialVersionUID = 8992108251561026696L;
+
     public ProGenDistributedException(){
 	super(Error.get(40));
     }
