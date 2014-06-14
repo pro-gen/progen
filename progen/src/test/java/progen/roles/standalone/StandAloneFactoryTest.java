@@ -64,7 +64,7 @@ public class StandAloneFactoryTest {
   @Test(expected = UnknownRoleException.class)
   public void testMakeExecutionRoleUnkown() {
     ProGenContext.setProperty("progen.role", "unknown-role");
-    ExecutionRole defaultRole = factory.makeExecutionRole();
+    factory.makeExecutionRole();
   }
 
 }

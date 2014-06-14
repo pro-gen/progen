@@ -17,9 +17,10 @@ import progen.roles.Task;
 import progen.roles.Worker;
 import progen.userprogram.UserProgram;
 
-public class DispatcherServer extends UnicastRemoteObject implements
-	DispatcherRemote {
+public class DispatcherServer extends UnicastRemoteObject implements DispatcherRemote {
     
+  private static final long serialVersionUID = 1486658118278870720L;
+
     private int port;
     
     private String bindAddress;

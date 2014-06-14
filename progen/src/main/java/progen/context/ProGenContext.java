@@ -487,9 +487,6 @@ public class ProGenContext {
   @SuppressWarnings("static-access")
   private void loadOtherProperties(String propertyFile) throws FileNotFoundException, IOException {
     Properties otherProperties;
-    Enumeration<Object> keys;
-    String key;
-    String value;
     String otherFile = proGenProps.properties.getProperty(propertyFile);
     int lastDot;
     String path, ext;

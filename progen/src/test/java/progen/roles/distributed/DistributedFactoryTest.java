@@ -68,7 +68,7 @@ public class DistributedFactoryTest {
   @Test(expected = UnknownRoleImplementationException.class)
   public void testMakeClientUnknown() {
     ProGenContext.setProperty("progen.role.client.class", "unknown-class");
-    Client client = factory.makeClient();
+    factory.makeClient();
   }
 
   @Test
@@ -80,7 +80,7 @@ public class DistributedFactoryTest {
   @Test(expected = UnknownRoleImplementationException.class)
   public void testMakeDispatcherUnknown() {
     ProGenContext.setProperty("progen.role.dispatcher.class", "unknown-class");
-    Dispatcher dispatcher = factory.makeDispatcher();
+    factory.makeDispatcher();
   }
 
   @Test
@@ -92,7 +92,7 @@ public class DistributedFactoryTest {
   @Test(expected = UnknownRoleImplementationException.class)
   public void testMakeWorkerUnknown() {
     ProGenContext.setProperty("progen.role.worker.class", "unknown-class");
-    Worker worker = factory.makeWorker();
+    factory.makeWorker();
   }
 
   @Test@Ignore
@@ -119,7 +119,7 @@ public class DistributedFactoryTest {
   @Test(expected = UnknownRoleException.class)
   public void testMakeExecutionUnkownRole() {
     ProGenContext.setProperty("progen.role", "unkown-role");
-    ExecutionRole defaultRole = factory.makeExecutionRole();
+    factory.makeExecutionRole();
   }
 
 }

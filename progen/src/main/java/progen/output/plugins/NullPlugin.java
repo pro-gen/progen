@@ -4,42 +4,43 @@ import java.util.List;
 
 /**
  * Plugin que realmente no hace nada.
+ * 
  * @author jirsis
  * @since 2.0
  */
 public class NullPlugin implements Plugin {
 
-	@SuppressWarnings("unchecked")
-	public void addValue(Comparable value) {
-		
-	}
+  @SuppressWarnings("rawtypes")
+  public void addValue(Comparable value) {
 
-	public Object getValue() {
-		return "NA";
-	}
+  }
 
-	public void initialValue() {
-		
-	}
+  public Object getValue() {
+    return "NA";
+  }
 
-	public String getName() {
-		return "null";
-	}
+  public void initialValue() {
 
-	public int getPriority() {
-		return 0;
-	}
+  }
 
-	public void initPlugin(String propertyFamily) {
-		//do nothing
-	}
-	
-	public Plugin getPlugin(String name){
-		return this;
-	}
+  public String getName() {
+    return "null";
+  }
 
-	public void checkDependeces(List<Plugin> pluginCollection) {
-		// do nothing
-	}
+  public int getPriority() {
+    return 0;
+  }
+
+  public void initPlugin(String propertyFamily) {
+    // do nothing
+  }
+
+  public Plugin getPlugin(String name) {
+    return this;
+  }
+
+  public void checkDependeces(List<Plugin> pluginCollection) {
+    // do nothing
+  }
 
 }

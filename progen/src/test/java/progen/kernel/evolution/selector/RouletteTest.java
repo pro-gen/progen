@@ -17,11 +17,9 @@ import progen.userprogram.UserProgram;
 public class RouletteTest {
 
   private Roulette selector;
-  private int howMany;
 
   @Before
   public void setUp() throws Exception {
-    howMany = 5;
     selector = new Roulette();
   }
 

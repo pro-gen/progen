@@ -68,7 +68,7 @@ public class ProGenFactoryTest {
   @Test(expected = FactoryNotFoundException.class)@Ignore
   public void testMakeInstanceUnkown() {
     ProGenContext.setProperty("progen.roles.factory", "other");
-    ProGenFactory factory = ProGenFactory.makeInstance();
+    ProGenFactory.makeInstance();
   }
 
 }
