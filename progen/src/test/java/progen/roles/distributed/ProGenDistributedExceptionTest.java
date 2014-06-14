@@ -14,8 +14,8 @@ public class ProGenDistributedExceptionTest {
   @Test
   public void testIntString() {
     exception.expect(ProGenDistributedException.class);
-    exception.expectMessage("Dispatcher's port is already in use. [1234]");
-    throw new ProGenDistributedException(39, "1234");
+    exception.expectMessage("Failure at RMI communication [extra]");
+    throw new ProGenDistributedException(40, "1234");
   }
 
   @Test
