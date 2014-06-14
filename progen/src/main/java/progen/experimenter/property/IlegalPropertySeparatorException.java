@@ -12,17 +12,17 @@ import progen.kernel.error.Error;
  */
 public class IlegalPropertySeparatorException extends RuntimeException {
 
-    /** Para serialización */
-    private static final long serialVersionUID = -4365783823140585119L;
+  /** Para serialización */
+  private static final long serialVersionUID = -4365783823140585119L;
 
-    /**
-     * Constructor que recibe el nombre de la propiedad mal definida.
-     * 
-     * @param label
-     *            La propiedad mal definida.
-     */
-    public IlegalPropertySeparatorException(String label) {
-	super(Error.get(28) + " (" + label + ")");
-    }
+  /**
+   * Constructor que recibe el nombre de la propiedad mal definida.
+   * 
+   * @param label
+   *          La propiedad mal definida.
+   */
+  public IlegalPropertySeparatorException(String label) {
+    super(Error.get(28) + " (" + label + ")");
+  }
 
 }
