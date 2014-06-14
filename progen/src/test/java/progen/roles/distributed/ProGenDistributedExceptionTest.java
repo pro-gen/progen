@@ -15,7 +15,7 @@ public class ProGenDistributedExceptionTest {
   public void testIntString() {
     exception.expect(ProGenDistributedException.class);
     exception.expectMessage("Failure at RMI communication [extra]");
-    throw new ProGenDistributedException(40, "1234");
+    throw new ProGenDistributedException(40, "extra");
   }
 
   @Test
