@@ -20,80 +20,80 @@ import progen.roles.Worker;
  */
 public class StandaloneFactory extends ProGenFactory {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see progen.roles.ProGenFactory#makeClient()
-     */
-    @Override
-    public Client makeClient() {
-	String roleClass = ProGenContext.getOptionalProperty("progen.role.client.class", "ClientLocal");
-	 
-	return (Client) loadRole(roleClass);
-    }
+  /*
+   * (non-Javadoc)
+   * 
+   * @see progen.roles.ProGenFactory#makeClient()
+   */
+  @Override
+  public Client makeClient() {
+    String roleClass = ProGenContext.getOptionalProperty("progen.role.client.class", "ClientLocal");
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see progen.roles.ProGenFactory#makeDispatcher()
-     */
-    @Override
-    public Dispatcher makeDispatcher() {
-	String roleClass = ProGenContext.getOptionalProperty("progen.role.dispatcher.class", "DispatcherLocal"); 
-	return (Dispatcher)loadRole(roleClass);
-    }
+    return (Client) loadRole(roleClass);
+  }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see progen.roles.ProGenFactory#makeWorker()
-     */
-    @Override
-    public Worker makeWorker() {
-	String roleClass = ProGenContext.getOptionalProperty("progen.role.worker.class", "WorkerLocal");
-	return (Worker) loadRole(roleClass);
-    }
-    
+  /*
+   * (non-Javadoc)
+   * 
+   * @see progen.roles.ProGenFactory#makeDispatcher()
+   */
+  @Override
+  public Dispatcher makeDispatcher() {
+    String roleClass = ProGenContext.getOptionalProperty("progen.role.dispatcher.class", "DispatcherLocal");
+    return (Dispatcher) loadRole(roleClass);
+  }
 
-    private Object loadRole(String clazz){
-	Object role=null;
-	String roleName = "progen.roles.standalone." + clazz;
-	try {
-	    role = Class.forName(roleName).newInstance();
-	} catch (Exception e) {
-	    throw new UnknownRoleImplementationException(roleName);
-	}
-	return role;
-    }
-    
+  /*
+   * (non-Javadoc)
+   * 
+   * @see progen.roles.ProGenFactory#makeWorker()
+   */
+  @Override
+  public Worker makeWorker() {
+    String roleClass = ProGenContext.getOptionalProperty("progen.role.worker.class", "WorkerLocal");
+    return (Worker) loadRole(roleClass);
+  }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see progen.roles.ProGenFactory#makeExecutionRole()
-     */
-    @Override
-    public ExecutionRole makeExecutionRole() {
-	ExecutionRole exec = null;
-	String element = ProGenContext.getOptionalProperty(
-		"progen.role", Role.CLIENT.name());
-	try{
-	    Role executionRole = Role.valueOf(element.toUpperCase());
-	    switch (executionRole) {
-	    case CLIENT:
-		exec = this.makeClient();
-		break;
-	    case DISPATCHER:
-		exec = this.makeDispatcher();
-		break;
-	    case WORKER:
-		exec = this.makeWorker();
-		break;
-	    }
-	}catch(IllegalArgumentException e){
-	    throw new UnknownRoleException(element);
-	}
-	return exec;
+  private Object loadRole(String clazz) {
+    Object role = null;
+    String roleName = "progen.roles.standalone." + clazz;
+    try {
+
+      StandaloneFactory.class.getClassLoader().getResourceAsStream(clazz);
+      role = Class.forName(roleName).newInstance();
+
+    } catch (Exception e) {
+      throw new UnknownRoleImplementationException(roleName);
     }
+    return role;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see progen.roles.ProGenFactory#makeExecutionRole()
+   */
+  @Override
+  public ExecutionRole makeExecutionRole() {
+    ExecutionRole exec = null;
+    String element = ProGenContext.getOptionalProperty("progen.role", Role.CLIENT.name());
+    try {
+      Role executionRole = Role.valueOf(element.toUpperCase());
+      switch (executionRole) {
+      case CLIENT:
+        exec = this.makeClient();
+        break;
+      case DISPATCHER:
+        exec = this.makeDispatcher();
+        break;
+      case WORKER:
+        exec = this.makeWorker();
+        break;
+      }
+    } catch (IllegalArgumentException e) {
+      throw new UnknownRoleException(element);
+    }
+    return exec;
+  }
 
 }

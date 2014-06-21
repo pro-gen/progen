@@ -4,8 +4,4 @@ progen.roles.factory=standalone
 #progen.role.element=client* | dispatcher | worker 
 progen.role=client
 
-progen.experiment.file = app.GPhash.GPhash.txt
-#progen.experiment.file = app.regression.Regression.txt
-#progen.experiment.file = app.regression.Regression.txt
-#progen.experiment.file = app.ProGen_3124704_15dic.Clasificador2.txt
-#progen.experiment.file = app.ProGen_bugArgs.Clasificador3.txt
+progen.experiment.file = app.regression.Regression.txt

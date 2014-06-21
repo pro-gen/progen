@@ -10,17 +10,17 @@ package progen;
  */
 public class ProGenException extends RuntimeException {
 
-    /** Para serialización */
-    private static final long serialVersionUID = 7316073380476351983L;
+  /** Para serialización */
+  private static final long serialVersionUID = 7316073380476351983L;
 
-    /**
-     * Constructor de la clase que recibe el mensaje de la excepción original.
-     * 
-     * @param msg
-     *            El mensaje original de la excepción.
-     */
-    public ProGenException(String msg) {
-	super(msg);
-    }
+  /**
+   * Constructor de la clase que recibe el mensaje de la excepción original.
+   * 
+   * @param msg
+   *          El mensaje original de la excepción.
+   */
+  public ProGenException(String msg) {
+    super(msg);
+  }
 
 }
