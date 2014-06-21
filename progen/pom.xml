@@ -13,6 +13,8 @@
 		<jdk.version>1.7</jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<master.file>master_standalone.txt</master.file>
+		<org.powermock.version>1.5.5</org.powermock.version>
+		<org.jacoco.version>0.7.1.201405082137</org.jacoco.version>
 	</properties>
 
 	<dependencies>
@@ -26,6 +28,18 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>1.9.5</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>${org.powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>${org.powermock.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -50,7 +64,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.1.201405082137</version>
+				<version>${org.jacoco.version}</version>
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
@@ -71,6 +85,61 @@
 						<argument>${master.file}</argument>
 					</arguments>
 					<workingDirectory>target/classes</workingDirectory>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<locales>es,en</locales>
+					<reportPlugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-project-info-reports-plugin</artifactId>
+							<version>2.7</version>
+						</plugin>
+						<plugin>
+							<artifactId>maven-checkstyle-plugin</artifactId>
+							<version>2.12.1</version>
+							<configuration>
+								<encoding>${project.build.sourceEncoding}</encoding>
+								<consoleOutput>false</consoleOutput>
+								<failsOnError>false</failsOnError>
+								<failOnViolation>false</failOnViolation>
+								<linkXRef>false</linkXRef>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>findbugs-maven-plugin</artifactId>
+							<version>2.5.3</version>
+							<configuration>
+								<effort>Max</effort>
+								<failOnError>false</failOnError>
+								<threshold>Low</threshold>
+								<xmlOutput>true</xmlOutput>
+								<findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.jacoco</groupId>
+							<artifactId>jacoco-maven-plugin</artifactId>
+							<version>${org.jacoco.version}</version>
+						</plugin>
+						<plugin>
+							<artifactId>maven-pmd-plugin</artifactId>
+							<version>3.0.1</version>
+							<configuration>
+								<targetJdk>${jdk.version}</targetJdk>
+								<format>xml</format>
+								<linkXref>true</linkXref>
+								<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+								<minimumTokens>100</minimumTokens>
+							</configuration>
+						</plugin>
+					</reportPlugins>
 				</configuration>
 			</plugin>
 		</plugins>
