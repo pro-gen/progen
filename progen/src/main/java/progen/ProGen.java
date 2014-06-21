@@ -65,7 +65,6 @@ public class ProGen {
         e.printStackTrace();
       } catch (Exception e) {
         e.printStackTrace();
-        System.exit(-1);
       } finally {
         Calendar end = GregorianCalendar.getInstance();
         System.out.println("\nEXECUTION TIME: " + (end.getTimeInMillis() - begin.getTimeInMillis()) + " ms.");

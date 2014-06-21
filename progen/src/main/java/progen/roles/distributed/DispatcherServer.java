@@ -83,7 +83,6 @@ public class DispatcherServer extends UnicastRemoteObject implements DispatcherR
 	}
 	System.exit(0);
 
-
     }
 
     @Override
