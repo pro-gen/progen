@@ -1,5 +1,6 @@
 package progen;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
@@ -10,6 +11,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,6 +20,7 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import progen.context.MissingContextFileException;
 import progen.context.ProGenContext;
 import progen.kernel.population.Individual;
 import progen.output.outputers.OutputStore;
@@ -44,9 +47,8 @@ public class ProGenTest {
 
   @Test(timeout=1000)
   public void testMasterFile() throws Exception {
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    PrintStream printStream = new PrintStream(outputStream);
-    System.setOut(printStream);
+    ByteArrayOutputStream systemOut = mockSystemOut();
+    
     String args[] = { "master-file.txt" };
     mockStatic(ProGenContext.class, UserProgram.class, ProGenFactory.class, OutputStore.class);
     
@@ -64,9 +66,36 @@ public class ProGenTest {
     when(UserProgram.getUserProgram()).thenReturn(new UserProgramExample());
 
     ProGen.main(args);
-    String output = outputStream.toString("UTF-8");
+    String output = systemOut.toString("UTF-8");
     assertTrue(output.startsWith("ProGen exec TEST\n\nEXECUTION TIME: "));
     
+  }
+
+  @Test
+  public void testMissingContextFileException() throws UnsupportedEncodingException{
+    ByteArrayOutputStream systemErr = mockSystemErr();
+
+    String args [] = {"master-file.txt"};
+    mockStatic(ProGenContext.class);
+    
+    when(ProGenContext.makeInstance(any(String.class))).thenThrow(new MissingContextFileException());
+    ProGen.main(args);
+    
+    assertEquals("File not found in the configuration files.(File not found.)\n", systemErr.toString("UTF-8"));
+  }
+  
+  private ByteArrayOutputStream mockSystemOut() {
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    PrintStream printStream = new PrintStream(outputStream);
+    System.setOut(printStream);
+    return outputStream;
+  }
+  
+  private ByteArrayOutputStream mockSystemErr() {
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    PrintStream printStream = new PrintStream(outputStream);
+    System.setErr(printStream);
+    return outputStream;
   }
   
   private class UserProgramExample extends UserProgram{
