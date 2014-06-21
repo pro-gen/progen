@@ -59,7 +59,6 @@ public class StandaloneFactory extends ProGenFactory {
     String roleName = "progen.roles.standalone." + clazz;
     try {
 
-      StandaloneFactory.class.getClassLoader().getResourceAsStream(clazz);
       role = Class.forName(roleName).newInstance();
 
     } catch (Exception e) {

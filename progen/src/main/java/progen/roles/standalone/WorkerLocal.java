@@ -9,31 +9,32 @@ import progen.userprogram.UserProgram;
 
 /**
  * @author jirsis
- *
+ * 
  */
 public class WorkerLocal implements Worker {
 
-	private Task task;
-	public void start() {
-		//do nothing
-	}
+  private Task task;
 
-	public void calculate(Task task, UserProgram userprogram) {
-		this.task=task;
-		//TODO: revisar workerLocal
-		task.calculate(userprogram);
-	}
+  public void start() {
+    // do nothing
+  }
 
-	public String getId() {		
-		return this.getClass().getName();
-	}
+  public void calculate(Task task, UserProgram userprogram) {
+    this.task = task;
+    // TODO: revisar workerLocal
+    task.calculate(userprogram);
+  }
 
-	public int getPort() {
-		return 0;
-	}
+  public String getId() {
+    return this.getClass().getName();
+  }
 
-	public Task getTask() {
-		return task;
-	}
+  public int getPort() {
+    return 0;
+  }
+
+  public Task getTask() {
+    return task;
+  }
 
 }
