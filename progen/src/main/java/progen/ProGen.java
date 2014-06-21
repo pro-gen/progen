@@ -21,7 +21,24 @@ import progen.roles.ProGenFactory;
  * @since 2.0
  */
 public class ProGen {
+  
+  private String[] args;
 
+  public ProGen(String args[]){
+    this.args = args;
+  }
+  
+  public void runProGen(){
+    ProGenContext.makeInstance(args[0]);
+    Error.makeInstance();
+    ProGenFactory progenFactory = ProGenFactory.makeInstance();
+    ExecutionRole progen = progenFactory.makeExecutionRole();
+    HistoricalData.makeInstance();
+    OutputStore.makeInstance();
+    System.out.println(ProGenContext.getMandatoryProperty("progen.welcome"));
+    progen.start();
+  }
+  
   /**
    * Método principal de la aplicación en la que se inicializan los elementos
    * estáticos de la aplicación y se ejecuta el rol que corresponde según esté
@@ -39,17 +56,7 @@ public class ProGen {
       throw new ProGenException(Error.get(0));
     } else {
       try {
-        ProGenContext.makeInstance(args[0]);
-        Error.makeInstance();
-        ProGenFactory progenFactory = ProGenFactory.makeInstance();
-        ExecutionRole progen = progenFactory.makeExecutionRole();
-        HistoricalData.makeInstance();
-        OutputStore.makeInstance();
-
-        System.out.println(ProGenContext.getMandatoryProperty("progen.welcome"));
-
-        progen.start();
-
+        new ProGen(args).runProGen();
       } catch (MissingContextFileException e) {
         System.err.println(Error.get(2) + "(" + e.getMessage() + ")");
       } catch (UndefinedFunctionSetException e) {
@@ -64,7 +71,6 @@ public class ProGen {
         System.out.println("\nEXECUTION TIME: " + (end.getTimeInMillis() - begin.getTimeInMillis()) + " ms.");
       }
     }
-
   }
 
 }
