@@ -3,4 +3,9 @@ jdk:
 - oraclejdk7
 script:
 - cd progen
-- mvn clean verify jacoco:report coveralls:jacoco
+- mvn clean verify site jacoco:report coveralls:jacoco
+- git clone https://github.com/jirsis/gen-bugde.git
+- cd gen-budge
+- echo $PWD
+- ./gen-budges.js ../target
+- ls -l
