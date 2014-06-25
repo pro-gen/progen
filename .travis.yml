@@ -1,9 +1,15 @@
 languaje: java
 jdk:
 - oraclejdk7
+cache:
+  directories:
+    - gen-budge
+before_script:
+  - git clone https://github.com/jirsis/gen-bugde.git
+  - apt-get update -q
+  - apt-get install nodejs
 script:
 - cd progen
 #- mvn clean verify site jacoco:report coveralls:jacoco
-- git clone https://github.com/jirsis/gen-bugde.git
-- cd gen-budge
-- ls -l
+- node -v
+- ls ../../
