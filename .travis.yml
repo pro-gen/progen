@@ -1,15 +1,22 @@
 languaje: java
 jdk:
 - oraclejdk7
+node_js:
+  - "0.10"
 cache:
   directories:
     - gen-budge
+    - node_modules
 before_script:
-  - git clone https://github.com/jirsis/gen-bugde.git
   - sudo apt-get update -q
-  - sudo apt-get install nodejs
+  #- sudo apt-get install nodejs
+  - git clone https://github.com/jirsis/gen-bugde.git
+  - export PATH=$PATH:gen-budge/
+  - cd gen-budge
+  - npm install
 script:
-- cd progen
-#- mvn clean verify site jacoco:report coveralls:jacoco
 - node -v
-- ls ../../
+- cd progen
+- mvn clean verify site jacoco:report coveralls:jacoco
+- ./gen-budge.js target/
+- ls target/
