@@ -6,21 +6,13 @@ cache:
     - gen-budge
     - node_modules
 before_script:
-  #- sudo apt-get update -q
-  #- sudo apt-get install nodejs
-  - git clone https://github.com/jirsis/gen-bugde.git
-  - pwd
-  - ls
+  - git clone https://github.com/jirsis/gen-budge.git
 script:
   - cd progen
-  #- mvn clean verify site jacoco:report coveralls:jacoco
-  - cd ../
+  - mvn clean verify site jacoco:report coveralls:jacoco
 after_script:
-  - ls
-  - pwd
+  - cd ../gen-budge
   - node -v
-  - cd gen-bugde
   - npm install
-  - ./gen-budges.js ../target/
-  - ls ../target/
-  - pwd
+  - ./gen-budges.js ../progen/target/
+  - ls ../progen/target/
