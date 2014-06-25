@@ -4,15 +4,14 @@ jdk:
 cache:
   directories:
     - gen-budge
-    - node_modules
+    - gen-budge/node_modules
 before_script:
   - git clone https://github.com/jirsis/gen-budge.git
 script:
   - cd progen
   - mvn clean verify site jacoco:report coveralls:jacoco
 after_script:
-  - cd ../gen-budge
   - node -v
+  - cd ../gen-budge
   - npm install
   - ./gen-budges.js ../progen/target/
-  - ls ../progen/target/
