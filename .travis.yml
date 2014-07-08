@@ -11,13 +11,13 @@ script:
 - cd progen
 - mvn clean verify site jacoco:report coveralls:jacoco
 after_script:
-- node -v
-- cd ../gen-budge
-- npm install
-- ./gen-budges.js ../progen/target/
-after_success:
-  - git config user.email "travis@travis-ci.org"
-  - git config user.name "Travis-CI deplyer"
+  - node -v
+  - cd ../gen-budge
+  - npm install
+  - ./gen-budges.js ../progen/target/
+  - cd $HOME
+  - git config --global user.email "travis@travis-ci.org"
+  - git config --global user.name "Travis-CI deplyer"
   - git clone https://${GH_TOKEN}@github.com/pro-gen/pro-gen.github.io.git
   - cd pro-gen.github.io
   - cp gen-budge/*svg .
