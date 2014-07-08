@@ -15,15 +15,14 @@ after_script:
   - cd ../gen-budge
   - npm install
   - ./gen-budges.js ../progen/target/
-  - echo $PWD
-  - ls $PWD
-  - cd $HOME
+  - ls ../progen/target/
+  - cd ../
   - git config --global user.email "travis@travis-ci.org"
   - git config --global user.name "Travis-CI deplyer"
   - git clone https://${GH_TOKEN}@github.com/pro-gen/pro-gen.github.io.git
   - cd pro-gen.github.io
-  - ls $HOME/progen/
-  - cp -v $HOME/progen/gen-budge/*svg .
+  - ls progen/target
+  - cp -v progen/target/*svg .
   - git add -f *svg
   - git commit -m "Travis build $TRAVIS_BUILD_NUMBER pushed to ProGen page"
   - git push -fq origin master
