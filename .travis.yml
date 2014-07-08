@@ -20,10 +20,10 @@ after_script:
   - git config --global user.name "Travis-CI deplyer"
   - git clone https://${GH_TOKEN}@github.com/pro-gen/pro-gen.github.io.git
   - cd pro-gen.github.io
-  - cp gen-budge/*svg .
+  - cp -v $HOME/progen/gen-budge/*svg .
   - git add -f *svg
   - git commit -m "Travis build $TRAVIS_BUILD_NUMBER pushed to ProGen page"
-  - git push -fq origin gh-pages
+  - git push -fq origin master
 env:
   global:
     secure: dEs2TyS0sPMhO9EYp4a3Krf2e3oDitQmmSedUr5NOhHeJYT0hryB+u6rk0ouExg6XIcENP34pZiTTT3Ko9en04BiJG7MVJb+J+TG6OZeXPLqTDjFGW1RIHMwS0tG5wUyA7d2SYGGwfv2pqM/D5grqfyKjwNQ38/HsWbqr5PMRx0=
