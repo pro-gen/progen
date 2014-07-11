@@ -10,7 +10,7 @@ before_script:
 script:
 - cd progen
 - mvn clean verify site jacoco:report coveralls:jacoco
-after_script:
+after_success:
   - node -v
   - cd $TRAVIS_BUILD_DIR/gen-budge
   - npm install
