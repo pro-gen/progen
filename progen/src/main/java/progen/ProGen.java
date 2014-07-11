@@ -1,5 +1,6 @@
 package progen;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -24,11 +25,11 @@ public class ProGen {
   
   private String[] args;
 
-  public ProGen(String args[]){
-    this.args = args;
+  public ProGen(final String [] args) {
+    this.args = Arrays.copyOf(args, args.length);
   }
   
-  public void runProGen(){
+  public final void runProGen() {
     ProGenContext.makeInstance(args[0]);
     Error.makeInstance();
     ProGenFactory progenFactory = ProGenFactory.makeInstance();
@@ -49,7 +50,7 @@ public class ProGen {
    *          configuración de la ejecución de ProGen
    * @see progen.roles
    */
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     Calendar begin = GregorianCalendar.getInstance();
     if (args.length != 1) {
       System.err.println(Error.get(0));
