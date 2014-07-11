@@ -15,6 +15,9 @@ after_script:
   - node -v
   - cd $TRAVIS_BUILD_DIR/gen-budge
   - npm install
+  - ls $TRAVIS_BUILD_DIR
+  - ls $TRAVIS_BUILD_DIR/progen
+  - ls $TRAVIS_BUILD_DIR/progen/target/
   - ./gen-budges.js $TRAVIS_BUILD_DIR/progen/target/
   - git config --global user.email "travis@travis-ci.org"
   - git config --global user.name "Travis-CI deployer"
