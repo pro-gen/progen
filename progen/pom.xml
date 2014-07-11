@@ -10,9 +10,9 @@
 	<url>http://pro-gen.github.io</url>
 
 	<properties>
+		<master.file>master_standalone.txt</master.file>
 		<jdk.version>1.7</jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<master.file>master_standalone.txt</master.file>
 		<org.powermock.version>1.5.5</org.powermock.version>
 		<org.jacoco.version>0.7.1.201405082137</org.jacoco.version>
 	</properties>
@@ -103,6 +103,7 @@
 							<artifactId>maven-checkstyle-plugin</artifactId>
 							<version>2.12.1</version>
 							<configuration>
+								<configLocation>.checkstyle-rules.xml</configLocation>
 								<encoding>${project.build.sourceEncoding}</encoding>
 								<consoleOutput>false</consoleOutput>
 								<failsOnError>false</failsOnError>
@@ -113,12 +114,13 @@
 						<plugin>
 							<groupId>org.codehaus.mojo</groupId>
 							<artifactId>findbugs-maven-plugin</artifactId>
-							<version>2.5.3</version>
+							<version>2.5.4</version>
 							<configuration>
 								<effort>Max</effort>
 								<failOnError>false</failOnError>
 								<threshold>Low</threshold>
 								<xmlOutput>true</xmlOutput>
+								<includeFilterFile>.findbugs-rules.xml</includeFilterFile>
 								<findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
 							</configuration>
 						</plugin>
@@ -129,13 +131,16 @@
 						</plugin>
 						<plugin>
 							<artifactId>maven-pmd-plugin</artifactId>
-							<version>3.0.1</version>
+							<version>3.1</version>
 							<configuration>
 								<targetJdk>${jdk.version}</targetJdk>
 								<format>xml</format>
-								<linkXref>true</linkXref>
+								<linkXref>false</linkXref>
 								<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
 								<minimumTokens>100</minimumTokens>
+								<rulesets>
+									<ruleset>${basedir}/.pmd-rules.xml</ruleset>
+								</rulesets>
 							</configuration>
 						</plugin>
 					</reportPlugins>
