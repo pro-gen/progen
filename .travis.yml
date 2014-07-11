@@ -7,7 +7,6 @@ cache:
 before_script:
 - git clone https://github.com/jirsis/gen-budge.git $TRAVIS_BUILD_DIR/gen-budge
 - git clone https://${GH_TOKEN}@github.com/pro-gen/pro-gen.github.io.git $TRAVIS_BUILD_DIR/pro-gen.github.io
-- ls $TRAVIS_BUILD_DIR
 script:
 - cd progen
 - mvn clean verify site jacoco:report coveralls:jacoco
@@ -15,14 +14,10 @@ after_script:
   - node -v
   - cd $TRAVIS_BUILD_DIR/gen-budge
   - npm install
-  - ls $TRAVIS_BUILD_DIR
-  - ls $TRAVIS_BUILD_DIR/progen
-  - ls $TRAVIS_BUILD_DIR/progen/target/
   - ./gen-budges.js $TRAVIS_BUILD_DIR/progen/target/
   - git config --global user.email "travis@travis-ci.org"
   - git config --global user.name "Travis-CI deployer"
   - cd $TRAVIS_BUILD_DIR/pro-gen.github.io
-  - ls -l $TRAVIS_BUILD_DIR
   - cp -v $TRAVIS_BUILD_DIR/progen/target/*svg .
   - git add -f *svg
   - git commit -m "Travis build $TRAVIS_BUILD_NUMBER pushed to ProGen page"
