@@ -19,7 +19,9 @@ after_success:
   - git config --global user.name "Travis-CI deployer"
   - cd $TRAVIS_BUILD_DIR/pro-gen.github.io
   - cp -v $TRAVIS_BUILD_DIR/progen/target/*svg .
+  - cp -vr $TRAVIS_BUILD_DIR/progen/target/site reports
   - git add -f *svg
+  - git add -f reports/*
   - git commit -m "Travis build $TRAVIS_BUILD_NUMBER pushed to ProGen page"
   - git push -fq origin master
 env:
