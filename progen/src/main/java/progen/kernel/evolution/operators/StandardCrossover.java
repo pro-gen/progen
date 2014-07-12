@@ -163,7 +163,8 @@ public class StandardCrossover extends GenneticOperator {
 
 		return nodes;
 	}
-
+	
+	@edu.umd.cs.findbugs.annotations.SuppressWarnings(value="NS_DANGEROUS_NON_SHORT_CIRCUIT", justification="It's mandatory to evaluate both trees")
 	private boolean checkTrees(Tree treeA, Tree treeB) {
 		return checkTreeSize(treeA) & checkTreeSize(treeB);
 	}
