@@ -1,13 +1,12 @@
 package progen.experimenter;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import progen.ProGenException;
 import progen.context.ProGenContext;
@@ -59,26 +58,33 @@ public abstract class Experimenter {
    *          Path de destino de la copia.
    */
   protected void copyFile(String original, String copyPath) {
-    BufferedReader reader;
-    PrintWriter printer;
-    File file = new File(original);
-    String name = file.getName();
-    String line;
+    InputStream inputStream = null;
+    OutputStream outputStream = null;
     try {
-      reader = new BufferedReader(new FileReader(original));
-      printer = new PrintWriter(new BufferedWriter(new FileWriter(copyPath + File.separator + name)));
-
-      line = reader.readLine();
-      while (line != null) {
-        printer.println(line);
-        line = reader.readLine();
-      }
-      reader.close();
-      printer.close();
+        File originalFile = new File(original);
+        File destinationFile = new File(copyPath + File.separator + originalFile.getName());
+        if (!originalFile.exists()){
+            throw new ProGenException(Error.get(31) + " [" + original + "]");
+        }
+        inputStream = new FileInputStream(originalFile);
+        outputStream = new FileOutputStream(destinationFile);
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = inputStream.read(buffer)) > 0) {
+            outputStream.write(buffer, 0, length);
+        }
     } catch (FileNotFoundException e) {
       throw new ProGenException(Error.get(31) + " [" + original + "]");
     } catch (IOException e) {
       throw new ProGenException(e.getLocalizedMessage());
+    }finally {
+        try {
+          inputStream.close();
+          outputStream.close();
+        } catch (IOException e) {
+          throw new ProGenException(e.getLocalizedMessage());
+        }
+        
     }
   }
 
