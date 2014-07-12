@@ -27,7 +27,7 @@ public class DispatcherServer extends UnicastRemoteObject implements DispatcherR
     
     private Registry registry;
     
-    public static int UNASIGNED_TASKS=-10;
+    public static final int UNASIGNED_TASKS=-10;
   
       
     protected DispatcherServer() throws RemoteException {
