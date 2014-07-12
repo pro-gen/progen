@@ -1,9 +1,9 @@
 package progen.experimenter;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -174,7 +174,8 @@ public class MultipleExperimenter extends Experimenter {
     File experimentDir = new File(ProGenContext.getMandatoryProperty("progen.output.dir") + ProGenContext.getMandatoryProperty("progen.output.experiment"));
     try {
       // creamos el fichero del contexto actual
-      context = new PrintWriter(new BufferedWriter(new FileWriter(experimentDir.getAbsolutePath() + File.separator + "current context.txt")));
+      File file = new File(experimentDir.getAbsolutePath() + File.separator + "current context.txt");
+      context = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
       for (Property property : properties) {
         context.print(property.getLabel());
         context.print("=");

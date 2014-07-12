@@ -3,9 +3,11 @@
  */
 package progen.output.outputers;
 
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -63,8 +65,9 @@ public abstract class FileOutput implements Outputer {
 	    outputDir.append(ProGenContext.getMandatoryProperty("progen.output.dir"));
 	    outputDir.append(ProGenContext.getMandatoryProperty("progen.output.experiment"));
 	    outputDir.append(fileName);
+	    File file = new File(outputDir.toString());
+	    writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file, append), "UTF-8"));
 	    
-	    writer = new PrintWriter(new FileWriter(outputDir.toString(), append));
 	} catch (FileNotFoundException e) {
 	    e.printStackTrace();
 	} catch (IOException e) {
