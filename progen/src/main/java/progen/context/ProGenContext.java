@@ -498,17 +498,24 @@ public class ProGenContext {
       otherFile = path.replace('.', File.separatorChar) + ext;
 
       otherProperties = new Properties();
+      InputStream inputStream = null;
+      FileInputStream fileInputStream = null;
       // look for in absolute path
       try {
-        InputStream fis = getResource(otherFile);
-        otherProperties.load(fis);
-        fis.close();
+        inputStream = getResource(otherFile);
+        otherProperties.load(inputStream );
+        
       } catch (FileNotFoundException fnfe) {
         // look for in user project
         otherFile = proGenProps.getProperty("progen.user.home").replace('.', File.separatorChar) + proGenProps.properties.getProperty(propertyFile);
-        FileInputStream fis = new FileInputStream(otherFile);
-        otherProperties.load(fis);
-        fis.close();
+        fileInputStream = new FileInputStream(otherFile);
+        otherProperties.load(fileInputStream);
+        
+      }finally {
+        inputStream.close();
+        if(fileInputStream != null){
+          fileInputStream.close();
+        }
       }
       chekProperties(otherProperties);
     }
@@ -564,9 +571,10 @@ public class ProGenContext {
     String optionalFile = ProGenContext.getMandatoryProperty("progen.experiment.file");
     optionalFile = optionalFile.replaceAll("\\.txt$", sufixFile).replace('.', File.separatorChar) + ".txt";
     optionalFilesLoaded.append(ProGenContext.getOptionalProperty("progen.optional.files", ""));
-
+    FileInputStream fis = null;
+    
     try {
-      FileInputStream fis = new FileInputStream(optionalFile);
+      fis = new FileInputStream(optionalFile);
       otherProperties = new Properties();
       otherProperties.load(fis);
       keys = otherProperties.keys();
@@ -575,7 +583,7 @@ public class ProGenContext {
         value = otherProperties.getProperty(key);
         proGenProps.properties.put(key, value);
       }
-      fis.close();
+      
       optionalFilesLoaded.append(optionalFile);
       optionalFilesLoaded.append(", ");
       ProGenContext.setProperty("progen.optional.files", optionalFilesLoaded.toString());
@@ -583,6 +591,14 @@ public class ProGenContext {
       // do nothing, ignore
     } catch (IOException e) {
       // do nothing, ignore
+    } finally{
+      try {
+        if(fis != null){
+          fis.close();
+        }
+      } catch (IOException e) {
+        // do nothing, ignore
+      }
     }
 
   }

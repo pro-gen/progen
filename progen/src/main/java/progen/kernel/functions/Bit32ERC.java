@@ -25,6 +25,7 @@ public class Bit32ERC extends ERC {
    * @see progen.kernel.functions.ERC#defineERC()
    */
   @Override
+  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="DMI_RANDOM_USED_ONLY_ONCE", justification="Original design ProGen v1.0")
   protected Object defineERC() {
     return new Integer(new Random().nextInt());
   }
