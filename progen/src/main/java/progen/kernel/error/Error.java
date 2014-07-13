@@ -47,6 +47,7 @@ public class Error {
   /**
    * Método para inicializar el Singleton de esta clase.
    */
+  @edu.umd.cs.findbugs.annotations.SuppressWarnings("ISC_INSTANTIATE_STATIC_CLASS")
   public synchronized static void makeInstance() {
     if (error == null) {
       error = new Error();
