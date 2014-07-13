@@ -19,33 +19,19 @@ public class Bit32ERC extends ERC {
     super("int");
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.kernel.functions.ERC#defineERC()
-   */
   @Override
-  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="DMI_RANDOM_USED_ONLY_ONCE", justification="Original design ProGen v1.0")
+  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "DMI_RANDOM_USED_ONLY_ONCE", justification = "Original design ProGen v1.0")
   protected Object defineERC() {
-    return new Integer(new Random().nextInt());
+    return Integer.valueOf(new Random().nextInt());
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.kernel.functions.ERC#printERC()
-   */
   @Override
   protected String printERC() {
     return "0x" + Integer.toHexString((Integer) getValue());
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.kernel.functions.ERC#clone()
-   */
   @Override
+  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="CN_IDIOM_NO_SUPER_CALL", justification="super.clone() doesn't exists")
   public ERC clone() {
     return new Bit32ERC();
   }
