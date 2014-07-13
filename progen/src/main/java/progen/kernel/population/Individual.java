@@ -41,7 +41,7 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
    * Gramáticas que generan todos y cada unos de los árboles que forman el
    * individuo concreto.
    */
-  HashMap<String, Grammar> grammars;
+  private HashMap<String, Grammar> grammars;
 
   /**
    * Número total de árboles RPB en un individuo concreto.
@@ -309,21 +309,11 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
     return 1 / (1 + rawFitness);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.roles.Task#calculate(progen.userprogram.UserProgram)
-   */
   @Override
   public void calculate(UserProgram userProgram) {
     this.rawFitness = userProgram.fitness(this);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.roles.Task#isDone()
-   */
   @Override
   public boolean isDone() {
     return !updated;
@@ -342,11 +332,6 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
     return Double.compare(this.rawFitness, other.rawFitness);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
   @Override
   public boolean equals(Object other) {
     boolean equals = false;
@@ -358,11 +343,6 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
     return equals;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#hashCode()
-   */
   @Override
   public int hashCode() {
     return toString().hashCode();
@@ -391,21 +371,11 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
     return equals;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.roles.Task#getCalculateResult()
-   */
   @Override
   public Object getCalculateResult() {
     return this;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#clone()
-   */
   @Override
   public Individual clone() {
     try {

@@ -45,7 +45,7 @@ public class ProGenTest {
     fail("exception must be thrown");
   }
 
-  @Test(timeout=10000)
+  @Test
   public void testMasterFile() throws Exception {
     ByteArrayOutputStream systemOut = mockSystemOut();
     
