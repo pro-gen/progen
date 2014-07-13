@@ -94,7 +94,7 @@ public class ProGenContext {
    * 
    * @return La referencia a la única instancia de propiedades de ProGen
    */
-  public static ProGenContext makeInstance() {
+  public synchronized static ProGenContext makeInstance() {
     if (proGenProps == null) {
       proGenProps = new ProGenContext();
     }
@@ -386,7 +386,7 @@ public class ProGenContext {
           parameterValue = parameter.split("=")[1].trim();
           parameters.put(parameterKey, parameterValue);
         }
-      } catch (Exception e) {
+      } catch (ArrayIndexOutOfBoundsException e) {
         throw new MalformedParameterException(option + "," + parameterKey);
       }
     }
@@ -484,43 +484,56 @@ public class ProGenContext {
    * @throws IOException
    *           Si ocurre un error de E/S.
    */
-  @SuppressWarnings("static-access")
   private void loadOtherProperties(String propertyFile) throws FileNotFoundException, IOException {
     Properties otherProperties;
     String otherFile = proGenProps.properties.getProperty(propertyFile);
-    int lastDot;
-    String path, ext;
 
     if (otherFile != null) {
-      lastDot = otherFile.lastIndexOf(".");
-      path = otherFile.substring(0, lastDot);
-      ext = otherFile.substring(lastDot);
-      otherFile = path.replace('.', File.separatorChar) + ext;
-
+      otherFile = convertClasspath2Path(otherFile);
       otherProperties = new Properties();
-      InputStream inputStream = null;
-      FileInputStream fileInputStream = null;
-      // look for in absolute path
       try {
-        inputStream = getResource(otherFile);
-        otherProperties.load(inputStream );
-        
+        lookForInAbsolutePath(otherProperties, otherFile);        
       } catch (FileNotFoundException fnfe) {
-        // look for in user project
-        otherFile = proGenProps.getProperty("progen.user.home").replace('.', File.separatorChar) + proGenProps.properties.getProperty(propertyFile);
-        fileInputStream = new FileInputStream(otherFile);
-        otherProperties.load(fileInputStream);
-        
-      }finally {
-        inputStream.close();
-        if(fileInputStream != null){
-          fileInputStream.close();
-        }
+        lookForInUserProject(propertyFile, otherProperties);
       }
       chekProperties(otherProperties);
     }
   }
+  
+  private void lookForInAbsolutePath(Properties otherProperties, String otherFile) throws IOException {
+    InputStream inputStream;
+    inputStream = getResource(otherFile);
+    try {
+      otherProperties.load(inputStream );
+    } finally{
+      if(inputStream != null){
+        inputStream.close();
+      }
+    }
+  }
+  
+  private FileInputStream lookForInUserProject(String propertyFile, Properties otherProperties) throws IOException {
+    FileInputStream fileInputStream = null;
+    String otherFile = proGenProps.getProperty("progen.user.home").replace('.', File.separatorChar) + proGenProps.properties.getProperty(propertyFile);
+    try {
+      fileInputStream = new FileInputStream(otherFile);
+      otherProperties.load(fileInputStream);
+    } finally{
+      if(fileInputStream != null){
+        fileInputStream.close();
+      }
+    }
+    
+    return fileInputStream;
+  }
 
+  private String convertClasspath2Path(String otherFile) {
+    int lastDot = otherFile.lastIndexOf(".");
+    String path = otherFile.substring(0, lastDot);
+    String ext = otherFile.substring(lastDot);
+    return path.replace('.', File.separatorChar) + ext;
+  }
+  
   /**
    * Método que define algunas propiedades a partir de otras ya existentes.
    * <p/>
