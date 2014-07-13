@@ -112,6 +112,7 @@ public abstract class Function implements Comparable<Function> {
    * 
    * @return el tipo de los argumentos de la función.
    */
+  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="EI_EXPOSE_REP", justification="Its is a getter method")
   public Object[] getArgsType() {
     return argsType;
   }
