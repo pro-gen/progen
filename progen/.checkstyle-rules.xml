@@ -101,10 +101,10 @@
     </module>
     <module name="Indentation">
       <property name="severity" value="info"/>
-      <property name="basicOffset" value="4"/>
+      <property name="basicOffset" value="2"/>
       <property name="braceAdjustment" value="0"/>
-      <property name="caseIndent" value="4"/>
-      <property name="tabWidth" value="8"/>
+      <property name="caseIndent" value="2"/>
+      <property name="tabWidth" value="4"/>
     </module>
     <module name="EqualsHashCode">
       <property name="severity" value="error"/>
