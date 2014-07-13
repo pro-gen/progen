@@ -1,5 +1,7 @@
 package progen.roles;
 
+import java.util.Locale;
+
 import progen.context.ProGenContext;
 
 /**
@@ -56,7 +58,7 @@ public abstract class ProGenFactory {
    * @return La instancia ya creada o una nueva, la primera vez que se llame al
    *         método.
    */
-  public static ProGenFactory makeInstance() {
+  public static synchronized ProGenFactory makeInstance() {
     if (factory == null) {
       String factoryClass = getFactoryClass();
 
@@ -79,7 +81,7 @@ public abstract class ProGenFactory {
     StringBuilder factoryClass = new StringBuilder(30);
     factoryClass.append("progen.roles.");
     factoryClass.append(factoryPackage + ".");
-    factoryClass.append(factoryPackage.substring(0, 1).toUpperCase());
+    factoryClass.append(factoryPackage.substring(0, 1).toUpperCase(Locale.getDefault()));
     factoryClass.append(factoryPackage.substring(1));
     factoryClass.append("Factory");
     return factoryClass.toString();

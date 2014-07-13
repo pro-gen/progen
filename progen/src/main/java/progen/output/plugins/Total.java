@@ -26,7 +26,7 @@ public class Total implements Plugin {
 
   @SuppressWarnings("rawtypes")
   public void addValue(Comparable value) {
-    this.value += new Double(value.toString());
+    this.value += Double.valueOf(value.toString());
 
   }
 
@@ -49,38 +49,18 @@ public class Total implements Plugin {
     return plugin;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.output.plugins.Plugin#getPriority()
-   */
   public int getPriority() {
     return 0;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.output.plugins.Plugin#getValue()
-   */
   public Object getValue() {
     return value;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.output.plugins.Plugin#initPlugin(java.lang.String)
-   */
   public void initPlugin(String propertyFamily) {
     // do nothing
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.output.plugins.Plugin#initialValue()
-   */
   public void initialValue() {
     value = 0;
   }

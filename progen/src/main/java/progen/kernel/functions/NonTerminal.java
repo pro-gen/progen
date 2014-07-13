@@ -20,5 +20,18 @@ public abstract class NonTerminal extends Function {
   public int hashCode() {
     return super.hashCode();
   }
+  
+  @Override
+  public boolean equals(Object other){
+    boolean equals = true;
+    if(other == null ){
+      equals = false;
+    } else if (! (other instanceof NonTerminal)){
+      equals = false;
+    }else {
+      equals = this.hashCode() == other.hashCode();
+    }
+    return equals;
+  }
 
 }

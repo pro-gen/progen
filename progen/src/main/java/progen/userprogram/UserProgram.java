@@ -1,5 +1,7 @@
 package progen.userprogram;
 
+import java.util.Locale;
+
 import progen.ProGenException;
 import progen.context.ProGenContext;
 import progen.kernel.population.Individual;
@@ -27,7 +29,7 @@ public abstract class UserProgram {
     String userProgramClass;
     String path[] = userPackage.split("\\.");
 
-    userProgramClass = path[path.length - 1].substring(0, 1).toUpperCase();
+    userProgramClass = path[path.length - 1].substring(0, 1).toUpperCase(Locale.getDefault());
     userProgramClass += path[path.length - 1].substring(1);
 
     try {

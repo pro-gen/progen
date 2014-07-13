@@ -1,5 +1,7 @@
 package progen.roles.standalone;
 
+import java.util.Locale;
+
 import progen.context.ProGenContext;
 import progen.roles.Client;
 import progen.roles.Dispatcher;
@@ -20,11 +22,6 @@ import progen.roles.Worker;
  */
 public class StandaloneFactory extends ProGenFactory {
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.roles.ProGenFactory#makeClient()
-   */
   @Override
   public Client makeClient() {
     String roleClass = ProGenContext.getOptionalProperty("progen.role.client.class", "ClientLocal");
@@ -32,22 +29,12 @@ public class StandaloneFactory extends ProGenFactory {
     return (Client) loadRole(roleClass);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.roles.ProGenFactory#makeDispatcher()
-   */
   @Override
   public Dispatcher makeDispatcher() {
     String roleClass = ProGenContext.getOptionalProperty("progen.role.dispatcher.class", "DispatcherLocal");
     return (Dispatcher) loadRole(roleClass);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.roles.ProGenFactory#makeWorker()
-   */
   @Override
   public Worker makeWorker() {
     String roleClass = ProGenContext.getOptionalProperty("progen.role.worker.class", "WorkerLocal");
@@ -58,26 +45,19 @@ public class StandaloneFactory extends ProGenFactory {
     Object role = null;
     String roleName = "progen.roles.standalone." + clazz;
     try {
-
       role = Class.forName(roleName).newInstance();
-
-    } catch (Exception e) {
+    } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
       throw new UnknownRoleImplementationException(roleName);
     }
     return role;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.roles.ProGenFactory#makeExecutionRole()
-   */
   @Override
   public ExecutionRole makeExecutionRole() {
     ExecutionRole exec = null;
     String element = ProGenContext.getOptionalProperty("progen.role", Role.CLIENT.name());
     try {
-      Role executionRole = Role.valueOf(element.toUpperCase());
+      Role executionRole = Role.valueOf(element.toUpperCase(Locale.getDefault()));
       switch (executionRole) {
       case CLIENT:
         exec = this.makeClient();

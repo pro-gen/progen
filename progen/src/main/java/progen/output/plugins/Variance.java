@@ -28,7 +28,7 @@ public class Variance implements Plugin {
 
   @SuppressWarnings("rawtypes")
   public void addValue(Comparable value) {
-    elements.add(new Double(value.toString()));
+    elements.add(Double.valueOf(value.toString()));
 
   }
 

@@ -18,6 +18,7 @@ import progen.kernel.grammar.Production;
  * @since 2.0
  */
 public class Full implements InitializeTreeMethod {
+  private static final long serialVersionUID = 3387278132317051831L;
   /** Profundidad mínima que tendrá el árbol resultante. */
   private int minDepth;
   /** Profundidad máxima que tendrá el árbol resultante. */

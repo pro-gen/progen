@@ -15,26 +15,27 @@ import progen.userprogram.UserProgram;
  * 
  * 
  * @author jirsis
- *
+ * 
  */
-public class WildCard extends Function{
-	
-	private List<Function> functions;
+public class WildCard extends Function {
 
-	public WildCard(Function function) {
-		super(function.getSignature(), "=");
-		functions=new ArrayList<Function>();
-		addFunction(function);
-	}
-	
-	public void addFunction(Function function){
-		functions.add(function);
-	}
+  private static final long serialVersionUID = -7893266618897015503L;
+  private List<Function> functions;
 
-	@Override
-	public Object evaluate(List<Node> argumets, UserProgram userProgram, HashMap<String,Object> returnAddr) {
-		System.err.println("WildCard.evaluate NOT YET IMPLEMENTED");
-		return null;
-	}
+  public WildCard(Function function) {
+    super(function.getSignature(), "=");
+    functions = new ArrayList<Function>();
+    addFunction(function);
+  }
+
+  public void addFunction(Function function) {
+    functions.add(function);
+  }
+
+  @Override
+  public Object evaluate(List<Node> argumets, UserProgram userProgram, HashMap<String, Object> returnAddr) {
+    System.err.println("WildCard.evaluate NOT YET IMPLEMENTED");
+    return null;
+  }
 
 }

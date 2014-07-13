@@ -17,8 +17,7 @@ public interface Plugin {
    * @param value
    *          El valor a añadir.
    */
-  @SuppressWarnings("rawtypes")
-  public void addValue(Comparable value);
+  public void addValue(Comparable<?> value);
 
   /**
    * Devuelve el valor que se ha calculado en el plugin.

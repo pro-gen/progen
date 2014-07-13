@@ -13,57 +13,57 @@ import java.util.List;
  */
 public class Mean implements Plugin {
 
-	/** Cantidad de muestras introducidas hasta el momento */
-	private int count;
-	/** Suma total de las muestras hasta el momento */
-	private double absoluteSum;
+  /** Cantidad de muestras introducidas hasta el momento */
+  private int count;
+  /** Suma total de las muestras hasta el momento */
+  private double absoluteSum;
 
-	/**
-	 * Constructor por defecto.
-	 */
-	public Mean() {
-		initialValue();
-	}
+  /**
+   * Constructor por defecto.
+   */
+  public Mean() {
+    initialValue();
+  }
 
-	@SuppressWarnings("rawtypes")
-	public void addValue(Comparable value) {
-		count++;
-		absoluteSum += new Double(value.toString());
-	}
+  @SuppressWarnings("rawtypes")
+  public void addValue(Comparable value) {
+    count++;
+    absoluteSum += Double.valueOf(value.toString());
+  }
 
-	public Object getValue() {
-		return absoluteSum / count;
-	}
+  public Object getValue() {
+    return absoluteSum / count;
+  }
 
-	public void initialValue() {
-		count = 0;
-		absoluteSum = 0;
-	}
+  public void initialValue() {
+    count = 0;
+    absoluteSum = 0;
+  }
 
-	public String getName() {
-		return "mean";
-	}
+  public String getName() {
+    return "mean";
+  }
 
-	public int getPriority() {
-		return 0;
-	}
-	
-	public void initPlugin(String propertyFamily) {
-		//do nothing
-	}
-	
-	public Plugin getPlugin(String name){
-		Plugin plugin;
-		if(getName().compareTo(name)==0){
-			plugin=this;
-		}else{
-			plugin=new NullPlugin();
-		}
-		return plugin;
-	}
+  public int getPriority() {
+    return 0;
+  }
 
-	public void checkDependeces(List<Plugin> pluginCollection) {
-		// do nothing
-	}
+  public void initPlugin(String propertyFamily) {
+    // do nothing
+  }
+
+  public Plugin getPlugin(String name) {
+    Plugin plugin;
+    if (getName().compareTo(name) == 0) {
+      plugin = this;
+    } else {
+      plugin = new NullPlugin();
+    }
+    return plugin;
+  }
+
+  public void checkDependeces(List<Plugin> pluginCollection) {
+    // do nothing
+  }
 
 }

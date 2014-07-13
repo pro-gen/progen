@@ -1,5 +1,7 @@
 package progen.kernel.tree;
 
+import java.io.Serializable;
+
 import progen.kernel.grammar.Grammar;
 
 /**
@@ -9,7 +11,7 @@ import progen.kernel.grammar.Grammar;
  * @author jirsis
  * 
  */
-public interface InitializeTreeMethod {
+public interface InitializeTreeMethod extends Serializable{
   /**
    * Se creará un árbol completo, que colgará del nodo pasado como parámetro a
    * partir de la gramática que se proporciona.

@@ -16,51 +16,45 @@ import progen.userprogram.UserProgram;
  */
 public class CalculateThread implements Runnable {
 
-	private List<Task> tasks;
+  private List<Task> tasks;
 
-	private Worker worker;
+  private Worker worker;
 
-	private int currentTask;
+  private int currentTask;
 
-	private UserProgram userProgram;
+  private UserProgram userProgram;
 
-	/** Almacén de todos los datos históricos del experimento. */
-	private HistoricalData historical;
-	
-	public CalculateThread(List<Task> tasks, Worker worker,
-			UserProgram userProgram) {
-		this.tasks = tasks;
-		this.worker = worker;
-		this.userProgram = userProgram;
-		this.currentTask = 0;
-		this.historical=HistoricalData.makeInstance();
-	}
+  /** Almacén de todos los datos históricos del experimento. */
+  private HistoricalData historical;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Runnable#run()
-	 */
-	public void run() {
-		synchronized (tasks) {
-			for (currentTask = 0; currentTask < tasks.size(); currentTask++) {
-				Calendar before=GregorianCalendar.getInstance();
-				worker.calculate(tasks.get(currentTask), userProgram);
-				tasks.notify();
-				Calendar after=GregorianCalendar.getInstance();
-				historical.getCurrentDataCollector("PopulationTimeData").addValue("evaluation", after.getTimeInMillis()-before.getTimeInMillis());
-				
-			}
-		}
+  public CalculateThread(List<Task> tasks, Worker worker, UserProgram userProgram) {
+    this.tasks = tasks;
+    this.worker = worker;
+    this.userProgram = userProgram;
+    this.currentTask = 0;
+    this.historical = HistoricalData.makeInstance();
+  }
 
-	}
+  public void run() {
+    synchronized (tasks) {
+      for (currentTask = 0; currentTask < tasks.size(); currentTask++) {
+        Calendar before = GregorianCalendar.getInstance();
+        worker.calculate(tasks.get(currentTask), userProgram);
+        tasks.notifyAll();
+        Calendar after = GregorianCalendar.getInstance();
+        historical.getCurrentDataCollector("PopulationTimeData").addValue("evaluation", after.getTimeInMillis() - before.getTimeInMillis());
 
-	public synchronized int getCompletedTasks() {
-		return currentTask;
-	}
+      }
+    }
 
-	public List<Task> getTasks() {
-		return tasks;
-	}
+  }
+
+  public synchronized int getCompletedTasks() {
+    return currentTask;
+  }
+
+  public List<Task> getTasks() {
+    return tasks;
+  }
 
 }

@@ -21,7 +21,7 @@ public class Tree implements Cloneable, Serializable {
   private Node root;
 
   /** Método de inicialización del árbol. */
-  private transient InitializeTreeMethod initMethod;
+  private InitializeTreeMethod initMethod;
 
   /**
    * Constructor de copia que recibe por parámetro otro árbol del que copiar los

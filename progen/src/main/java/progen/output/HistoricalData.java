@@ -48,7 +48,7 @@ public class HistoricalData {
    * 
    * @return Instancia de la clase.
    */
-  public static HistoricalData makeInstance() {
+  public synchronized static HistoricalData makeInstance() {
     if (historical == null) {
       historical = new HistoricalData();
     }

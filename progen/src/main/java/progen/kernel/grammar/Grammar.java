@@ -131,7 +131,11 @@ public class Grammar implements Serializable {
    *         símbolo.
    */
   public List<Production> getProductions(GrammarSymbol symbol) {
-    return getProductions((GrammarNonTerminalSymbol) symbol);
+    if(symbol instanceof GrammarNonTerminalSymbol){
+      return getProductions((GrammarNonTerminalSymbol) symbol);
+    }else{
+      throw new ClassCastException(symbol.toString());
+    }
   }
 
   /**
@@ -332,7 +336,7 @@ public class Grammar implements Serializable {
     String[] args = ProGenContext.getMandatoryProperty("progen." + idADF + ".interface").split("\\$\\$");
 
     for (int i = 1; i < args.length; i++) {
-      function = new ARG(idADF, args[i].toString(), i - 1);
+      function = new ARG(idADF, args[i], i - 1);
       left = getGrammarNonTerminalSymbol(function.getReturnType());
       right = new GrammarTerminalSymbol(function);
       production = new Production(left, right, getGrammarNonTerminalSymbol(function.getArgsType()));
