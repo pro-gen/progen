@@ -60,22 +60,22 @@ public class DoubleEqualsTest {
     arguments.add(a);
     arguments.add(b);
 
-    //1==2?
+    // 1==2?
     a.setFunction(one);
     b.setFunction(two);
     assertFalse((Boolean) eq.evaluate(arguments, userProgram, returnAddr));
 
-    //2==1?
+    // 2==1?
     a.setFunction(two);
     b.setFunction(one);
     assertFalse((Boolean) eq.evaluate(arguments, userProgram, returnAddr));
 
-    //1==1?
+    // 1==1?
     a.setFunction(one);
     b.setFunction(one);
     assertTrue((Boolean) eq.evaluate(arguments, userProgram, returnAddr));
 
-    //2==2?
+    // 2==2?
     a.setFunction(two);
     b.setFunction(two);
     assertTrue((Boolean) eq.evaluate(arguments, userProgram, returnAddr));

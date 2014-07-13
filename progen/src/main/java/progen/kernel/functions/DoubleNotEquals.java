@@ -1,9 +1,9 @@
 package progen.kernel.functions;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
-import progen.kernel.functions.NonTerminal;
 import progen.kernel.tree.Node;
 import progen.userprogram.UserProgram;
 
@@ -28,7 +28,7 @@ public class DoubleNotEquals extends NonTerminal {
   public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
     Double operador1 = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
     Double operador2 = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
-    return operador1.doubleValue() != operador2.doubleValue();
+    return new BigDecimal(operador1.doubleValue()).compareTo(new BigDecimal(operador2.doubleValue())) != 0;
   }
 
 }

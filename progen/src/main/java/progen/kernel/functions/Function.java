@@ -168,20 +168,17 @@ public abstract class Function implements Comparable<Function>, Serializable {
   private static Function loadFunctionADF(String functionName) {
     return new ADF(functionName);
   }
-
+  
   private static Function loadReagularFunction(String functionName, String classPathProGen, String classPathUser) {
     Function function;
     try {
       function = (Function) Class.forName(classPathUser + functionName).newInstance();
-    } catch (Exception e) {
-      // Do not find the class in user package
+    } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
       try {
         function = (Function) Class.forName(classPathProGen + functionName).newInstance();
-      } catch (Exception e1) {
-        // Do not find the class in progen.kernel.functions package
+      } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e1) {
         throw new FunctionNotFoundException(functionName);
       }
-
     }
     return function;
   }
