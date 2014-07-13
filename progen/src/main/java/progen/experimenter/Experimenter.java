@@ -58,33 +58,49 @@ public abstract class Experimenter {
    *          Path de destino de la copia.
    */
   protected void copyFile(String original, String copyPath) {
+    if (original == null || copyPath == null) {
+      throw new IllegalArgumentException(Error.get(31));
+    } else {
+      copyFileSecure(original, copyPath);
+    }
+  }
+
+  private void copyFileSecure(String original, String copyPath) {
+    File originalFile = new File(original);
+    File destinationFile = new File(copyPath + File.separator + originalFile.getName());
+    if (!originalFile.exists()) {
+      throw new ProGenException(Error.get(31) + " [" + original + "]");
+    }
     InputStream inputStream = null;
     OutputStream outputStream = null;
     try {
-        File originalFile = new File(original);
-        File destinationFile = new File(copyPath + File.separator + originalFile.getName());
-        if (!originalFile.exists()){
-            throw new ProGenException(Error.get(31) + " [" + original + "]");
-        }
-        inputStream = new FileInputStream(originalFile);
-        outputStream = new FileOutputStream(destinationFile);
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = inputStream.read(buffer)) > 0) {
-            outputStream.write(buffer, 0, length);
-        }
+      inputStream = new FileInputStream(originalFile);
+      outputStream = new FileOutputStream(destinationFile);
+      copyFile(inputStream, outputStream);
     } catch (FileNotFoundException e) {
       throw new ProGenException(Error.get(31) + " [" + original + "]");
     } catch (IOException e) {
       throw new ProGenException(e.getLocalizedMessage());
-    }finally {
-        try {
+    } finally {
+      try {
+        if(inputStream != null){
           inputStream.close();
-          outputStream.close();
-        } catch (IOException e) {
-          throw new ProGenException(e.getLocalizedMessage());
         }
-        
+        if (outputStream != null){
+          outputStream.close();
+        }
+      } catch (IOException e) {
+        throw new ProGenException(e.getLocalizedMessage());
+      }
+
+    }
+  }
+
+  private void copyFile(InputStream inputStream, OutputStream outputStream) throws IOException {
+    byte[] buffer = new byte[1024];
+    int length;
+    while ((length = inputStream.read(buffer)) > 0) {
+      outputStream.write(buffer, 0, length);
     }
   }
 
@@ -150,6 +166,7 @@ public abstract class Experimenter {
    * - crea la carpeta <br>
    * - generateResults()
    */
+  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification="I don't really care makeDirs result")
   public final void generateOutputs() {
     String experimentDir = defineExperimentDir();
 
