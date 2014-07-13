@@ -8,38 +8,26 @@ package progen.kernel.functions;
  */
 public class ERC01 extends ERC {
 
-    /**
-     * Constructor por defecto.
-     */
-    public ERC01() {
-	super("double");
-    }
+  /**
+   * Constructor por defecto.
+   */
+  public ERC01() {
+    super("double");
+  }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see progen.kernel.functions.ERC#defineERC()
-     */
-    @Override
-    protected Object defineERC() {
-	return Math.random();
-    }
+  @Override
+  protected Object defineERC() {
+    return Math.random();
+  }
 
-    /*
-     * (non-Javadoc)
-     * @see progen.kernel.functions.ERC#printERC()
-     */
-    @Override
-    protected String printERC() {
-	return super.getValue().toString();
-    }
+  @Override
+  protected String printERC() {
+    return super.getValue().toString();
+  }
 
-    /*
-     * (non-Javadoc)
-     * @see progen.kernel.functions.ERC#clone()
-     */
-    @Override
-    public ERC clone() {
-	return new ERC01();
-    }
+  @Override
+  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="CN_IDIOM_NO_SUPER_CALL", justification="super.clone() doesn't exists")
+  public ERC clone() {
+    return new ERC01();
+  }
 }
