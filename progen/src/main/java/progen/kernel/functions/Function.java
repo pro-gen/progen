@@ -1,5 +1,6 @@
 package progen.kernel.functions;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,7 +17,9 @@ import progen.userprogram.UserProgram;
  * @author jirsis
  * @since 2.0
  */
-public abstract class Function implements Comparable<Function> {
+public abstract class Function implements Comparable<Function>, Serializable {
+  private static final long serialVersionUID = -7920842332819035400L;
+  
   /** Indica la aridad de la función. */
   private int arity;
   /** Símbolo que identificará a la función. */

@@ -15,22 +15,20 @@ import progen.userprogram.UserProgram;
  */
 public class XOr extends NonTerminal {
 
-	/**
-	 * Constructor por defecto.
-	 */
-	public XOr() {
-		super("boolean$$boolean$$boolean", "^");
-	}
+  private static final long serialVersionUID = -8744255479896714450L;
 
-	/*
-	 * (non-Javadoc)
-	 * @see progen.kernel.functions.Function#evaluate(java.util.List, progen.userprogram.UserProgram, java.util.HashMap)
-	 */
-	@Override
-	public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
-		Boolean operador1 = (Boolean) arguments.get(0).evaluate(userProgram, returnAddr);
-		Boolean operador2 = (Boolean) arguments.get(1).evaluate(userProgram, returnAddr);
-		return operador1 ^ operador2;
-	}
+  /**
+   * Constructor por defecto.
+   */
+  public XOr() {
+    super("boolean$$boolean$$boolean", "^");
+  }
+
+  @Override
+  public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
+    Boolean operador1 = (Boolean) arguments.get(0).evaluate(userProgram, returnAddr);
+    Boolean operador2 = (Boolean) arguments.get(1).evaluate(userProgram, returnAddr);
+    return operador1 ^ operador2;
+  }
 
 }

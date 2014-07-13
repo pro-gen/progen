@@ -8,21 +8,18 @@ package progen.kernel.functions;
  */
 public class False extends Terminal {
 
-    /**
-     * Constructor por defecto.
-     */
-    public False() {
-	super("boolean", "FALSE");
-	super.setValue(Boolean.FALSE);
-    }
+  private static final long serialVersionUID = -5583977807814709823L;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see progen.kernel.functions.Terminal#setValue(java.lang.Object)
-     */
-    public void setValue(Object value) {
-	//do nothing
-    }
+  /**
+   * Constructor por defecto.
+   */
+  public False() {
+    super("boolean", "FALSE");
+    super.setValue(Boolean.FALSE);
+  }
+
+  public void setValue(Object value) {
+    // do nothing
+  }
 
 }

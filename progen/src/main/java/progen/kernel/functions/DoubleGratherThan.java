@@ -12,24 +12,22 @@ import progen.userprogram.UserProgram;
  * @author jirsis
  * @since 2.0
  */
-public class DoubleGratherThan extends NonTerminal{
+public class DoubleGratherThan extends NonTerminal {
 
-	/**
-	 * Constructor por defecto.
-	 */
-	public DoubleGratherThan() {
-		super("boolean$$double$$double", ">");
-	}
+  private static final long serialVersionUID = -7916481459069772192L;
 
-	/*
-	 * (non-Javadoc)
-	 * @see progen.kernel.functions.Function#evaluate(java.util.List, progen.userprogram.UserProgram, java.util.HashMap)
-	 */
-	@Override
-	public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
-		Double operador1 = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
-		Double operador2 = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
-		return operador1 > operador2;
-	}
+  /**
+   * Constructor por defecto.
+   */
+  public DoubleGratherThan() {
+    super("boolean$$double$$double", ">");
+  }
+
+  @Override
+  public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
+    Double operador1 = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
+    Double operador2 = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
+    return operador1 > operador2;
+  }
 
 }

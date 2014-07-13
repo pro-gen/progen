@@ -12,6 +12,8 @@ import java.util.Random;
  */
 public class Bit32ERC extends ERC {
 
+  private static final long serialVersionUID = -7046389973379467366L;
+
   /**
    * Constructor que especifica que este ERC será de tipo int
    */
@@ -31,7 +33,7 @@ public class Bit32ERC extends ERC {
   }
 
   @Override
-  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="CN_IDIOM_NO_SUPER_CALL", justification="super.clone() doesn't exists")
+  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "CN_IDIOM_NO_SUPER_CALL", justification = "super.clone() doesn't exists")
   public ERC clone() {
     return new Bit32ERC();
   }

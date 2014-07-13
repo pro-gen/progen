@@ -12,24 +12,22 @@ import progen.userprogram.UserProgram;
  * @author jirsis
  * @since 2.0
  */
-public class DoubleLessThan extends NonTerminal{
+public class DoubleLessThan extends NonTerminal {
 
-	/**
-	 * Constructor por defecto.
-	 */
-	public DoubleLessThan() {
-		super("boolean$$double$$double", "<");
-	}
+  private static final long serialVersionUID = -3991342948028466248L;
 
-	/*
-	 * (non-Javadoc)
-	 * @see progen.kernel.functions.Function#evaluate(java.util.List, progen.userprogram.UserProgram, java.util.HashMap)
-	 */
-	@Override
-	public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
-		Double operador1 = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
-		Double operador2 = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
-		return operador1 < operador2;
-	}
+  /**
+   * Constructor por defecto.
+   */
+  public DoubleLessThan() {
+    super("boolean$$double$$double", "<");
+  }
+
+  @Override
+  public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
+    Double operador1 = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
+    Double operador2 = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
+    return operador1 < operador2;
+  }
 
 }

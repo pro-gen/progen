@@ -108,7 +108,6 @@ public class ClientLocal implements Client {
   private List<Individual> updateNewPopulation() {
     List<Individual> newPopulation;
     GenneticOperator operator;
-    newPopulation = new ArrayList<Individual>();
     Calendar before;
     Calendar after;
 

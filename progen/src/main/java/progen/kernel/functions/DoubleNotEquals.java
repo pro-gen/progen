@@ -9,27 +9,26 @@ import progen.userprogram.UserProgram;
 
 /**
  * Clase que implementa el operador de desigualdad de dos números reales.
+ * 
  * @author jirsis
  * @since 2.0
  */
 public class DoubleNotEquals extends NonTerminal {
 
-	/**
-	 * Constructor por defecto.
-	 */
-	public DoubleNotEquals() {
-		super("boolean$$double$$double", "!=");
-	}
+  private static final long serialVersionUID = -5099771874738313272L;
 
-	/*
-	 * (non-Javadoc)
-	 * @see progen.kernel.functions.Function#evaluate(java.util.List, progen.userprogram.UserProgram, java.util.HashMap)
-	 */
-	@Override
-	public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
-		Double operador1 = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
-		Double operador2 = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
-		return operador1.doubleValue() != operador2.doubleValue();
-	}
+  /**
+   * Constructor por defecto.
+   */
+  public DoubleNotEquals() {
+    super("boolean$$double$$double", "!=");
+  }
+
+  @Override
+  public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
+    Double operador1 = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
+    Double operador2 = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
+    return operador1.doubleValue() != operador2.doubleValue();
+  }
 
 }

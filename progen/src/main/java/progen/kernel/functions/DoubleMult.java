@@ -1,5 +1,3 @@
-
-
 package progen.kernel.functions;
 
 import java.util.HashMap;
@@ -10,27 +8,26 @@ import progen.userprogram.UserProgram;
 
 /**
  * Clase que implementa el operador de multiplicación de dos números reales.
+ * 
  * @author jirsis
  * @since 2.0
  */
 public class DoubleMult extends NonTerminal {
 
-	/**
-	 * Constructor por defecto
-	 */
-	public DoubleMult() {
-		super("double$$double$$double", "*");
-	}
+  private static final long serialVersionUID = -4700661737586770471L;
 
-	/*
-	 * (non-Javadoc)
-	 * @see progen.kernel.functions.Function#evaluate(java.util.List, progen.userprogram.UserProgram, java.util.HashMap)
-	 */
-	@Override
-	public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String,Object> returnAddr){
-		Double multiplicando=(Double)arguments.get(0).evaluate(userProgram, returnAddr);
-		Double multiplicador=(Double)arguments.get(1).evaluate(userProgram, returnAddr);
-		return multiplicando*multiplicador;
-	}
+  /**
+   * Constructor por defecto
+   */
+  public DoubleMult() {
+    super("double$$double$$double", "*");
+  }
+
+  @Override
+  public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
+    Double multiplicando = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
+    Double multiplicador = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
+    return multiplicando * multiplicador;
+  }
 
 }

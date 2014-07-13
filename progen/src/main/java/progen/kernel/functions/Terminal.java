@@ -18,6 +18,7 @@ import progen.userprogram.UserProgram;
  */
 public abstract class Terminal extends Function {
 
+  private static final long serialVersionUID = 69970053838836085L;
   /** Valor concreto del terminal del árbol. */
   private Object value;
 
@@ -55,12 +56,6 @@ public abstract class Terminal extends Function {
     return value;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.kernel.functions.Terminal#evaluate(java.util.List,
-   * progen.userprogram.UserProgram, java.util.HashMap)
-   */
   @Override
   public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
     return getValue();

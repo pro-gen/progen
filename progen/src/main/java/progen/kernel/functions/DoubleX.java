@@ -9,11 +9,13 @@ package progen.kernel.functions;
  */
 public class DoubleX extends Terminal {
 
-    /**
-     * Constructor por defecto.
-     */
-    public DoubleX() {
-	super("double", "dX");
-    }
+  private static final long serialVersionUID = 4106285293453023551L;
+
+  /**
+   * Constructor por defecto.
+   */
+  public DoubleX() {
+    super("double", "dX");
+  }
 
 }

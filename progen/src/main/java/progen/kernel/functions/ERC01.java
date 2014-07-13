@@ -8,6 +8,8 @@ package progen.kernel.functions;
  */
 public class ERC01 extends ERC {
 
+  private static final long serialVersionUID = -6494672512595532696L;
+
   /**
    * Constructor por defecto.
    */
@@ -26,7 +28,7 @@ public class ERC01 extends ERC {
   }
 
   @Override
-  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="CN_IDIOM_NO_SUPER_CALL", justification="super.clone() doesn't exists")
+  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "CN_IDIOM_NO_SUPER_CALL", justification = "super.clone() doesn't exists")
   public ERC clone() {
     return new ERC01();
   }
