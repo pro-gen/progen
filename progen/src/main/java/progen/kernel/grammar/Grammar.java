@@ -1,5 +1,6 @@
 package progen.kernel.grammar;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,8 @@ import progen.kernel.hypergp.HGPGrammar;
  * @author jirsis
  * @since 2.0
  */
-public class Grammar {
+public class Grammar implements Serializable {
+  private static final long serialVersionUID = 2709479285994382736L;
 
   /** Identificador del <i>function-set</i> que define la gramática. */
   private String functionSetId;

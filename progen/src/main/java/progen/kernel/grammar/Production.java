@@ -1,5 +1,7 @@
 package progen.kernel.grammar;
 
+import java.io.Serializable;
+
 import progen.kernel.functions.ERC;
 
 /**
@@ -23,8 +25,9 @@ import progen.kernel.functions.ERC;
  * @author jirsis
  * @since v2.0
  */
-public class Production {
-
+public class Production implements Serializable {
+  private static final long serialVersionUID = 8087033089940604792L;
+  
   /**
    * Representa la parte izquierda de la producción (A, en la descripción
    * general)

@@ -20,7 +20,6 @@ import progen.userprogram.UserProgram;
  * 
  */
 public class Individual implements Task, Comparable<Individual>, Cloneable {
-  /** Para serialización */
   private static final long serialVersionUID = -3776497075849167016L;
 
   /**

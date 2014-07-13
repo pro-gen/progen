@@ -1,5 +1,7 @@
 package progen.kernel.grammar;
 
+import java.io.Serializable;
+
 /**
  * Implementación de un símbolo no terminal de una gramática.
  * Proporciona los métodos necesarios para especificar y definir
@@ -7,8 +9,9 @@ package progen.kernel.grammar;
  * @author jirsis
  * @since 2.0
  */
-public class GrammarNonTerminalSymbol implements GrammarSymbol{
-	/** Valor del no terminal. */
+public class GrammarNonTerminalSymbol implements GrammarSymbol, Serializable{
+  private static final long serialVersionUID = 6074031156225323119L;
+  /** Valor del no terminal. */
 	private String value;
 	/** Simbolo que representa al no terminal. */
 	private String symbol;

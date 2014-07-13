@@ -6,7 +6,7 @@ package progen.kernel.grammar;
  * @author jirsis
  * @since 2.0
  */
-public interface GrammarSymbol extends Comparable<GrammarSymbol>{
+public interface GrammarSymbol extends Comparable<GrammarSymbol> {
 	/**
 	 * Devuelve el símbolo con el que se identifica un GrammarSymbol concreto.
 	 * @return el símbolo con el que se identifica.
