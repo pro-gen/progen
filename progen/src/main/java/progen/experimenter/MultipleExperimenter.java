@@ -26,6 +26,8 @@ import progen.kernel.error.Info;
  */
 public class MultipleExperimenter extends Experimenter {
 
+  private static final int DEFAULT_STRINGBUILDER_SIZE = 20;
+
   /** Conjunto de propiedades que definen el experimento múltiple */
   private List<Property> properties;
 
@@ -65,7 +67,7 @@ public class MultipleExperimenter extends Experimenter {
     nextRepetition = false;
     totalRepetitions = ProGenContext.getOptionalProperty("progen.repetitions.experimenter", 1);
     properties = new ArrayList<Property>();
-    List<String> propertiesLabels = ProGenContext.getFamilyOptions("progen.experimenter.");
+    final List<String> propertiesLabels = ProGenContext.getFamilyOptions("progen.experimenter.");
     for (String label : propertiesLabels) {
       properties.add(PropertyFactory.makeInstance(label));
     }
@@ -73,11 +75,6 @@ public class MultipleExperimenter extends Experimenter {
     defined = false;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.experimenter.Experimenter#defineValue()
-   */
   @Override
   public void updateValues() {
     boolean actualizado = false;
@@ -115,11 +112,6 @@ public class MultipleExperimenter extends Experimenter {
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.experimenter.Experimenter#isDone()
-   */
   @Override
   public boolean isDone() {
     boolean done = true;
@@ -139,11 +131,6 @@ public class MultipleExperimenter extends Experimenter {
     return done && defined;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.experimenter.Experimenter#updateValues()
-   */
   @Override
   public void defineValues() {
     defined = true;
@@ -153,11 +140,6 @@ public class MultipleExperimenter extends Experimenter {
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.experimenter.Experimenter#generateResults()
-   */
   @Override
   public void generateResults() {
     dumpResults();
@@ -171,7 +153,7 @@ public class MultipleExperimenter extends Experimenter {
   private void dumpResults() {
     PrintWriter context;
     // se recupera el path de la carpeta de resultados del experimento
-    File experimentDir = new File(ProGenContext.getMandatoryProperty("progen.output.dir") + ProGenContext.getMandatoryProperty("progen.output.experiment"));
+    final File experimentDir = new File(ProGenContext.getMandatoryProperty("progen.output.dir") + ProGenContext.getMandatoryProperty("progen.output.experiment"));
     try {
       // creamos el fichero del contexto actual
       File file = new File(experimentDir.getAbsolutePath() + File.separator + "current context.txt");
@@ -210,14 +192,9 @@ public class MultipleExperimenter extends Experimenter {
     return currentExperimenter;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.experimenter.Experimenter#defineExperimentDir()
-   */
   @Override
   public String defineExperimentDir() {
-    StringBuilder experimenterDir = new StringBuilder(20);
+    StringBuilder experimenterDir = new StringBuilder(DEFAULT_STRINGBUILDER_SIZE);
     experimenterDir.append("exp-");
     experimenterDir.append(currentRepetition);
     experimenterDir.append("-");
@@ -225,19 +202,14 @@ public class MultipleExperimenter extends Experimenter {
     return experimenterDir.toString();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.experimenter.Experimenter#finishMessage()
-   */
   @Override
   public String finishMessage() {
-    StringBuilder stb = new StringBuilder(20);
-    stb.append("---- ");
-    stb.append(Info.get(2));
-    stb.append(" ");
-    stb.append(currentExperimenter);
-    stb.append(" -----");
-    return stb.toString();
+    final StringBuilder finishMessage = new StringBuilder(DEFAULT_STRINGBUILDER_SIZE);
+    finishMessage.append("---- ");
+    finishMessage.append(Info.get(2));
+    finishMessage.append(" ");
+    finishMessage.append(currentExperimenter);
+    finishMessage.append(" -----");
+    return finishMessage.toString();
   }
 }
