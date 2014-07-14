@@ -10,6 +10,7 @@ import progen.kernel.error.Error;
  * @since 2.0
  */
 public class GenneticOperatorException extends RuntimeException {
+  private static final int ID_ERROR = 11;
   /** Para serialización */
   private static final long serialVersionUID = 4810973346982942355L;
 
@@ -21,6 +22,6 @@ public class GenneticOperatorException extends RuntimeException {
    *          Original que originó la excepción.
    */
   public GenneticOperatorException(String message) {
-    super(Error.get(11).trim() + " (" + message + ")");
+    super(Error.get(ID_ERROR).trim() + " (" + message + ")");
   }
 }

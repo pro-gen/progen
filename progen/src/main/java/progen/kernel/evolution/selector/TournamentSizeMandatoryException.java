@@ -4,10 +4,10 @@ import progen.kernel.error.Error;
 
 public class TournamentSizeMandatoryException extends RuntimeException {
 
-	/** Para serialización */
-	private static final long serialVersionUID = 6841406532040966608L;
+  private static final int ID_ERROR = 37;
+  private static final long serialVersionUID = 6841406532040966608L;
 
-	public TournamentSizeMandatoryException() {
-		super(Error.get(37).trim());
-	}
+  public TournamentSizeMandatoryException() {
+    super(Error.get(ID_ERROR).trim());
+  }
 }

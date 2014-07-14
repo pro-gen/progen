@@ -23,8 +23,8 @@ public class Reproduction extends GenneticOperator {
 
   @Override
   public List<Individual> evolve(Population population) {
-    List<Individual> individuals = getSelector().select(population, 1);
-    List<Individual> individualsMutate = new ArrayList<Individual>();
+    final List<Individual> individuals = getSelector().select(population, 1);
+    final List<Individual> individualsMutate = new ArrayList<Individual>();
 
     individualsMutate.add(individuals.get(0));
 

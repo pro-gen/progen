@@ -30,13 +30,15 @@ public class DoubleDiv extends NonTerminal {
 
   @Override
   public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
-    Double dividendo = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
-    Double divisor = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
+    final Double dividendo = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
+    final Double divisor = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
+    Double result;
     if (divisor != 0) {
-      return dividendo / divisor;
+      result = dividendo / divisor;
     } else {
-      return Double.POSITIVE_INFINITY;
+      result = Double.POSITIVE_INFINITY;
     }
+    return result;
   }
 
 }

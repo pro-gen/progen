@@ -1,6 +1,3 @@
-/**
- * 
- */
 package progen.kernel.evolution.operators;
 
 import java.util.ArrayList;
@@ -39,13 +36,13 @@ public class PointMutation extends GenneticOperator {
 
   @Override
   public List<Individual> evolve(Population population) {
-    List<Individual> individuals = getSelector().select(population, 1);
-    List<Individual> individualsMutate = new ArrayList<Individual>();
+    final List<Individual> individuals = getSelector().select(population, 1);
+    final List<Individual> individualsMutate = new ArrayList<Individual>();
 
-    Individual individualMutate = individuals.get(0);
+    final Individual individualMutate = individuals.get(0);
 
-    Object[] treesSet = individualMutate.getTrees().keySet().toArray();
-    String idTree = (String) (treesSet[(int) (Math.random() * treesSet.length)]);
+    final Object[] treesSet = individualMutate.getTrees().keySet().toArray();
+    final String idTree = (String) (treesSet[(int) (Math.random() * treesSet.length)]);
     mutate(individualMutate.getTrees().get(idTree), individualMutate.getGrammars().get(idTree));
 
     individualsMutate.add(individualMutate);
@@ -64,7 +61,7 @@ public class PointMutation extends GenneticOperator {
    */
   private void mutate(Tree tree, Grammar grammar) {
     boolean mutate = false;
-    List<Integer> nodes = new ArrayList<Integer>();
+    final List<Integer> nodes = new ArrayList<Integer>();
     // se genera una lista aleatoria con los nodos a intentar mutar
     for (int i = 0; i < tree.getRoot().getTotalNodes(); i++)
       nodes.add(i);
@@ -72,10 +69,10 @@ public class PointMutation extends GenneticOperator {
 
     // mientras no se haya mutado ya el arbol y queden nodos candidatos
     while (!mutate && nodes.size() > 0) {
-      int nodeMutate = nodes.remove(0);
+      final int nodeMutate = nodes.remove(0);
 
-      Node node = tree.getNode(nodeMutate);
-      List<Production> productions = grammar.getProductionsCompatibleWithFunction(node.getSymbol(), node.getFunction());
+      final Node node = tree.getNode(nodeMutate);
+      final List<Production> productions = grammar.getProductionsCompatibleWithFunction(node.getSymbol(), node.getFunction());
       Production production = productions.remove((int) (Math.random() * productions.size()));
       /*
        * se busca una producción que tenga la misma aridad en la función y que

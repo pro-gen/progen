@@ -24,63 +24,56 @@ import progen.kernel.population.Population;
  */
 public class Tournament extends Selector {
 
-    /** Tamaño del torneo */
-    private int size;
+  /** Tamaño del torneo */
+  private int size;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * progen.kernel.evolution.selector.Selector#select(progen.kernel.population
-     * .Population)
-     */
-    @Override
-    public List<Individual> select(Population pop, int howMany) {
-	List<Individual> selection = new ArrayList<Individual>();
-	List<Individual> selectedIndividuals = new ArrayList<Individual>();
-	List<Integer>	 indexes = new ArrayList<Integer>(); 
-	Random prng = new Random();
+  @Override
+  public List<Individual> select(Population pop, int howMany) {
+    final List<Individual> selection = new ArrayList<Individual>();
+    final List<Individual> selectedIndividuals = new ArrayList<Individual>();
+    final List<Integer> indexes = new ArrayList<Integer>();
+    final Random prng = new Random();
 
-	
-	generateIndexes(pop, indexes);
-	for (int i = 0; i < howMany; i++) {
-	    selection.clear();
+    generateIndexes(pop, indexes);
+    for (int i = 0; i < howMany; i++) {
+      selection.clear();
 
-	    for (int j = 0; j < size; j++) {
-		int position = prng.nextInt(indexes.size());
-		int index = indexes.get(position);
-		selection.add(pop.getIndividual(index).clone());
-		indexes.remove(position);
-	    }
+      for (int j = 0; j < size; j++) {
+        final int position = prng.nextInt(indexes.size());
+        final int index = indexes.get(position);
+        selection.add(pop.getIndividual(index).clone());
+        indexes.remove(position);
+      }
 
-	    Collections.sort(selection);
+      Collections.sort(selection);
 
-	    selectedIndividuals.add(selection.get(0));
-	}
-
-	return selectedIndividuals;
+      selectedIndividuals.add(selection.get(0));
     }
 
-    private void generateIndexes(Population pop, List<Integer> indexes) {
-	for (int i = 0; i < pop.getIndividuals().size(); i++) {
-	    indexes.add(i);
-	}
-    }
+    return selectedIndividuals;
+  }
 
-    /*
-     * (non-Javadoc)
-     * @see progen.kernel.evolution.selector.Selector#setParams(java.util.Map)
-     */
-    @Override
-    public void setParams(Map<String, String> params){
-	try{
-	    size = Integer.parseInt(params.get("size"));
-	    if (size > Integer.parseInt(ProGenContext.getMandatoryProperty("progen.population.size"))){
-		throw new TournamentSizeException();
-	    }
-	}catch (java.lang.NumberFormatException e){
-	    throw new TournamentSizeMandatoryException();
-	}
+  private void generateIndexes(Population pop, List<Integer> indexes) {
+    for (int i = 0; i < pop.getIndividuals().size(); i++) {
+      indexes.add(i);
     }
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see progen.kernel.evolution.selector.Selector#setParams(java.util.Map)
+   */
+  @Override
+  public void setParams(Map<String, String> params) {
+    try {
+      size = Integer.parseInt(params.get("size"));
+      if (size > Integer.parseInt(ProGenContext.getMandatoryProperty("progen.population.size"))) {
+        throw new TournamentSizeException();
+      }
+    } catch (java.lang.NumberFormatException e) {
+      throw new TournamentSizeMandatoryException();
+    }
+  }
 
 }

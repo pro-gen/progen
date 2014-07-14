@@ -25,8 +25,8 @@ public class DoubleMult extends NonTerminal {
 
   @Override
   public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
-    Double multiplicando = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
-    Double multiplicador = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
+    final Double multiplicando = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
+    final Double multiplicador = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
     return multiplicando * multiplicador;
   }
 

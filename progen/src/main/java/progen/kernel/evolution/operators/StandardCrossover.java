@@ -31,17 +31,17 @@ public class StandardCrossover extends GenneticOperator {
 
   @Override
   public List<Individual> evolve(Population population) {
-    List<Individual> individuals = getSelector().select(population, 2);
-    List<Individual> individualsCrossover = new ArrayList<Individual>();
+    final List<Individual> individuals = getSelector().select(population, 2);
+    final List<Individual> individualsCrossover = new ArrayList<Individual>();
     if (individuals.size() != 2) {
       throw new SelectorSizeIncorrectValueException(2, individuals.size());
     } else {
-      Individual mother = individuals.get(0);
-      Individual father = individuals.get(1);
-      Object[] treesSet = (Object[]) mother.getTrees().keySet().toArray();
-      String key = (String) treesSet[(int) (Math.random() * treesSet.length)];
-      Tree treeA = mother.getTrees().get(key);
-      Tree treeB = father.getTrees().get(key);
+      final Individual mother = individuals.get(0);
+      final Individual father = individuals.get(1);
+      final Object[] treesSet = (Object[]) mother.getTrees().keySet().toArray();
+      final String key = (String) treesSet[(int) (Math.random() * treesSet.length)];
+      final Tree treeA = mother.getTrees().get(key);
+      final Tree treeB = father.getTrees().get(key);
 
       // A ver que te parece así:
       boolean validCross = false;
@@ -142,7 +142,7 @@ public class StandardCrossover extends GenneticOperator {
    *         operador de cruce.
    */
   protected List<Node> selectNodes(Tree treeA, Tree treeB) {
-    List<Node> nodes = new ArrayList<Node>();
+    final List<Node> nodes = new ArrayList<Node>();
     Node crossNode1;
     Node crossNode2;
     Function function1;
@@ -172,8 +172,8 @@ public class StandardCrossover extends GenneticOperator {
   }
 
   private boolean checkTreeSize(Tree t) {
-    int maxNodes = ProGenContext.getOptionalProperty("progen.population.max-nodes", Integer.MAX_VALUE);
-    return (t.getRoot().getTotalNodes() <= maxNodes);
+    final int maxNodes = ProGenContext.getOptionalProperty("progen.population.max-nodes", Integer.MAX_VALUE);
+    return t.getRoot().getTotalNodes() <= maxNodes;
   }
 
 }

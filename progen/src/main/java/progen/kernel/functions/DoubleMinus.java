@@ -28,8 +28,8 @@ public class DoubleMinus extends NonTerminal {
 
   @Override
   public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
-    Double minuendo = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
-    Double sustraendo = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
+    final Double minuendo = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
+    final Double sustraendo = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
     return minuendo - sustraendo;
   }
 
