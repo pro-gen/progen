@@ -18,6 +18,7 @@ import progen.kernel.grammar.Production;
  * @since 2.0
  */
 public class Full implements InitializeTreeMethod {
+  private static final String PROGEN_ACTIVE_SEARCH_PROPERTY = "progen.activeSearch";
   private static final long serialVersionUID = 3387278132317051831L;
   /** Profundidad mínima que tendrá el árbol resultante. */
   private int minDepth;
@@ -48,7 +49,7 @@ public class Full implements InitializeTreeMethod {
     minDepth = 0;
     maxDepth = 0;
     maxAttempts = ProGenContext.getOptionalProperty("progen.max-attempts", 100);
-    String intervalDepth[] = ProGenContext.getMandatoryProperty("progen.population.init-depth-interval").split(",");
+    final String [] intervalDepth = ProGenContext.getMandatoryProperty("progen.population.init-depth-interval").split(",");
     minDepth = Integer.parseInt(intervalDepth[0]);
     if (intervalDepth.length != 2) {
       maxDepth = minDepth;
@@ -56,14 +57,8 @@ public class Full implements InitializeTreeMethod {
       maxDepth = Integer.parseInt(intervalDepth[1]);
     }
   }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * progen.kernel.tree.InitializeTreeMethod#generate(progen.kernel.grammar.
-   * Grammar, progen.kernel.tree.Node)
-   */
+  
+  @Override
   public void generate(Grammar grammar, Node root) {
     boolean generated = false;
     currentDepth = Math.max((int) (Math.random() * (maxDepth - minDepth + 1) + minDepth), root.getDepth());
@@ -84,7 +79,7 @@ public class Full implements InitializeTreeMethod {
    * búsqueda activa o el máximo de intentos posibles.
    */
   private void updateCondition() {
-    boolean activeSearchEnable = ProGenContext.getOptionalProperty("progen.activeSearch", false);
+    final boolean activeSearchEnable = ProGenContext.getOptionalProperty(PROGEN_ACTIVE_SEARCH_PROPERTY, false);
     if (activeSearchEnable) {
       activeSearchConditionUpdate();
     } else {
@@ -113,7 +108,7 @@ public class Full implements InitializeTreeMethod {
    * @return Si se cumple la condición.
    */
   private boolean conditionGeneration() {
-    boolean activeSearchEnable = ProGenContext.getOptionalProperty("progen.activeSearch", false);
+    boolean activeSearchEnable = ProGenContext.getOptionalProperty(PROGEN_ACTIVE_SEARCH_PROPERTY, false);
     boolean condition = true;
     if (activeSearchEnable) {
       condition = activeSearchCondition();
@@ -198,7 +193,7 @@ public class Full implements InitializeTreeMethod {
           generated = false;
         } else {
           // se definen los hijos de este nodo
-          int initialBranch = (int) (Math.random() * node.getBranches().size());
+          final int initialBranch = (int) (Math.random() * node.getBranches().size());
           for (int i = 0; generated && i < node.getBranches().size(); i++) {
             branch = node.getBranches().get((i + initialBranch) % node.getBranches().size());
             // for(Node branch: node.getBranches()){
@@ -231,35 +226,24 @@ public class Full implements InitializeTreeMethod {
    *         <code>false</code> en caso contrario.
    */
   private boolean maxNodeExceded(Node node) {
-    while (!node.isRoot()) {
-      node = node.getParent();
+    Node iterator = node;
+    while (!iterator.isRoot()) {
+      iterator = iterator.getParent();
     }
-    return node.getTotalNodes() > maxNodes;
+    return iterator.getTotalNodes() > maxNodes;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.kernel.tree.InitializeTreeMethod#updateMaximunDepth()
-   */
+  @Override
   public void updateMaximunDepth() {
     maxDepth = ProGenContext.getOptionalProperty("progen.population.max-depth.updated", maxDepth);
   }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.kernel.tree.InitializeTreeMethod#updateMaximunNodes()
-   */
+  
+  @Override
   public void updateMaximunNodes() {
     maxNodes = ProGenContext.getOptionalProperty("progen.population.max-nodes.updated", maxNodes);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.kernel.tree.InitializeTreeMethod#updateMinimunDepth()
-   */
+  @Override
   public void updateMinimunDepth() {
     minDepth = ProGenContext.getOptionalProperty("progen.population.min-depth.updated", minDepth);
   }

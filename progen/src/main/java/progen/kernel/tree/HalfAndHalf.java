@@ -18,6 +18,8 @@ import progen.kernel.grammar.Grammar;
  * @since 2.0
  */
 public class HalfAndHalf implements InitializeTreeMethod {
+  private static final double DEFAULT_PROBABILITY = 0.5;
+  private static final String PROGEN_POPULATION_INIT_MODE_PROPERTY = "progen.population.init-mode";
   private static final long serialVersionUID = 1140024727404110598L;
   /** Inicializador tipo Full */
   private InitializeTreeMethod full;
@@ -37,20 +39,14 @@ public class HalfAndHalf implements InitializeTreeMethod {
   public HalfAndHalf() {
     full = new Full();
     grow = new Grow();
-    percentFull = ProGenContext.getSuboptionPercent("progen.population.init-mode", "full", 0.5);
-    percentGrow = ProGenContext.getSuboptionPercent("progen.population.init-mode", "grow", 0.5);
+    percentFull = ProGenContext.getSuboptionPercent(PROGEN_POPULATION_INIT_MODE_PROPERTY, "full", DEFAULT_PROBABILITY);
+    percentGrow = ProGenContext.getSuboptionPercent(PROGEN_POPULATION_INIT_MODE_PROPERTY, "grow", DEFAULT_PROBABILITY);
     if (percentFull + percentGrow != 1) {
-      throw new MalformedPercentSuboptionException("progen.population.init-mode");
+      throw new MalformedPercentSuboptionException(PROGEN_POPULATION_INIT_MODE_PROPERTY);
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * progen.kernel.tree.InitializeTreeMethod#generate(progen.kernel.grammar.
-   * Grammar, progen.kernel.tree.Node)
-   */
+  @Override
   public void generate(Grammar grammar, Node root) {
     if (Math.random() >= percentFull) {
       full.generate(grammar, root);
@@ -59,31 +55,19 @@ public class HalfAndHalf implements InitializeTreeMethod {
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.kernel.tree.InitializeTreeMethod#updateMaximunDepth()
-   */
+  @Override
   public void updateMaximunDepth() {
     full.updateMaximunDepth();
     grow.updateMaximunDepth();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.kernel.tree.InitializeTreeMethod#updateMaximunNodes()
-   */
+  @Override
   public void updateMaximunNodes() {
     full.updateMaximunNodes();
     grow.updateMaximunNodes();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.kernel.tree.InitializeTreeMethod#updateMinimunDepth()
-   */
+  @Override
   public void updateMinimunDepth() {
     full.updateMinimunDepth();
     full.updateMinimunDepth();

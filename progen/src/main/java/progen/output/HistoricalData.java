@@ -14,10 +14,14 @@ import progen.output.dataCollectors.DataCollector;
  * @since 2.0
  * @see progen.output.dataCollectors
  */
-public class HistoricalData {
+public final class HistoricalData {
 
   /** Identificador de los dator referentes a la totalidad del experimento. */
   public static final String EXPERIMENT = "-ALL";
+  
+  /** Instancia única de la clase. */
+  private static HistoricalData historical;
+
   /**
    * Colección de todos los recolectores de datos a lo largo de las
    * generaciónes.
@@ -27,10 +31,7 @@ public class HistoricalData {
   private int currentGeneration;
   /** Total de colectores disponibles en la ejecución. */
   private int totalCollectors;
-
-  /** Instancia única de la clase. */
-  private static HistoricalData historical;
-
+  
   /**
    * Constructor genérico de la clase, en la que se inicializan los valores
    * iniciales.
@@ -48,7 +49,7 @@ public class HistoricalData {
    * 
    * @return Instancia de la clase.
    */
-  public synchronized static HistoricalData makeInstance() {
+  public static synchronized HistoricalData makeInstance() {
     if (historical == null) {
       historical = new HistoricalData();
     }
@@ -113,7 +114,7 @@ public class HistoricalData {
    * Actualiza el histórico para definir los colectores de la nueva generación.
    */
   public void newGeneration() {
-    int maxGeneration = ProGenContext.getOptionalProperty("progen.max-generation", 0);
+    final int maxGeneration = ProGenContext.getOptionalProperty("progen.max-generation", 0);
     if (currentGeneration + 1 < maxGeneration) {
       currentGeneration++;
       this.addCollectors(String.valueOf(currentGeneration));
@@ -129,7 +130,7 @@ public class HistoricalData {
    */
   private void addCollectors(String tag) {
     for (int i = 0; i < totalCollectors; i++) {
-      DataCollector collector = new DataCollector("progen.datacollector" + i);
+      final DataCollector collector = new DataCollector("progen.datacollector" + i);
       collectors.put(collector.getName() + "" + tag, collector);
     }
   }

@@ -14,6 +14,7 @@ import progen.kernel.error.Error;
  */
 public class IncompatibleOptionsInitTreeMethodException extends RuntimeException {
 
+  private static final int ID_ERROR = 27;
   /** Para serialización */
   private static final long serialVersionUID = 8232941914904559013L;
 
@@ -29,7 +30,7 @@ public class IncompatibleOptionsInitTreeMethodException extends RuntimeException
    *          Profundidad máxima del árbol.
    */
   public IncompatibleOptionsInitTreeMethodException(int maxNodes, int minDepth, int maxDepth) {
-    super(Error.get(27) + "[maxNodes: " + maxNodes + ", depth-interval: " + minDepth + ", " + maxDepth + "]");
+    super(Error.get(ID_ERROR) + "[maxNodes: " + maxNodes + ", depth-interval: " + minDepth + ", " + maxDepth + "]");
   }
 
 }

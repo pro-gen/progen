@@ -15,6 +15,8 @@ import progen.userprogram.UserProgram;
  * 
  */
 public class Tree implements Cloneable, Serializable {
+  private static final String HALF_HALF_LITERAL = "half&half";
+
   private static final long serialVersionUID = 5043645528729444176L;
 
   /** Nodo raíz del árbol. */
@@ -47,12 +49,12 @@ public class Tree implements Cloneable, Serializable {
    * 
    */
   public Tree() {
-    String init = ProGenContext.getOptionalProperty("progen.population.init-mode", "half&half");
-    if (init.equals("full")) {
+    final String init = ProGenContext.getOptionalProperty("progen.population.init-mode", HALF_HALF_LITERAL);
+    if ("full".equals(init)) {
       initMethod = new Full();
-    } else if (init.equals("grow")) {
+    } else if ("grow".equals(init)) {
       initMethod = new Grow();
-    } else if (init.equals("half&half")) {
+    } else if (HALF_HALF_LITERAL.equals(init)) {
       initMethod = new HalfAndHalf();
     } else {
       throw new UnknownPropertyException(init + "? progen.population.init-method=grow|full|half&half");
@@ -122,11 +124,7 @@ public class Tree implements Cloneable, Serializable {
     return node;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#clone()
-   */
+  @Override
   public Tree clone() {
     try {
       super.clone();

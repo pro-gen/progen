@@ -63,13 +63,13 @@ public class DataCollector {
     pluginsEnableProperty = ProGenContext.getOptionalProperty(proGenProperty + ".plugins", "StatisticalPlugin").trim().split(",[ ]*");
 
     for (int i = 0; i < pluginsEnableProperty.length; i++) {
-        try {
-          plugin = (Plugin) Class.forName("progen.output.plugins." + pluginsEnableProperty[i]).newInstance();
-          plugin.initPlugin(proGenProperty);
-          this.addPlugin(plugin);
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-          throw new UnknownPluginException(e.getMessage());
-        }
+      try {
+        plugin = (Plugin) Class.forName("progen.output.plugins." + pluginsEnableProperty[i]).newInstance();
+        plugin.initPlugin(proGenProperty);
+        this.addPlugin(plugin);
+      } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+        throw new UnknownPluginException(e.getMessage());
+      }
     }
 
   }
@@ -137,7 +137,7 @@ public class DataCollector {
    * @return El conunto de plugins que conforman el DataCollector.
    */
   public List<Plugin> getPlugins() {
-    List<Plugin> pluginsAvailable = new ArrayList<Plugin>();
+    final List<Plugin> pluginsAvailable = new ArrayList<Plugin>();
     for (Plugin plugin : plugins) {
       if (plugin instanceof MacroPlugin) {
         pluginsAvailable.addAll(((MacroPlugin) plugin).getPlugins());
@@ -156,7 +156,7 @@ public class DataCollector {
    *         DataCollector.
    */
   public List<String> getPluginsNames() {
-    List<String> names = new ArrayList<String>();
+    final List<String> names = new ArrayList<String>();
     for (Plugin plugin : plugins) {
       names.add(plugin.getName());
     }

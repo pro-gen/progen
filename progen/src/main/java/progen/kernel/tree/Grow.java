@@ -41,7 +41,7 @@ public class Grow implements InitializeTreeMethod {
     minDepth = 0;
     maxDepth = 0;
     maxAttempts = ProGenContext.getOptionalProperty("progen.max-attempts", 100);
-    String intervalDepth[] = ProGenContext.getMandatoryProperty("progen.population.init-depth-interval").split(",");
+    final String[] intervalDepth = ProGenContext.getMandatoryProperty("progen.population.init-depth-interval").split(",");
     minDepth = Integer.parseInt(intervalDepth[0]);
     if (intervalDepth.length != 2) {
       maxDepth = minDepth;
@@ -50,12 +50,7 @@ public class Grow implements InitializeTreeMethod {
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.kernel.tree.InitializeTreeMethod#generate(progen.kernel.grammar
-   * .Grammar, progen.kernel.tree.Node)
-   */
+  @Override
   public void generate(Grammar grammar, Node root) {
     boolean generated = false;
 
@@ -127,7 +122,7 @@ public class Grow implements InitializeTreeMethod {
           generated = false;
         } else {
           // se definen los hijos de este nodo
-          int initialBranch = (int) (Math.random() * node.getBranches().size());
+          final int initialBranch = (int) (Math.random() * node.getBranches().size());
           for (int i = 0; generated && i < node.getBranches().size(); i++) {
             branch = node.getBranches().get((i + initialBranch) % node.getBranches().size());
             // for(Node branch: node.getBranches()){
@@ -160,35 +155,24 @@ public class Grow implements InitializeTreeMethod {
    *         <code>false</code> en caso contrario.
    */
   private boolean maxNodeExceded(Node node) {
-    while (!node.isRoot()) {
-      node = node.getParent();
+    Node iterator = node;
+    while (!iterator.isRoot()) {
+      iterator= iterator.getParent();
     }
-    return node.getTotalNodes() > maxNodes;
+    return iterator.getTotalNodes() > maxNodes;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.kernel.tree.InitializeTreeMethod#updateMaximunDepth()
-   */
+  @Override
   public void updateMaximunDepth() {
     maxDepth = ProGenContext.getOptionalProperty("progen.population.max-depth.updated", maxDepth);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.kernel.tree.InitializeTreeMethod#updateMaximunNodes()
-   */
+  @Override
   public void updateMaximunNodes() {
     maxNodes = ProGenContext.getOptionalProperty("progen.population.max-nodes.updated", maxNodes);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.kernel.tree.InitializeTreeMethod#updateMinimunDepth()
-   */
+  @Override
   public void updateMinimunDepth() {
     minDepth = ProGenContext.getOptionalProperty("progen.population.min-depth.updated", minDepth);
   }

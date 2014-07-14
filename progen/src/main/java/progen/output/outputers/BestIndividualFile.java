@@ -14,38 +14,35 @@ import progen.output.plugins.Plugin;
  */
 public class BestIndividualFile extends FileOutput {
 
-    public BestIndividualFile() {
-	super("bestIndividual.txt", false);
+  private static final String END_OF_LINE_SYMBOL = ")\n";
+  private static final String WHITE_SPACE_SYMBOL = " ";
+
+  public BestIndividualFile() {
+    super("bestIndividual.txt", false);
+  }
+
+  @Override
+  public void print() {
+    this.init();
+    final HistoricalData historical = HistoricalData.makeInstance();
+    DataCollector data;
+
+    data = historical.getCurrentDataCollector("ExperimentIndividualData");
+    final Plugin plugin = data.getPlugin("best");
+
+    final Individual individual = (Individual) plugin.getValue();
+
+    for (int i = 0; i < individual.getTotalADF(); i++) {
+      super.writer.println("(defun ADF" + i + WHITE_SPACE_SYMBOL);
+      super.writer.println(Formatter.tree(individual.getTrees().get("ADF" + i)));
+      super.writer.println(END_OF_LINE_SYMBOL);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see progen.output.outputers.Outputer#print()
-     */
-    public void print() {
-	this.init();
-	HistoricalData historical = HistoricalData.makeInstance();
-	DataCollector data;
-
-	data = historical.getCurrentDataCollector("ExperimentIndividualData");
-	Plugin plugin = data.getPlugin("best");
-
-	Individual individual = (Individual) plugin.getValue();
-
-	for (int i = 0; i < individual.getTotalADF(); i++) {
-	    super.writer.println("(defun ADF" + i + " ");
-	    super.writer.println(Formatter.tree(individual.getTrees().get(
-		    "ADF" + i)));
-	    super.writer.println(")\n");
-	}
-
-	for (int i = 0; i < individual.getTotalRPB(); i++) {
-	    super.writer.println("(defun RPB" + i + " ");
-	    super.writer.println(Formatter.tree(individual.getTrees().get(
-		    "RPB" + i)));
-	    super.writer.println(")\n");
-	}
-	this.close();
+    for (int i = 0; i < individual.getTotalRPB(); i++) {
+      super.writer.println("(defun RPB" + i + WHITE_SPACE_SYMBOL);
+      super.writer.println(Formatter.tree(individual.getTrees().get("RPB" + i)));
+      super.writer.println(END_OF_LINE_SYMBOL);
     }
+    this.close();
+  }
 }

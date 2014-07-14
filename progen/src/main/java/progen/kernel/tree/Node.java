@@ -74,23 +74,6 @@ public class Node implements Cloneable, Serializable {
   }
 
   /**
-   * La clonación de un nodo implica crear nuevos nodos copia a partir de uno
-   * dado. Se recomienda clonar a partir de un nodo raíz.
-   * 
-   * @return Node clonado.
-   * @see java.lang.Object#clone()
-   */
-  public Node clone() {
-    try {
-      super.clone();
-    } catch (CloneNotSupportedException e) {
-      // ignore this exception
-    }
-    Node clone = new Node(this, this.parent);
-    return clone;
-  }
-
-  /**
    * Constructor de la clase que recibe un símbolo no terminal y el padre para
    * que queden enlazados.
    * 
@@ -299,24 +282,19 @@ public class Node implements Cloneable, Serializable {
     return parent == null;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#toString()
-   */
   @Override
   public String toString() {
-    StringBuilder stb = new StringBuilder();
+    StringBuilder node = new StringBuilder();
     if (isLeaf()) {
-      stb.append(function);
+      node.append(function);
     } else {
-      stb.append("(" + function);
+      node.append("(" + function);
       for (int i = 0; i < branches.size(); i++) {
-        stb.append(" " + branches.get(i).toString());
+        node.append(" " + branches.get(i).toString());
       }
-      stb.append(" )");
+      node.append(" )");
     }
-    return stb.toString();
+    return node.toString();
   }
 
   /**
@@ -387,5 +365,22 @@ public class Node implements Cloneable, Serializable {
       }
     }
     return maxDepth;
+  }
+  
+  /**
+   * La clonación de un nodo implica crear nuevos nodos copia a partir de uno
+   * dado. Se recomienda clonar a partir de un nodo raíz.
+   * 
+   * @return Node clonado.
+   * @see java.lang.Object#clone()
+   */
+  public Node clone() {
+    try {
+      super.clone();
+    } catch (CloneNotSupportedException e) {
+      // ignore this exception
+    }
+    
+    return new Node(this, this.parent);
   }
 }
