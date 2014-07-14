@@ -33,15 +33,15 @@ public class BestIndividualFile extends FileOutput {
     final Individual individual = (Individual) plugin.getValue();
 
     for (int i = 0; i < individual.getTotalADF(); i++) {
-      super.writer.println("(defun ADF" + i + WHITE_SPACE_SYMBOL);
-      super.writer.println(Formatter.tree(individual.getTrees().get("ADF" + i)));
-      super.writer.println(END_OF_LINE_SYMBOL);
+      getWriter().println("(defun ADF" + i + WHITE_SPACE_SYMBOL);
+      getWriter().println(Formatter.tree(individual.getTrees().get("ADF" + i)));
+      getWriter().println(END_OF_LINE_SYMBOL);
     }
 
     for (int i = 0; i < individual.getTotalRPB(); i++) {
-      super.writer.println("(defun RPB" + i + WHITE_SPACE_SYMBOL);
-      super.writer.println(Formatter.tree(individual.getTrees().get("RPB" + i)));
-      super.writer.println(END_OF_LINE_SYMBOL);
+      getWriter().println("(defun RPB" + i + WHITE_SPACE_SYMBOL);
+      getWriter().println(Formatter.tree(individual.getTrees().get("RPB" + i)));
+      getWriter().println(END_OF_LINE_SYMBOL);
     }
     this.close();
   }

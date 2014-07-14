@@ -28,9 +28,7 @@ public class WorstIndividualFile extends FileOutput {
 		finish=false;
 	}
 
-	/* (non-Javadoc)
-	 * @see progen.output.outputers.Outputer#print()
-	 */
+	@Override
 	public void print() {
 		if(finish){
 			Plugin plugin = data.getPlugin("worst");
@@ -38,19 +36,15 @@ public class WorstIndividualFile extends FileOutput {
 			Individual individual = (Individual)plugin.getValue();
 			
 			for(int i=0;i<individual.getTotalADF();i++){
-				super.writer.println(Formatter.tree(individual.getTrees().get("ADF"+i)));
+				super.getWriter().println(Formatter.tree(individual.getTrees().get("ADF"+i)));
 			}
 			
 			for(int i=0;i<individual.getTotalRPB();i++){
-				super.writer.println(Formatter.tree(individual.getTrees().get("RPB"+i)));
+				super.getWriter().println(Formatter.tree(individual.getTrees().get("RPB"+i)));
 			}
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see progen.output.outputers.Outputer#activateFinishOutput()
-	 */
 	public void activateFinishOutput() {
 		finish=true;
 	}

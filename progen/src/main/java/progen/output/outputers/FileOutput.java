@@ -22,7 +22,7 @@ import progen.context.ProGenContext;
 public abstract class FileOutput implements Outputer {
 
   /** El escritor en fichero. */
-  protected PrintWriter writer;
+  private PrintWriter writer;
 
   /** Nombre del fichero que contiene la salida. */
   private String fileName;
@@ -31,7 +31,7 @@ public abstract class FileOutput implements Outputer {
   private boolean append;
 
   /** Almacén de todos los literales de texto que aparecerán en la salida. */
-  protected ResourceBundle literals;
+  private ResourceBundle literals;
 
   /**
    * Constructor que recibe como parámetro el nombre del fichero y en que modo
@@ -49,29 +49,21 @@ public abstract class FileOutput implements Outputer {
     this.literals = ResourceBundle.getBundle("progen.output.outputers.literals", Locale.getDefault());
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.output.outputers.Outputer#close()
-   */
+  @Override
   public void close() {
     writer.flush();
     writer.close();
 
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.output.outputers.Outputer#init()
-   */
+  @Override
   public void init() {
     try {
-      StringBuilder outputDir = new StringBuilder(50);
+      final StringBuilder outputDir = new StringBuilder(50);
       outputDir.append(ProGenContext.getMandatoryProperty("progen.output.dir"));
       outputDir.append(ProGenContext.getMandatoryProperty("progen.output.experiment"));
       outputDir.append(fileName);
-      File file = new File(outputDir.toString());
+      final File file = new File(outputDir.toString());
       writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file, append), "UTF-8"));
 
     } catch (FileNotFoundException e) {
@@ -80,6 +72,14 @@ public abstract class FileOutput implements Outputer {
       e.printStackTrace();
     }
 
+  }
+
+  public PrintWriter getWriter() {
+    return writer;
+  }
+
+  public ResourceBundle getLiterals() {
+    return literals;
   }
 
 }
