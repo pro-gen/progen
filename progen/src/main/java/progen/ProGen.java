@@ -32,8 +32,8 @@ public class ProGen {
   public final void runProGen() {
     ProGenContext.makeInstance(args[0]);
     Error.makeInstance();
-    ProGenFactory progenFactory = ProGenFactory.makeInstance();
-    ExecutionRole progen = progenFactory.makeExecutionRole();
+    final ProGenFactory progenFactory = ProGenFactory.makeInstance();
+    final ExecutionRole progen = progenFactory.makeExecutionRole();
     HistoricalData.makeInstance();
     OutputStore.makeInstance();
     System.out.println(ProGenContext.getMandatoryProperty("progen.welcome"));
@@ -51,7 +51,7 @@ public class ProGen {
    * @see progen.roles
    */
   public static void main(final String[] args) {
-    Calendar begin = GregorianCalendar.getInstance();
+    final Calendar begin = GregorianCalendar.getInstance();
     if (args.length != 1) {
       System.err.println(Error.get(0));
       throw new ProGenException(Error.get(0));
@@ -63,11 +63,9 @@ public class ProGen {
       } catch (UndefinedFunctionSetException e) {
         System.err.println(e.getMessage());
       } catch (NumberFormatException e) {
-        e.printStackTrace();
-      } catch (Exception e) {
-        e.printStackTrace();
+        System.err.println(e.getMessage());
       } finally {
-        Calendar end = GregorianCalendar.getInstance();
+        final Calendar end = GregorianCalendar.getInstance();
         System.out.println("\nEXECUTION TIME: " + (end.getTimeInMillis() - begin.getTimeInMillis()) + " ms.");
       }
     }
