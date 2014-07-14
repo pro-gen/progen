@@ -21,12 +21,9 @@ import progen.kernel.tree.Tree;
  */
 public class TreeMutation extends GenneticOperator {
 
-	/* (non-Javadoc)
-	 * @see progen.kernel.evolution.GenneticOperator#evolve(progen.kernel.population.Population)
-	 */
 	@Override
 	public List<Individual> evolve(Population population) {
-		List<Individual> individuals = super.selector.select(population, 1);
+		List<Individual> individuals = getSelector().select(population, 1);
 		List<Individual> individualsMutate = new ArrayList<Individual>();
 		
 		Individual individualMutate = individuals.get(0);
