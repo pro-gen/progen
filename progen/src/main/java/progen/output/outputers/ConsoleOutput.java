@@ -9,31 +9,35 @@ import java.util.ResourceBundle;
 /**
  * @author jirsis
  * @since 2.0
- *
+ * 
  */
 public abstract class ConsoleOutput implements Outputer {
-	
-	/** Almacén de todos los literales de texto que aparecerán en la salida. */
-	protected ResourceBundle literals;
-	
-	/**
-	 * Constructor por defecto. Se inicializa la variable de literales.
-	 */
-	public ConsoleOutput(){
-		literals=ResourceBundle.getBundle("progen.output.outputers.literals", Locale.getDefault());
-	}
 
-	/* (non-Javadoc)
-	 * @see progen.output.outputers.Outputer#close()
-	 */
-	public void close() {
-		//do nothing
-	}
+  /** Almacén de todos los literales de texto que aparecerán en la salida. */
+  private ResourceBundle literals;
 
-	/* (non-Javadoc)
-	 * @see progen.output.outputers.Outputer#init()
-	 */
-	public void init() {
-		//do nothing
-	}
+  /**
+   * Constructor por defecto. Se inicializa la variable de literales.
+   */
+  public ConsoleOutput() {
+    literals = ResourceBundle.getBundle("progen.output.outputers.literals", Locale.getDefault());
+  }
+
+  @Override
+  public void close() {
+    // do nothing
+  }
+
+  @Override
+  public void init() {
+    // do nothing
+  }
+
+  public ResourceBundle getLiterals() {
+    return literals;
+  }
+
+  public void setLiterals(ResourceBundle literals) {
+    this.literals = literals;
+  }
 }

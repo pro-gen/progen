@@ -87,7 +87,7 @@ public class StandardConsole extends ConsoleOutput {
   private void printHeader(int maxGenerations) {
     // int maxGenerations =
     // ProGenContext.getMandatoryProperty("progen.max-generation").length();
-    String generation = literals.getString("generation") + Formatter.right(historical.getCurrentGeneration() + "", maxGenerations);
+    String generation = getLiterals().getString("generation") + Formatter.right(historical.getCurrentGeneration() + "", maxGenerations);
     System.out.printf("%n%n%s", hline);
     System.out.printf("%s%s%s%n", LEFT_SEP, Formatter.center(generation, getMaxLine().length() - LEFT_SEP.length() - RIGHT_SEP.length()), RIGHT_SEP);
 
@@ -125,14 +125,14 @@ public class StandardConsole extends ConsoleOutput {
     StringBuilder line = new StringBuilder(LEFT_SEP);
     int padding;
 
-    line.append(String.format("%s%s", Formatter.left(literals.getString("newBestIndividual"), firstColumnWidth + secondColumnWidth), CENTER_SEP));
+    line.append(String.format("%s%s", Formatter.left(getLiterals().getString("newBestIndividual"), firstColumnWidth + secondColumnWidth), CENTER_SEP));
 
-    padding = Formatter.center(literals.getString("raw"), WIDTH_COLUMN).length();
-    padding += Formatter.center(literals.getString("adjusted"), WIDTH_COLUMN).length() + 3;
-    line.append(String.format("%s%s", Formatter.center(literals.getString("fitness"), padding), CENTER_SEP));
+    padding = Formatter.center(getLiterals().getString("raw"), WIDTH_COLUMN).length();
+    padding += Formatter.center(getLiterals().getString("adjusted"), WIDTH_COLUMN).length() + 3;
+    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("fitness"), padding), CENTER_SEP));
 
-    padding = Formatter.center(literals.getString("nodes"), WIDTH_COLUMN).length();
-    padding += Formatter.center(literals.getString("depth"), WIDTH_COLUMN).length() + 3;
+    padding = Formatter.center(getLiterals().getString("nodes"), WIDTH_COLUMN).length();
+    padding += Formatter.center(getLiterals().getString("depth"), WIDTH_COLUMN).length() + 3;
     for (int i = 0; i < totalRPB; i++) {
       line.append(String.format("%s%s", Formatter.center("RBP" + i, padding), CENTER_SEP));
     }
@@ -157,10 +157,10 @@ public class StandardConsole extends ConsoleOutput {
     String ceilData;
     Individual best = (Individual) (experimentData.getPlugin("best").getValue());
 
-    int padding = Formatter.center(literals.getString("individual"), WIDTH_COLUMN).length();
+    int padding = Formatter.center(getLiterals().getString("individual"), WIDTH_COLUMN).length();
     line = new StringBuilder(LEFT_SEP);
     line.append(String.format("%s", Formatter.center(" ", padding + CENTER_SEP.length())));
-    line.append(String.format("%s%s", Formatter.left(literals.getString("individual"), secondColumnWidth), CENTER_SEP));
+    line.append(String.format("%s%s", Formatter.left(getLiterals().getString("individual"), secondColumnWidth), CENTER_SEP));
 
     ceilData = String.format("%.3f", best.getRawFitness());
     line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
@@ -227,7 +227,7 @@ public class StandardConsole extends ConsoleOutput {
     String ceilData;
 
     line.append(String.format("%s", Formatter.center(" ", firstColumnWidth)));
-    line.append(String.format("%s%s", Formatter.left(literals.getString("evaluation"), secondColumnWidth), CENTER_SEP));
+    line.append(String.format("%s%s", Formatter.left(getLiterals().getString("evaluation"), secondColumnWidth), CENTER_SEP));
     ceilData = String.format("%s", evaluation.getPlugin("mean").getValue().toString());
     line.append(String.format("%s%s", Formatter.center(ceilData, padding), CENTER_SEP));
     ceilData = String.format("%s", evaluation.getPlugin("total").getValue().toString());
@@ -246,7 +246,7 @@ public class StandardConsole extends ConsoleOutput {
     String ceilData;
 
     line.append(String.format("%s", Formatter.center(" ", firstColumnWidth)));
-    line.append(String.format("%s%s", Formatter.left(literals.getString("breeding"), secondColumnWidth), CENTER_SEP));
+    line.append(String.format("%s%s", Formatter.left(getLiterals().getString("breeding"), secondColumnWidth), CENTER_SEP));
     ceilData = String.format("%s", breeding.getPlugin("mean").getValue().toString());
     line.append(String.format("%s%s", Formatter.center(ceilData, padding), CENTER_SEP));
     ceilData = String.format("%s", breeding.getPlugin("total").getValue().toString());
@@ -261,13 +261,13 @@ public class StandardConsole extends ConsoleOutput {
     StringBuilder line = new StringBuilder(LEFT_SEP);
     int padding;
 
-    line.append(String.format("%s%s", Formatter.left(literals.getString("time"), firstColumnWidth + secondColumnWidth), CENTER_SEP));
+    line.append(String.format("%s%s", Formatter.left(getLiterals().getString("time"), firstColumnWidth + secondColumnWidth), CENTER_SEP));
 
     padding = hline.length() - (firstColumnWidth + secondColumnWidth) - 2 * CENTER_SEP.length() - 3;
     padding = padding / 2;
 
-    line.append(String.format("%s%s", Formatter.center(literals.getString("populationMean"), padding), CENTER_SEP));
-    line.append(String.format("%s%s", Formatter.center(literals.getString("totalPopulation"), padding), CENTER_SEP));
+    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("populationMean"), padding), CENTER_SEP));
+    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("totalPopulation"), padding), CENTER_SEP));
 
     System.out.printf("%s%n%s", line.toString(), hline);
   }
@@ -300,10 +300,10 @@ public class StandardConsole extends ConsoleOutput {
     DataCollector populationData = historical.getCurrentDataCollector("PopulationData");
     Map<String, Mean> mean = (Map<String, Mean>) (populationData.getPlugin("individualMean").getValue());
 
-    int padding = Formatter.center(literals.getString("individual"), WIDTH_COLUMN).length();
+    int padding = Formatter.center(getLiterals().getString("individual"), WIDTH_COLUMN).length();
     line = new StringBuilder(LEFT_SEP);
     line.append(String.format("%s", Formatter.center(" ", padding + CENTER_SEP.length())));
-    line.append(String.format("%s%s", Formatter.left(literals.getString("generationMean"), secondColumnWidth), CENTER_SEP));
+    line.append(String.format("%s%s", Formatter.left(getLiterals().getString("generationMean"), secondColumnWidth), CENTER_SEP));
 
     ceilData = String.format("%.3G", mean.get("raw").getValue());
     line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
@@ -329,10 +329,10 @@ public class StandardConsole extends ConsoleOutput {
     String ceilData;
     Individual best = (Individual) (experimentData.getPlugin("best").getValue());
 
-    int padding = Formatter.center(literals.getString("individual"), WIDTH_COLUMN).length();
+    int padding = Formatter.center(getLiterals().getString("individual"), WIDTH_COLUMN).length();
     line = new StringBuilder(LEFT_SEP);
     line.append(String.format("%s", Formatter.center(" ", padding + CENTER_SEP.length())));
-    line.append(String.format("%s%s", Formatter.left(literals.getString("bestRun"), secondColumnWidth), CENTER_SEP));
+    line.append(String.format("%s%s", Formatter.left(getLiterals().getString("bestRun"), secondColumnWidth), CENTER_SEP));
 
     ceilData = String.format("%.3f", best.getRawFitness());
     line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
@@ -359,10 +359,10 @@ public class StandardConsole extends ConsoleOutput {
     String ceilData;
     Individual worst = (Individual) (historical.getCurrentDataCollector("ExperimentIndividualData").getPlugin("worst").getValue());
 
-    int padding = Formatter.center(literals.getString("individual"), WIDTH_COLUMN).length();
+    int padding = Formatter.center(getLiterals().getString("individual"), WIDTH_COLUMN).length();
     line = new StringBuilder(LEFT_SEP);
     line.append(String.format("%s", Formatter.center(" ", padding + CENTER_SEP.length())));
-    line.append(String.format("%s%s", Formatter.left(literals.getString("worstRun"), secondColumnWidth), CENTER_SEP));
+    line.append(String.format("%s%s", Formatter.left(getLiterals().getString("worstRun"), secondColumnWidth), CENTER_SEP));
 
     ceilData = String.format("%.3G", worst.getRawFitness());
     line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
@@ -388,17 +388,17 @@ public class StandardConsole extends ConsoleOutput {
     // Print sub-head table
     StringBuilder line = new StringBuilder(LEFT_SEP);
 
-    int padding = Formatter.center(literals.getString("individual"), WIDTH_COLUMN).length();
+    int padding = Formatter.center(getLiterals().getString("individual"), WIDTH_COLUMN).length();
     line.append(String.format("%s   %s", Formatter.center(" ", padding + secondColumnWidth), CENTER_SEP));
-    line.append(String.format("%s%s", Formatter.center(literals.getString("raw"), WIDTH_COLUMN), CENTER_SEP));
-    line.append(String.format("%s%s", Formatter.center(literals.getString("adjusted"), WIDTH_COLUMN), CENTER_SEP));
+    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("raw"), WIDTH_COLUMN), CENTER_SEP));
+    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("adjusted"), WIDTH_COLUMN), CENTER_SEP));
     for (int i = 0; i < totalRPB; i++) {
-      line.append(String.format("%s%s", Formatter.center(literals.getString("nodes"), WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(literals.getString("depth"), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(getLiterals().getString("nodes"), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(getLiterals().getString("depth"), WIDTH_COLUMN), CENTER_SEP));
     }
     for (int i = 0; i < totalADF; i++) {
-      line.append(String.format("%s%s", Formatter.center(literals.getString("nodes"), WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(literals.getString("depth"), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(getLiterals().getString("nodes"), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(getLiterals().getString("depth"), WIDTH_COLUMN), CENTER_SEP));
     }
     System.out.printf("%s%n", line.toString());
 
@@ -413,18 +413,18 @@ public class StandardConsole extends ConsoleOutput {
     int padding;
     firstColumnWidth = WIDTH_COLUMN + CENTER_SEP.length();
 
-    secondColumnWidth = Math.max(WIDTH_COLUMN, literals.getString("generationMean").length());
-    secondColumnWidth = Math.max(secondColumnWidth, literals.getString("bestRun").length());
-    secondColumnWidth = Math.max(secondColumnWidth, literals.getString("worstRun").length());
+    secondColumnWidth = Math.max(WIDTH_COLUMN, getLiterals().getString("generationMean").length());
+    secondColumnWidth = Math.max(secondColumnWidth, getLiterals().getString("bestRun").length());
+    secondColumnWidth = Math.max(secondColumnWidth, getLiterals().getString("worstRun").length());
 
-    line.append(String.format("%s%s", Formatter.left(literals.getString("individual"), firstColumnWidth + secondColumnWidth), CENTER_SEP));
+    line.append(String.format("%s%s", Formatter.left(getLiterals().getString("individual"), firstColumnWidth + secondColumnWidth), CENTER_SEP));
 
-    padding = Formatter.center(literals.getString("raw"), WIDTH_COLUMN).length();
-    padding += Formatter.center(literals.getString("adjusted"), WIDTH_COLUMN).length() + 3;
-    line.append(String.format("%s%s", Formatter.center(literals.getString("fitness"), padding), CENTER_SEP));
+    padding = Formatter.center(getLiterals().getString("raw"), WIDTH_COLUMN).length();
+    padding += Formatter.center(getLiterals().getString("adjusted"), WIDTH_COLUMN).length() + 3;
+    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("fitness"), padding), CENTER_SEP));
 
-    padding = Formatter.center(literals.getString("nodes"), WIDTH_COLUMN).length();
-    padding += Formatter.center(literals.getString("depth"), WIDTH_COLUMN).length() + 3;
+    padding = Formatter.center(getLiterals().getString("nodes"), WIDTH_COLUMN).length();
+    padding += Formatter.center(getLiterals().getString("depth"), WIDTH_COLUMN).length() + 3;
     for (int i = 0; i < totalRPB; i++) {
       line.append(String.format("%s%s", Formatter.center("RBP" + i, padding), CENTER_SEP));
     }
@@ -448,18 +448,18 @@ public class StandardConsole extends ConsoleOutput {
    */
   private String getMaxLine() {
     StringBuilder line = new StringBuilder(LEFT_SEP);
-    line.append(String.format("%s%s", Formatter.center(literals.getString("individual"), WIDTH_COLUMN), CENTER_SEP));
-    line.append(String.format("%s%s", Formatter.center(literals.getString("generationMean"), WIDTH_COLUMN), CENTER_SEP));
-    line.append(String.format("%s%s", Formatter.center(literals.getString("raw"), WIDTH_COLUMN), CENTER_SEP));
-    line.append(String.format("%s%s", Formatter.center(literals.getString("adjusted"), WIDTH_COLUMN), CENTER_SEP));
+    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("individual"), WIDTH_COLUMN), CENTER_SEP));
+    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("generationMean"), WIDTH_COLUMN), CENTER_SEP));
+    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("raw"), WIDTH_COLUMN), CENTER_SEP));
+    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("adjusted"), WIDTH_COLUMN), CENTER_SEP));
 
     int totalTrees = 0;
     totalTrees += totalRPB;
     totalTrees += totalADF;
 
     for (int i = 0; i < totalTrees; i++) {
-      line.append(String.format("%s%s", Formatter.center(literals.getString("nodes"), WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(literals.getString("depth"), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(getLiterals().getString("nodes"), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(getLiterals().getString("depth"), WIDTH_COLUMN), CENTER_SEP));
     }
     return line.toString();
 
