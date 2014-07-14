@@ -9,14 +9,9 @@ import java.io.FilenameFilter;
  */
 public class OutputFilenameFilter implements FilenameFilter {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
-     */
-    @Override
-    public boolean accept(File dir, String name) {
-	return name.startsWith("output");
-    }
+  @Override
+  public boolean accept(File dir, String name) {
+    return name.startsWith("output");
+  }
 
 }

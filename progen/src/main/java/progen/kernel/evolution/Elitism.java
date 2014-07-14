@@ -23,47 +23,46 @@ import progen.kernel.population.Population;
  */
 public class Elitism {
 
-    /** Población sobre la que se actuará */
-    private Population population;
+  /** Población sobre la que se actuará */
+  private Population population;
 
-    /** Tamaño de la selección */
-    private double size;
+  /** Tamaño de la selección */
+  private double size;
 
-    /**
-     * Constructor por defecto
-     * 
-     * @param population
-     *            Población de la que se aplicará el proceso de elitismo.
-     */
-    public Elitism(Population population) {
-	this.population = population;
-	size = ProGenContext.getOptionalPercent("progen.gennetic.elitism.size",
-		"0%");
-	if (size < 1) {
-	    size = population.getIndividuals().size() * size;
-	}
+  /**
+   * Constructor por defecto
+   * 
+   * @param population
+   *          Población de la que se aplicará el proceso de elitismo.
+   */
+  public Elitism(Population population) {
+    this.population = population;
+    size = ProGenContext.getOptionalPercent("progen.gennetic.elitism.size", "0%");
+    if (size < 1) {
+      size = population.getIndividuals().size() * size;
+    }
+  }
+
+  /**
+   * Devuelve una lista que contiene los <code>n</code> mejores individuos de la
+   * población.
+   * 
+   * @return El conjunto de individuos que han promocionado directamente a la
+   *         siguiente generación.
+   */
+  public List<Individual> propagate() {
+    final List<Individual> newPopulation = new ArrayList<Individual>();
+    final List<Individual> individuals = new ArrayList<Individual>();
+
+    for (int i = 0; i < population.getIndividuals().size(); i++) {
+      individuals.add(population.getIndividual(i).clone());
     }
 
-    /**
-     * Devuelve una lista que contiene los <code>n</code> mejores individuos de
-     * la población.
-     * 
-     * @return El conjunto de individuos que han promocionado directamente a la
-     *         siguiente generación.
-     */
-    public List<Individual> propagate() {
-	List<Individual> newPopulation = new ArrayList<Individual>();
-	List<Individual> individuals = new ArrayList<Individual>();
-	
-	for (int i = 0; i < population.getIndividuals().size(); i++) {
-	    individuals.add(population.getIndividual(i).clone());
-	}
+    Collections.sort(individuals);
 
-	Collections.sort(individuals);
-
-	for (int i = 0; i < size; i++) {
-	    newPopulation.add(individuals.get(i));
-	}
-	return newPopulation;
+    for (int i = 0; i < size; i++) {
+      newPopulation.add(individuals.get(i));
     }
+    return newPopulation;
+  }
 }

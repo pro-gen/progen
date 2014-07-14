@@ -19,69 +19,39 @@ public class SimpleExperimenter extends Experimenter {
     isDone = false;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.experimenter.Experimenter#defineValue()
-   */
   @Override
   public void defineValues() {
     // do nothing
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.experimenter.Experimenter#isDone()
-   */
   @Override
   public boolean isDone() {
     return isDone;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.experimenter.Experimenter#updateValues()
-   */
   @Override
   public void updateValues() {
     isDone = true;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.experimenter.Experimenter#generateResults()
-   */
   @Override
   public void generateResults() {
     OutputStore outputs = OutputStore.makeInstance();
     outputs.print();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.experimenter.Experimenter#defineExperimentDir()
-   */
   @Override
   public String defineExperimentDir() {
     return "results";
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.experimenter.Experimenter#finishMessage()
-   */
   @Override
   public String finishMessage() {
-    StringBuilder stb = new StringBuilder(20);
-    stb.append("----- ");
-    stb.append(Info.get(2));
-    stb.append(" -----");
-    return stb.toString();
+    final StringBuilder finishMessage = new StringBuilder(20);
+    finishMessage.append("----- ");
+    finishMessage.append(Info.get(2));
+    finishMessage.append(" -----");
+    return finishMessage.toString();
   }
 
 }
