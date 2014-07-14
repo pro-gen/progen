@@ -1,6 +1,3 @@
-/**
- * 
- */
 package progen.context;
 
 import progen.kernel.error.Error;
@@ -15,6 +12,8 @@ import progen.kernel.error.Error;
  */
 public class MalformedPercentSuboptionException extends RuntimeException {
 
+  private static final int ID_ERROR = 7;
+
   private static final long serialVersionUID = -245792084266343630L;
 
   /**
@@ -26,7 +25,7 @@ public class MalformedPercentSuboptionException extends RuntimeException {
    *          Nombre de la propiedad que no cumple la condición.
    */
   public MalformedPercentSuboptionException(String message) {
-    super(Error.get(7).trim() + " (" + message + ")");
+    super(Error.get(ID_ERROR).trim() + " (" + message + ")");
   }
 
 }

@@ -12,6 +12,7 @@ import progen.kernel.error.Error;
  */
 public class MissingContextFileException extends RuntimeException {
   private static final long serialVersionUID = 6593534316625884222L;
+  private static final int ID_ERROR=18;
 
   /**
    * Constructor de la excepción. Recibe el fichero que se intentaba leer y que
@@ -21,13 +22,13 @@ public class MissingContextFileException extends RuntimeException {
    *          El nombre del fichero que se intentó leer.
    */
   public MissingContextFileException(String message) {
-    super(Error.get(18).trim() + "(" + message + ")");
+    super(Error.get(ID_ERROR).trim() + "(" + message + ")");
   }
 
   /**
    * Constructor genérico de la excepción.
    */
   public MissingContextFileException() {
-    super(Error.get(18).trim());
+    super(Error.get(ID_ERROR).trim());
   }
 }
