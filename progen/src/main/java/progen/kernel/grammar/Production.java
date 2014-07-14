@@ -26,8 +26,10 @@ import progen.kernel.functions.ERC;
  * @since v2.0
  */
 public class Production implements Serializable {
+  private static final String SPACE_SYMBOL = " ";
+
   private static final long serialVersionUID = 8087033089940604792L;
-  
+
   /**
    * Representa la parte izquierda de la producción (A, en la descripción
    * general)
@@ -40,7 +42,7 @@ public class Production implements Serializable {
   /**
    * Representa a los argumentos de la función (C, en la descripción general)
    */
-  private GrammarNonTerminalSymbol[] args;
+  private GrammarNonTerminalSymbol [] args;
 
   /**
    * Constructor genérico que recibe los elementos necesarios por parámetro,
@@ -57,7 +59,7 @@ public class Production implements Serializable {
    *          conjunto de no terminales, se contruyen nuevos no terminales para
    *          almecenar en esta instancia.
    */
-  public Production(GrammarNonTerminalSymbol left, GrammarTerminalSymbol function, GrammarNonTerminalSymbol args[]) {
+  public Production(GrammarNonTerminalSymbol left, GrammarTerminalSymbol function, GrammarNonTerminalSymbol [] args) {
     this.left = left;
     this.function = function;
     this.args = new GrammarNonTerminalSymbol[args.length];
@@ -71,16 +73,16 @@ public class Production implements Serializable {
    * representación es de la forma <code> A -> b C </code>
    */
   public String toString() {
-    StringBuffer stb = new StringBuffer();
-    stb.append(left.toString());
-    stb.append(" -> ");
-    stb.append(function.toString());
-    stb.append(" ");
+    StringBuffer production = new StringBuffer();
+    production.append(left.toString());
+    production.append(" -> ");
+    production.append(function.toString());
+    production.append(SPACE_SYMBOL);
     for (int i = 0; i < args.length; i++) {
-      stb.append(args[i].toString() + " ");
+      production.append(args[i].toString() + SPACE_SYMBOL);
     }
 
-    return stb.toString().trim();
+    return production.toString().trim();
   }
 
   /**
@@ -97,7 +99,7 @@ public class Production implements Serializable {
    * 
    * @return Los argumentos de la función de esta <code>Production</code>
    */
-  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="EI_EXPOSE_REP", justification="Its is a getter method")
+  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "EI_EXPOSE_REP", justification = "Its is a getter method")
   public GrammarNonTerminalSymbol[] getArgs() {
     return args;
   }
@@ -108,14 +110,14 @@ public class Production implements Serializable {
    * @return La función de esta <code>Production</code>
    */
   public GrammarTerminalSymbol getFunction() {
-    GrammarTerminalSymbol function;
+    GrammarTerminalSymbol functionObtained;
     if (this.function.getFunction() instanceof ERC) {
-      ERC erc = (ERC) this.function.getFunction();
-      function = new GrammarTerminalSymbol(erc.clone());
+      final ERC erc = (ERC) this.function.getFunction();
+      functionObtained = new GrammarTerminalSymbol(erc.clone());
     } else {
-      function = this.function;
+      functionObtained= this.function;
     }
-    return function;
+    return functionObtained;
   }
 
   /**

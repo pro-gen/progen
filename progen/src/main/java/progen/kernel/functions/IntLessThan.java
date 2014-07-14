@@ -25,8 +25,8 @@ public class IntLessThan extends NonTerminal {
 
   @Override
   public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
-    Integer operador1 = (Integer) arguments.get(0).evaluate(userProgram, returnAddr);
-    Integer operador2 = (Integer) arguments.get(1).evaluate(userProgram, returnAddr);
+    final Integer operador1 = (Integer) arguments.get(0).evaluate(userProgram, returnAddr);
+    final Integer operador2 = (Integer) arguments.get(1).evaluate(userProgram, returnAddr);
     return operador1 < operador2;
   }
 

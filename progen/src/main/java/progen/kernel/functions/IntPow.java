@@ -29,8 +29,8 @@ public class IntPow extends NonTerminal {
 
   @Override
   public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
-    Integer base = (Integer) arguments.get(0).evaluate(userProgram, returnAddr);
-    Integer exponent = (Integer) arguments.get(1).evaluate(userProgram, returnAddr);
+    final Integer base = (Integer) arguments.get(0).evaluate(userProgram, returnAddr);
+    final Integer exponent = (Integer) arguments.get(1).evaluate(userProgram, returnAddr);
     return Math.pow(base, exponent);
   }
 

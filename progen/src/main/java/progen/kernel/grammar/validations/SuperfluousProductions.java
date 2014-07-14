@@ -14,10 +14,12 @@ import progen.kernel.grammar.Production;
  */
 public class SuperfluousProductions implements Validation {
 
+  private static final int ID_ERROR = 35;
+
   public void validate(Grammar gram) {
     boolean grammarOK = false;
-    List<GrammarNonTerminalSymbol> symbolsChecked = new ArrayList<GrammarNonTerminalSymbol>();
-    List<GrammarNonTerminalSymbol> symbolsToCheck = new ArrayList<GrammarNonTerminalSymbol>(gram.getGrammarNonTerminalSymbols());
+    final List<GrammarNonTerminalSymbol> symbolsChecked = new ArrayList<GrammarNonTerminalSymbol>();
+    final List<GrammarNonTerminalSymbol> symbolsToCheck = new ArrayList<GrammarNonTerminalSymbol>(gram.getGrammarNonTerminalSymbols());
     GrammarNonTerminalSymbol symbol;
     int symbolsToCheckBefore = symbolsToCheck.size();
     int symbolsToCheckAfter = 0;
@@ -44,7 +46,7 @@ public class SuperfluousProductions implements Validation {
     }
 
     if (!grammarOK) {
-      throw new GrammarNotValidException(35);
+      throw new GrammarNotValidException(ID_ERROR);
     }
   }
 

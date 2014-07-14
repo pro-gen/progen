@@ -26,8 +26,8 @@ public class DoublePow extends NonTerminal {
 
   @Override
   public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
-    Double base = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
-    Double exponent = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
+    final Double base = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
+    final Double exponent = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
     return Math.pow(base, exponent);
   }
 

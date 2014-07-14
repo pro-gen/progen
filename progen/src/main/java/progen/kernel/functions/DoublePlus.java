@@ -25,8 +25,8 @@ public class DoublePlus extends NonTerminal {
 
   @Override
   public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
-    Double sumando1 = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
-    Double sumando2 = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
+    final Double sumando1 = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
+    final Double sumando2 = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
     return sumando1 + sumando2;
   }
 

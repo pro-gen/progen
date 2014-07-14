@@ -20,6 +20,12 @@ import progen.userprogram.UserProgram;
  * 
  */
 public class Individual implements Task, Comparable<Individual>, Cloneable {
+  private static final String ADF_PROPERTY = "ADF";
+
+  private static final String RPB_PROPERTY = "RPB";
+
+  private static final String PROGEN_TOTAL_RPB_PROPERTY = "progen.total.RPB";
+
   private static final long serialVersionUID = -3776497075849167016L;
 
   /**
@@ -92,20 +98,20 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
     trees = new HashMap<String, Tree>();
     results = new HashMap<String, Object>();
 
-    totalRPB = ProGenContext.getOptionalProperty("progen.total.RPB", 1);
-    ProGenContext.setProperty("progen.total.RPB", totalRPB + "");
+    totalRPB = ProGenContext.getOptionalProperty(PROGEN_TOTAL_RPB_PROPERTY, 1);
+    ProGenContext.setProperty(PROGEN_TOTAL_RPB_PROPERTY, totalRPB + "");
     totalADF = ProGenContext.getOptionalProperty("progen.total.ADF", 0);
 
     for (int i = 0; i < totalRPB; i++) {
       tree = new Tree();
-      tree.generate(grammars.get("RPB" + i));
-      trees.put("RPB" + i, tree);
+      tree.generate(grammars.get(RPB_PROPERTY + i));
+      trees.put(RPB_PROPERTY + i, tree);
     }
 
     for (int i = 0; i < totalADF; i++) {
       tree = new Tree();
-      tree.generate(grammars.get("ADF" + i));
-      trees.put("ADF" + i, tree);
+      tree.generate(grammars.get(ADF_PROPERTY + i));
+      trees.put(ADF_PROPERTY + i, tree);
     }
 
     this.grammars = grammars;
@@ -170,23 +176,23 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
    */
   @Override
   public String toString() {
-    StringBuilder stb = new StringBuilder();
+    StringBuilder individual = new StringBuilder();
 
     if (this.printabeIndividual != null && this.printabeIndividual.length() > 0) {
-      stb.append(printabeIndividual);
+      individual.append(printabeIndividual);
     } else {
       int RPB = 0;
       int adf = 0;
-      while (trees.get("RPB" + RPB) != null) {
-        stb.append("\nRPB" + RPB + ": " + trees.get("RPB" + RPB));
+      while (trees.get(RPB_PROPERTY + RPB) != null) {
+        individual.append("\n"+ RPB_PROPERTY + RPB + ": " + trees.get(RPB_PROPERTY + RPB));
         RPB++;
       }
-      while (trees.get("ADF" + adf) != null) {
-        stb.append("\nADF" + adf + ": " + trees.get("ADF" + adf));
+      while (trees.get(ADF_PROPERTY + adf) != null) {
+        individual.append("\n"+ADF_PROPERTY + adf + ": " + trees.get(ADF_PROPERTY + adf));
         adf++;
       }
     }
-    return stb.toString();
+    return individual.toString();
   }
 
   /**
@@ -201,11 +207,10 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
   public void setVariable(String variable, Object value) {
     this.updated = true;
     for (String idGrammar : grammars.keySet()) {
-      Grammar grammar = grammars.get(idGrammar);
+      final Grammar grammar = grammars.get(idGrammar);
       for (GrammarTerminalSymbol function : grammar.getGrammarTerminalSymbols()) {
         if (function.getSymbol().equals(variable)) {
-          Terminal var = (Terminal) function.getFunction();
-          var.setValue(value);
+          ((Terminal) function.getFunction()).setValue(value);
         }
       }
     }
@@ -227,15 +232,15 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
     // este individuo
     for (int i = 0; i < totalADF; i++) {
       for (int j = 0; j < totalRPB; j++) {
-        for (GrammarTerminalSymbol adf : grammars.get("RPB" + j).getGrammarTerminalSymbols()) {
-          if (adf.getSymbol().compareTo("ADF" + i) == 0) {
-            ((ADF) adf.getFunction()).setADFTree(trees.get("ADF" + i));
+        for (GrammarTerminalSymbol adf : grammars.get(RPB_PROPERTY + j).getGrammarTerminalSymbols()) {
+          if (adf.getSymbol().compareTo(ADF_PROPERTY + i) == 0) {
+            ((ADF) adf.getFunction()).setADFTree(trees.get(ADF_PROPERTY + i));
           }
         }
       }
     }
     for (int i = 0; i < totalRPB; i++) {
-      results.put("RPB" + i, trees.get("RPB" + i).evaluate(userprogram, variables));
+      results.put(RPB_PROPERTY + i, trees.get(RPB_PROPERTY + i).evaluate(userprogram, variables));
     }
     this.updated = false;
   }
@@ -361,10 +366,10 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
       equals = false;
     } else {
       for (int i = 0; i < totalRPB; i++) {
-        equals = equals && trees.get("RPB" + i).toString().compareTo(other.getTrees().get("RPB" + i).toString()) == 0;
+        equals = equals && trees.get(RPB_PROPERTY + i).toString().compareTo(other.getTrees().get(RPB_PROPERTY + i).toString()) == 0;
       }
       for (int i = 0; i < totalADF; i++) {
-        equals = equals && trees.get("ADF" + i).toString().compareTo(other.getTrees().get("ADF" + i).toString()) == 0;
+        equals = equals && trees.get(ADF_PROPERTY + i).toString().compareTo(other.getTrees().get(ADF_PROPERTY + i).toString()) == 0;
       }
     }
     return equals;

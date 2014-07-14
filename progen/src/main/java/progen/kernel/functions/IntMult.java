@@ -25,8 +25,8 @@ public class IntMult extends NonTerminal {
 
   @Override
   public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
-    Integer multiplicando = (Integer) arguments.get(0).evaluate(userProgram, returnAddr);
-    Integer multiplicador = (Integer) arguments.get(1).evaluate(userProgram, returnAddr);
+    final Integer multiplicando = (Integer) arguments.get(0).evaluate(userProgram, returnAddr);
+    final Integer multiplicador = (Integer) arguments.get(1).evaluate(userProgram, returnAddr);
     return multiplicando * multiplicador;
   }
 

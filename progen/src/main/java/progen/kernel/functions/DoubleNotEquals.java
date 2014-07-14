@@ -26,8 +26,8 @@ public class DoubleNotEquals extends NonTerminal {
 
   @Override
   public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
-    Double operador1 = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
-    Double operador2 = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
+    final Double operador1 = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
+    final Double operador2 = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
     return new BigDecimal(operador1.doubleValue()).compareTo(new BigDecimal(operador2.doubleValue())) != 0;
   }
 

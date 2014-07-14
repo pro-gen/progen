@@ -36,15 +36,15 @@ public class HGPGrammar extends Grammar {
    * Convierte una gramática normal, en una en la que todos los operadores están
    * agrupados para generar formas de árbol, en función de su signatura.
    */
-  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE", justification="Inherit code")
+  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "BC_UNCONFIRMED_CAST_OF_RETURN_VALUE", justification = "Inherit code")
   private void transformGrammar() {
     Production productionHGP;
     Function wildCard;
-    int totalProductions = super.getProductions().size();
-    List<Production> productions = new ArrayList<Production>((ArrayList<Production>) super.getProductions());
+    final int totalProductions = super.getProductions().size();
+    final List<Production> productions = new ArrayList<Production>((ArrayList<Production>) super.getProductions());
 
     for (int i = 0; i < totalProductions; i++) {
-      Production p = super.getProductions().get(0);
+      final Production p = super.getProductions().get(0);
       wildCard = getWildCard(p, productions);
       productionHGP = new Production(p.getLeft(), new GrammarTerminalSymbol(wildCard), p.getArgs());
       if (!super.getProductions().contains(productionHGP)) {
@@ -58,8 +58,8 @@ public class HGPGrammar extends Grammar {
     WildCard wildCard = new WildCard(production.getFunction().getFunction());
 
     for (Production pAux : productions) {
-      if (!pAux.equals(production)) { // si no son la misma produccion, se
-                                      // comparan todos los elementos
+      // si no son la misma produccion, se comparan todos los elementos
+      if (!pAux.equals(production)) {
         if (wildCard.getSignature().equals(pAux.getFunction().getFunction().getSignature())) {
           wildCard.addFunction(pAux.getFunction().getFunction());
         }

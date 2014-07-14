@@ -36,6 +36,10 @@ import progen.kernel.hypergp.HGPGrammar;
  * @since 2.0
  */
 public class Grammar implements Serializable {
+  private static final String PROGEN_FUNCTION_SET_PROPERTY = "progen.functionSet";
+
+  private static final String PROGEN_PROPERTY = "progen.";
+
   private static final long serialVersionUID = 2709479285994382736L;
 
   /** Identificador del <i>function-set</i> que define la gramática. */
@@ -68,8 +72,8 @@ public class Grammar implements Serializable {
   protected Grammar(String idTree) {
     String returnValue;
 
-    functionSetId = ProGenContext.getMandatoryProperty("progen." + idTree + ".functionSet");
-    returnValue = ProGenContext.getMandatoryProperty("progen.functionSet" + functionSetId + ".return");
+    functionSetId = ProGenContext.getMandatoryProperty(PROGEN_PROPERTY + idTree + ".functionSet");
+    returnValue = ProGenContext.getMandatoryProperty(PROGEN_FUNCTION_SET_PROPERTY + functionSetId + ".return");
 
     axiom = new GrammarNonTerminalSymbol("Ax", returnValue);
     grammarTerminalSymbols = new ArrayList<GrammarTerminalSymbol>();
@@ -131,9 +135,9 @@ public class Grammar implements Serializable {
    *         símbolo.
    */
   public List<Production> getProductions(GrammarSymbol symbol) {
-    if(symbol instanceof GrammarNonTerminalSymbol){
+    if (symbol instanceof GrammarNonTerminalSymbol) {
       return getProductions((GrammarNonTerminalSymbol) symbol);
-    }else{
+    } else {
       throw new ClassCastException(symbol.toString());
     }
   }
@@ -148,7 +152,7 @@ public class Grammar implements Serializable {
    *         símbolo.
    */
   public List<Production> getProductions(GrammarNonTerminalSymbol left) {
-    List<Production> prods = new ArrayList<Production>();
+    final List<Production> prods = new ArrayList<Production>();
     for (Production p : productions) {
       if (p.getLeft().compareTo(left) == 0) {
         prods.add(p);
@@ -158,7 +162,7 @@ public class Grammar implements Serializable {
   }
 
   public List<Production> getProductionsCompatibleWithFunction(GrammarNonTerminalSymbol nonTerminal, GrammarTerminalSymbol terminal) {
-    List<Production> prods = new ArrayList<Production>();
+    final List<Production> prods = new ArrayList<Production>();
     for (Production p : productions) {
       if (p.getLeft().compareTo(nonTerminal) == 0) {
         if (terminal.getFunction().isCompatibleWith(p.getFunction().getFunction())) {
@@ -179,10 +183,10 @@ public class Grammar implements Serializable {
    * @return El conjunto de producciones que genera dicho símbolo.
    */
   public List<Production> getRandomProductions(GrammarNonTerminalSymbol left) {
-    List<Production> productions = this.getProductions(left);
-    List<Production> random = new ArrayList<Production>();
-    while (productions.size() != 0) {
-      random.add(productions.remove((int) (Math.random() * productions.size())));
+    final List<Production> prods = this.getProductions(left);
+    final List<Production> random = new ArrayList<Production>();
+    while (prods.size() != 0) {
+      random.add(prods.remove((int) (Math.random() * prods.size())));
     }
     return random;
   }
@@ -214,7 +218,7 @@ public class Grammar implements Serializable {
    * 
    * @see progen.kernel.grammar.validations
    */
-  public void validate() throws GrammarNotValidException {
+  public void validate() {
     new GrammarCheck(this).validate();
   }
 
@@ -230,10 +234,10 @@ public class Grammar implements Serializable {
    *         el <i>function-set</i> o <code>false</code> en caso contrario.
    */
   private boolean loadGrammar(int functionSet) {
-    String functions[] = ProGenContext.getMandatoryProperty("progen.functionSet" + functionSet).trim().split(",[ ]*");
+    final String [] functions = ProGenContext.getMandatoryProperty(PROGEN_FUNCTION_SET_PROPERTY + functionSet).trim().split(",[ ]*");
     Function function;
     Production production;
-    GrammarNonTerminalSymbol args[];
+    GrammarNonTerminalSymbol [] args;
     GrammarNonTerminalSymbol left;
     GrammarTerminalSymbol right;
     boolean loadedOK = true;
@@ -263,11 +267,11 @@ public class Grammar implements Serializable {
    * y la nomenclatura seguida.
    */
   public String toString() {
-    StringBuffer stb = new StringBuffer();
+    StringBuffer grammar = new StringBuffer();
     for (Production production : productions) {
-      stb.append(production.toString() + "\n");
+      grammar.append(production.toString() + "\n");
     }
-    return stb.toString();
+    return grammar.toString();
   }
 
   /**
@@ -313,7 +317,7 @@ public class Grammar implements Serializable {
    *         valores de retorno
    */
   private GrammarNonTerminalSymbol[] getGrammarNonTerminalSymbol(Object returnValue[]) {
-    GrammarNonTerminalSymbol symbols[];
+    GrammarNonTerminalSymbol [] symbols;
     symbols = new GrammarNonTerminalSymbol[returnValue.length];
     for (int i = 0; i < returnValue.length; i++) {
       symbols[i] = getGrammarNonTerminalSymbol(returnValue[i]);
@@ -333,7 +337,7 @@ public class Grammar implements Serializable {
     GrammarTerminalSymbol right;
     Function function;
     Production production;
-    String[] args = ProGenContext.getMandatoryProperty("progen." + idADF + ".interface").split("\\$\\$");
+    final String[] args = ProGenContext.getMandatoryProperty(PROGEN_PROPERTY + idADF + ".interface").split("\\$\\$");
 
     for (int i = 1; i < args.length; i++) {
       function = new ARG(idADF, args[i], i - 1);

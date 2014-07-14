@@ -3,7 +3,6 @@ package progen.kernel.functions;
 import java.util.HashMap;
 import java.util.List;
 
-import progen.kernel.functions.NonTerminal;
 import progen.kernel.tree.Node;
 import progen.userprogram.UserProgram;
 
@@ -26,8 +25,8 @@ public class IntNotEquals extends NonTerminal {
 
   @Override
   public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
-    Integer operador1 = (Integer) arguments.get(0).evaluate(userProgram, returnAddr);
-    Integer operador2 = (Integer) arguments.get(1).evaluate(userProgram, returnAddr);
+    final Integer operador1 = (Integer) arguments.get(0).evaluate(userProgram, returnAddr);
+    final Integer operador2 = (Integer) arguments.get(1).evaluate(userProgram, returnAddr);
     return operador1.intValue() != operador2.intValue();
   }
 

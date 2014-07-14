@@ -12,24 +12,18 @@ import progen.kernel.grammar.GrammarNotValidException;
  */
 public class GrammarNonTerminalSymbolProduction implements Validation {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * progen.kernel.grammar.validations.Validation#validate(progen.kernel.grammar
-     * .Grammar, progen.kernel.grammar.validations.Validation)
-     */
-    public void validate(Grammar gram) {
-	boolean grammarOK = true;
+  private static final int ID_ERROR = 33;
 
-	for (GrammarNonTerminalSymbol nonTerminal : gram
-		.getGrammarNonTerminalSymbols()) {
-	    grammarOK &= gram.getProductions(nonTerminal).size() > 0;
-	}
+  public void validate(Grammar gram) {
+    boolean grammarOK = true;
 
-	if(!grammarOK){
-	    throw new GrammarNotValidException(33);
-	}
+    for (GrammarNonTerminalSymbol nonTerminal : gram.getGrammarNonTerminalSymbols()) {
+      grammarOK &= gram.getProductions(nonTerminal).size() > 0;
     }
+
+    if (!grammarOK) {
+      throw new GrammarNotValidException(ID_ERROR);
+    }
+  }
 
 }

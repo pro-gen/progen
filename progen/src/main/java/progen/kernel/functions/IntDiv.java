@@ -30,13 +30,15 @@ public class IntDiv extends NonTerminal {
 
   @Override
   public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
-    Integer dividendo = (Integer) arguments.get(0).evaluate(userProgram, returnAddr);
-    Integer divisor = (Integer) arguments.get(1).evaluate(userProgram, returnAddr);
+    final Integer dividendo = (Integer) arguments.get(0).evaluate(userProgram, returnAddr);
+    final Integer divisor = (Integer) arguments.get(1).evaluate(userProgram, returnAddr);
+    double result;
     if (divisor != 0) {
-      return ((double) dividendo) / divisor;
+      result = ((double) dividendo) / divisor;
     } else {
-      return Double.POSITIVE_INFINITY;
+      result = Double.POSITIVE_INFINITY;
     }
+    return result;
   }
 
 }

@@ -12,13 +12,13 @@ public interface GrammarSymbol extends Comparable<GrammarSymbol> {
    * 
    * @return el símbolo con el que se identifica.
    */
-  public String getSymbol();
+  String getSymbol();
 
   /**
    * Devuelve el valor concreto que tiene un símbolo.
    * 
    * @return El valor del símbolo.
    */
-  public Object getValue();
-  
+  Object getValue();
+
 }

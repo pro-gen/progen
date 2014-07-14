@@ -19,7 +19,7 @@ import progen.userprogram.UserProgram;
  */
 public abstract class Function implements Comparable<Function>, Serializable {
   private static final long serialVersionUID = -7920842332819035400L;
-  
+
   /** Indica la aridad de la función. */
   private int arity;
   /** Símbolo que identificará a la función. */
@@ -27,7 +27,7 @@ public abstract class Function implements Comparable<Function>, Serializable {
   /** Tipo de retorno que devolverá la función. */
   private Object returnType;
   /** Tipos que admite como parámetros la función. */
-  private Object argsType[];
+  private Object [] argsType;
 
   /**
    * Constructor por defecto de una función. Recibe la signatura de la misma y
@@ -42,7 +42,7 @@ public abstract class Function implements Comparable<Function>, Serializable {
    *          Símbolo que identificará la función.
    */
   public Function(String signature, String symbol) {
-    String args[];
+    String [] args;
     this.symbol = symbol;
 
     args = signature.split("\\$\\$");
@@ -61,12 +61,12 @@ public abstract class Function implements Comparable<Function>, Serializable {
    * @return la signatura completa de la función.
    */
   public final String getSignature() {
-    StringBuffer stb = new StringBuffer();
-    stb.append(returnType);
+    final StringBuffer signature = new StringBuffer();
+    signature.append(returnType);
     for (int i = 0; i < argsType.length; i++) {
-      stb.append("$$" + argsType[i]);
+      signature.append("$$" + argsType[i]);
     }
-    return stb.toString();
+    return signature.toString();
   }
 
   /**
@@ -115,7 +115,7 @@ public abstract class Function implements Comparable<Function>, Serializable {
    * 
    * @return el tipo de los argumentos de la función.
    */
-  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="EI_EXPOSE_REP", justification="Its is a getter method")
+  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "EI_EXPOSE_REP", justification = "Its is a getter method")
   public Object[] getArgsType() {
     return argsType;
   }
@@ -151,11 +151,11 @@ public abstract class Function implements Comparable<Function>, Serializable {
    *           En el caso de instanciar un ADF que no esté definido en el
    *           function-set correspondiente.
    */
-  public static final Function load(String functionName) throws FunctionNotFoundException, UndefinedFunctionSetException {
+  public static final Function load(String functionName){
     Function function;
 
-    String classPathProGen = "progen.kernel.functions.";
-    String classPathUser = ProGenContext.getOptionalProperty("progen.user.home", classPathProGen);
+    final String classPathProGen = "progen.kernel.functions.";
+    final String classPathUser = ProGenContext.getOptionalProperty("progen.user.home", classPathProGen);
 
     if (!functionName.startsWith("ADF")) {
       function = loadReagularFunction(functionName, classPathProGen, classPathUser);
@@ -168,7 +168,7 @@ public abstract class Function implements Comparable<Function>, Serializable {
   private static Function loadFunctionADF(String functionName) {
     return new ADF(functionName);
   }
-  
+
   private static Function loadReagularFunction(String functionName, String classPathProGen, String classPathUser) {
     Function function;
     try {
@@ -199,7 +199,7 @@ public abstract class Function implements Comparable<Function>, Serializable {
       isCompatible = false;
     } else {
       for (int i = 0; i < arity; i++) {
-        isCompatible &= (argsType[i].equals(function.argsType[i]));
+        isCompatible &= argsType[i].equals(function.argsType[i]);
       }
     }
 
