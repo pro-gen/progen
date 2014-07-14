@@ -20,6 +20,14 @@ import progen.kernel.error.Error;
  */
 public abstract class Experimenter {
 
+  private static final String PROGEN_OUTPUT_DIR_PROPERTY = "progen.output.dir";
+  private static final String PROGEN_OPTIONAL_FILES_PROPERTY = "progen.optional.files";
+  private static final String PROGEN_EXPERIMENT_FILE_PROPERTY = "progen.experiment.file";
+  private static final String SPACE_SYMBOL = " ";
+  private static final String SQUARE_RIGHT_BRACKET_SYMBOL = "[";
+  private static final String SQUARE_LEFT_BRACKET_SYMBOL = "]";
+  private static final int PROGEN_ID_ERROR = 31;
+
   /**
    * Constructor por defecto de todas las clases hijas.
    */
@@ -35,15 +43,15 @@ public abstract class Experimenter {
    */
   private void dumpContext() {
     String masterFile = ProGenContext.getMandatoryProperty("progen.masterfile");
-    String experimentFile = ProGenContext.getMandatoryProperty("progen.experiment.file").replace('.', File.separatorChar).replace(File.separatorChar + "txt", ".txt");
-    String optionalFiles = ProGenContext.getOptionalProperty("progen.optional.files", "");
+    String experimentFile = ProGenContext.getMandatoryProperty(PROGEN_EXPERIMENT_FILE_PROPERTY).replace('.', File.separatorChar).replace(File.separatorChar + "txt", ".txt");
+    String optionalFiles = ProGenContext.getOptionalProperty(PROGEN_OPTIONAL_FILES_PROPERTY, "");
     String currentDir = System.getProperty("user.dir");
 
-    copyFile(masterFile, ProGenContext.getMandatoryProperty("progen.output.dir"));
-    copyFile(experimentFile, ProGenContext.getMandatoryProperty("progen.output.dir"));
+    copyFile(masterFile, ProGenContext.getMandatoryProperty(PROGEN_OUTPUT_DIR_PROPERTY));
+    copyFile(experimentFile, ProGenContext.getMandatoryProperty(PROGEN_OUTPUT_DIR_PROPERTY));
     for (String file : optionalFiles.trim().split(",[ ]*")) {
       if (file.length() > 0) {
-        copyFile(currentDir + File.separatorChar + file, ProGenContext.getMandatoryProperty("progen.output.dir"));
+        copyFile(currentDir + File.separatorChar + file, ProGenContext.getMandatoryProperty(PROGEN_OUTPUT_DIR_PROPERTY));
       }
     }
   }
@@ -66,10 +74,10 @@ public abstract class Experimenter {
   }
 
   private void copyFileSecure(String original, String copyPath) {
-    File originalFile = new File(original);
-    File destinationFile = new File(copyPath + File.separator + originalFile.getName());
+    final File originalFile = new File(original);
+    final File destinationFile = new File(copyPath + File.separator + originalFile.getName());
     if (!originalFile.exists()) {
-      throw new ProGenException(Error.get(31) + " [" + original + "]");
+      throw new ProGenException(Error.get(PROGEN_ID_ERROR) + SPACE_SYMBOL + SQUARE_RIGHT_BRACKET_SYMBOL + original + SQUARE_LEFT_BRACKET_SYMBOL);
     }
     InputStream inputStream = null;
     OutputStream outputStream = null;
@@ -78,15 +86,15 @@ public abstract class Experimenter {
       outputStream = new FileOutputStream(destinationFile);
       copyFile(inputStream, outputStream);
     } catch (FileNotFoundException e) {
-      throw new ProGenException(Error.get(31) + " [" + original + "]");
+      throw new ProGenException(Error.get(PROGEN_ID_ERROR) + SQUARE_RIGHT_BRACKET_SYMBOL + original + SQUARE_LEFT_BRACKET_SYMBOL);
     } catch (IOException e) {
       throw new ProGenException(e.getLocalizedMessage());
     } finally {
       try {
-        if(inputStream != null){
+        if (inputStream != null) {
           inputStream.close();
         }
-        if (outputStream != null){
+        if (outputStream != null) {
           outputStream.close();
         }
       } catch (IOException e) {
@@ -97,7 +105,7 @@ public abstract class Experimenter {
   }
 
   private void copyFile(InputStream inputStream, OutputStream outputStream) throws IOException {
-    byte[] buffer = new byte[1024];
+    final byte[] buffer = new byte[1024];
     int length;
     while ((length = inputStream.read(buffer)) > 0) {
       outputStream.write(buffer, 0, length);
@@ -140,16 +148,16 @@ public abstract class Experimenter {
    */
   protected boolean generateOutputDir() {
     boolean createDir = false;
-    StringBuilder defaultPath = new StringBuilder(100);
+    final StringBuilder defaultPath = new StringBuilder(100);
 
     defaultPath.append("outputs");
     defaultPath.append(File.separator);
     defaultPath.append(ProGenContext.getMandatoryProperty("progen.experiment.name"));
 
-    String outputDir = ProGenContext.getOptionalProperty("progen.output.dir", defaultPath.toString());
+    final String outputDir = ProGenContext.getOptionalProperty(PROGEN_OUTPUT_DIR_PROPERTY, defaultPath.toString());
 
-    File dir = new File(outputDir);
-    ProGenContext.setProperty("progen.output.dir", dir.getAbsolutePath() + File.separator);
+    final File dir = new File(outputDir);
+    ProGenContext.setProperty(PROGEN_OUTPUT_DIR_PROPERTY, dir.getAbsolutePath() + File.separator);
 
     if (dir.exists()) {
       deleteDirectory(dir);
@@ -166,7 +174,7 @@ public abstract class Experimenter {
    * - crea la carpeta <br>
    * - generateResults()
    */
-  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification="I don't really care makeDirs result")
+  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "I don't really care makeDirs result")
   public final void generateOutputs() {
     String experimentDir = defineExperimentDir();
 
@@ -175,7 +183,7 @@ public abstract class Experimenter {
     }
 
     ProGenContext.setProperty("progen.output.experiment", experimentDir);
-    File dir = new File(ProGenContext.getMandatoryProperty("progen.output.dir") + experimentDir);
+    final File dir = new File(ProGenContext.getMandatoryProperty(PROGEN_OUTPUT_DIR_PROPERTY) + experimentDir);
     dir.mkdir();
     generateResults();
 

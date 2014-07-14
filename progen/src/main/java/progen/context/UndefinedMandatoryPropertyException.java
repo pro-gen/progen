@@ -15,6 +15,7 @@ import progen.kernel.error.Error;
  */
 public class UndefinedMandatoryPropertyException extends RuntimeException {
 
+  private static final int ID_ERROR = 5;
   private static final long serialVersionUID = 1606940045200720802L;
 
   /**
@@ -26,6 +27,6 @@ public class UndefinedMandatoryPropertyException extends RuntimeException {
    *          Nombre de la propiedad obligatoria.
    */
   public UndefinedMandatoryPropertyException(String message) {
-    super(Error.get(5).trim() + " [" + message + "]");
+    super(Error.get(ID_ERROR).trim() + " [" + message + "]");
   }
 }

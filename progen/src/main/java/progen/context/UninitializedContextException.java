@@ -11,13 +11,14 @@ import progen.kernel.error.Error;
  * @see progen.context.ProGenContext#makeInstance(String)
  */
 public class UninitializedContextException extends RuntimeException {
+  private static final int ID_ERROR = 19;
   private static final long serialVersionUID = -1926903181381689034L;
 
   /**
    * Constructor genérico de la excepción.
    */
   public UninitializedContextException() {
-    super(Error.get(19).trim());
+    super(Error.get(ID_ERROR).trim());
   }
 
 }
