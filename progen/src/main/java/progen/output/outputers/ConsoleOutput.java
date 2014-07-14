@@ -37,7 +37,4 @@ public abstract class ConsoleOutput implements Outputer {
     return literals;
   }
 
-  public void setLiterals(ResourceBundle literals) {
-    this.literals = literals;
-  }
 }
