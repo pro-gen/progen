@@ -98,7 +98,7 @@ public final class ProGenContext {
    * 
    * @return La referencia a la única instancia de propiedades de ProGen
    */
-  public synchronized static ProGenContext makeInstance() {
+  public static synchronized ProGenContext makeInstance() {
     if (proGenProps == null) {
       proGenProps = new ProGenContext();
     }
@@ -263,7 +263,7 @@ public final class ProGenContext {
    * @return Un valor entre 0 y 1, que representa dicho porcentaje.
    */
   public static double getOptionalPercent(String key, String defaultPercent) {
-    String percent = getOptionalProperty(key, defaultPercent);
+    final String percent = getOptionalProperty(key, defaultPercent);
     return getPercent(percent);
   }
 
@@ -314,7 +314,7 @@ public final class ProGenContext {
    */
   private static double getPercent(String percent) {
     double value = 0.0;
-    String percentNormalized = percent.replaceAll(" ", "");
+    final String percentNormalized = percent.replaceAll(" ", "");
     if (percentNormalized.endsWith("%")) {
       value = Double.parseDouble(percentNormalized.substring(0, percentNormalized.length() - 1)) / 100;
     } else {
@@ -471,7 +471,7 @@ public final class ProGenContext {
   }
 
   private void findPropertiesUserProjectPath(String propertyFile, Properties otherProperties) throws IOException {
-    String propertyFileNormalized = proGenProps.properties.getProperty(PROGEN_USER_HOME_PROPERTY).replace('.', File.separatorChar) + propertyFile;
+    final String propertyFileNormalized = proGenProps.properties.getProperty(PROGEN_USER_HOME_PROPERTY).replace('.', File.separatorChar) + propertyFile;
     findPropertiesAbsolutePath(propertyFileNormalized, otherProperties);
   }
 

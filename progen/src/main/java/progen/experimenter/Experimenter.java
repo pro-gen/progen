@@ -42,10 +42,10 @@ public abstract class Experimenter {
    * &lt;user.bin&gt;/outputs.
    */
   private void dumpContext() {
-    String masterFile = ProGenContext.getMandatoryProperty("progen.masterfile");
-    String experimentFile = ProGenContext.getMandatoryProperty(PROGEN_EXPERIMENT_FILE_PROPERTY).replace('.', File.separatorChar).replace(File.separatorChar + "txt", ".txt");
-    String optionalFiles = ProGenContext.getOptionalProperty(PROGEN_OPTIONAL_FILES_PROPERTY, "");
-    String currentDir = System.getProperty("user.dir");
+    final String masterFile = ProGenContext.getMandatoryProperty("progen.masterfile");
+    final String experimentFile = ProGenContext.getMandatoryProperty(PROGEN_EXPERIMENT_FILE_PROPERTY).replace('.', File.separatorChar).replace(File.separatorChar + "txt", ".txt");
+    final String optionalFiles = ProGenContext.getOptionalProperty(PROGEN_OPTIONAL_FILES_PROPERTY, "");
+    final String currentDir = System.getProperty("user.dir");
 
     copyFile(masterFile, ProGenContext.getMandatoryProperty(PROGEN_OUTPUT_DIR_PROPERTY));
     copyFile(experimentFile, ProGenContext.getMandatoryProperty(PROGEN_OUTPUT_DIR_PROPERTY));
@@ -67,7 +67,7 @@ public abstract class Experimenter {
    */
   protected void copyFile(String original, String copyPath) {
     if (original == null || copyPath == null) {
-      throw new IllegalArgumentException(Error.get(31));
+      throw new IllegalArgumentException(Error.get(PROGEN_ID_ERROR));
     } else {
       copyFileSecure(original, copyPath);
     }
@@ -105,7 +105,8 @@ public abstract class Experimenter {
   }
 
   private void copyFile(InputStream inputStream, OutputStream outputStream) throws IOException {
-    final byte[] buffer = new byte[1024];
+    final int bufferSize = 1024;
+    final byte[] buffer = new byte[bufferSize];
     int length;
     while ((length = inputStream.read(buffer)) > 0) {
       outputStream.write(buffer, 0, length);
