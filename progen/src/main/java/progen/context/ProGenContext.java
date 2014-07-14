@@ -22,11 +22,17 @@ import java.util.Properties;
  * 
  * @author jirsis
  */
-public class ProGenContext {
+public final class ProGenContext {
+  private static final String PROGEN_OPTIONAL_FILES_PROPERTY = "progen.optional.files";
+  private static final String DOT_SYMBOL = ".";
+  private static final String PROGEN_USER_HOME_PROPERTY = "progen.user.home";
+  private static final String PROGEN_EXPERIMENT_FILE_PROPERTY = "progen.experiment.file";
+  private static final String EQUAL_SYMBOL = "=";
+  private static final String COMA_SYMBOL = ",";
   /**
    * Cadena que se utiliza para subopciones en distintos parámetros.
    */
-  private final static String parametersDelim = "\\(";
+  private static final String parametersDelim = "\\(";
   /**
    * Almacénd de propiedades que es implementado por un Singleton de tal forma
    * que únicamente exista una instancia en toda la ejecución.
@@ -60,14 +66,12 @@ public class ProGenContext {
    *           configuración. múltiples veces.
    * @throws IOException
    */
-  public static ProGenContext makeInstance(String file) throws MissingContextFileException {
-
+  public static ProGenContext makeInstance(String file) {
     if (file == null) {
       throw new MissingContextFileException();
     } else {
-
       try {
-        InputStream fis = getResource(file);
+        final InputStream fis = getResource(file);
 
         proGenProps = new ProGenContext();
         proGenProps.loadOtherPropertiesFile("ProGen.conf");
@@ -114,11 +118,13 @@ public class ProGenContext {
    *         configuración o valor por defecto en caso de no estar definida.
    */
   public static int getOptionalProperty(String property, int defaultValue) {
+    int value;
     if (ProGenContext.getProperty(property) == null) {
-      return defaultValue;
+      value = defaultValue;
     } else {
-      return Integer.parseInt(ProGenContext.getProperty(property).split(parametersDelim)[0]);
+      value = Integer.parseInt(ProGenContext.getProperty(property).split(parametersDelim)[0]);
     }
+    return value;
   }
 
   /**
@@ -156,11 +162,13 @@ public class ProGenContext {
    *         configuración o valor por defecto en caso de no estar definida.
    */
   public static double getOptionalProperty(String property, double defaultValue) {
+    double value;
     if (ProGenContext.getProperty(property) == null) {
-      return defaultValue;
+      value = defaultValue;
     } else {
-      return Double.parseDouble(ProGenContext.getProperty(property).split(parametersDelim)[0]);
+      value = Double.parseDouble(ProGenContext.getProperty(property).split(parametersDelim)[0]);
     }
+    return value;
   }
 
   /**
@@ -176,11 +184,13 @@ public class ProGenContext {
    *         configuración o valor por defecto en caso de no estar definida.
    */
   public static boolean getOptionalProperty(String property, boolean defaultValue) {
+    boolean value;
     if (ProGenContext.getProperty(property) == null) {
-      return defaultValue;
+      value = defaultValue;
     } else {
-      return Boolean.parseBoolean(ProGenContext.getProperty(property).split(parametersDelim)[0]);
+      value = Boolean.parseBoolean(ProGenContext.getProperty(property).split(parametersDelim)[0]);
     }
+    return value;
   }
 
   /**
@@ -195,7 +205,7 @@ public class ProGenContext {
    *         en el fichero de configuración.
    */
   public static String getMandatoryProperty(String key) {
-    String property = getProperty(key);
+    final String property = getProperty(key);
     if (property == null)
       throw new UndefinedMandatoryPropertyException(key);
     return property.split(parametersDelim)[0];
@@ -235,12 +245,10 @@ public class ProGenContext {
    */
   public static double getSuboptionPercent(String key, String subOption, double defaultPercent) {
     double value = defaultPercent;
-    String suboption = getParameter(key, subOption);
-
+    final String suboption = getParameter(key, subOption);
     if (suboption != null) {
       value = getPercent(suboption);
     }
-
     return value;
   }
 
@@ -255,8 +263,8 @@ public class ProGenContext {
    * @return Un valor entre 0 y 1, que representa dicho porcentaje.
    */
   public static double getOptionalPercent(String key, String defaultPercent) {
-    defaultPercent = getOptionalProperty(key, defaultPercent);
-    return getPercent(defaultPercent);
+    String percent = getOptionalProperty(key, defaultPercent);
+    return getPercent(percent);
   }
 
   /**
@@ -267,7 +275,7 @@ public class ProGenContext {
    * @return Un valor entre 0 y 1, que representa dicho porcentaje.
    */
   public static double getMandatoryPercent(String key) {
-    String property = getProperty(key);
+    final String property = getProperty(key);
     if (property == null)
       throw new UndefinedMandatoryPropertyException(key);
     return getPercent(property);
@@ -283,11 +291,11 @@ public class ProGenContext {
    *         criterio.
    */
   public static List<String> getFamilyOptions(String family) {
-    List<String> options = new ArrayList<String>();
-    Iterator<Object> i = proGenProps.properties.keySet().iterator();
+    final List<String> options = new ArrayList<String>();
+    final Iterator<Object> propertyKey = proGenProps.properties.keySet().iterator();
     String option;
-    while (i.hasNext()) {
-      option = (String) i.next();
+    while (propertyKey.hasNext()) {
+      option = (String) propertyKey.next();
       if (option.indexOf(family) == 0) {
         options.add(option);
       }
@@ -306,11 +314,11 @@ public class ProGenContext {
    */
   private static double getPercent(String percent) {
     double value = 0.0;
-    percent = percent.replaceAll(" ", "");
-    if (percent.endsWith("%")) {
-      value = Double.parseDouble(percent.substring(0, percent.length() - 1)) / 100;
+    String percentNormalized = percent.replaceAll(" ", "");
+    if (percentNormalized.endsWith("%")) {
+      value = Double.parseDouble(percentNormalized.substring(0, percentNormalized.length() - 1)) / 100;
     } else {
-      value = Double.parseDouble(percent);
+      value = Double.parseDouble(percentNormalized);
     }
     return value;
   }
@@ -368,7 +376,7 @@ public class ProGenContext {
    * @return La colección de parámetros asociados a dicha opción.
    */
   public static Map<String, String> getParameters(String option) {
-    Map<String, String> parameters = new HashMap<String, String>();
+    final Map<String, String> parameters = new HashMap<String, String>();
     String parametersContext;
     parametersContext = getProperty(option);
 
@@ -380,14 +388,14 @@ public class ProGenContext {
       String parameterKey = null, parameterValue = null;
       try {
         // se separan todos los parámetros
-        String[] parametersValues = parametersContext.split(",");
+        final String[] parametersValues = parametersContext.split(COMA_SYMBOL);
         for (String parameter : parametersValues) {
-          parameterKey = parameter.split("=")[0].trim();
-          parameterValue = parameter.split("=")[1].trim();
+          parameterKey = parameter.split(EQUAL_SYMBOL)[0].trim();
+          parameterValue = parameter.split(EQUAL_SYMBOL)[1].trim();
           parameters.put(parameterKey, parameterValue);
         }
       } catch (ArrayIndexOutOfBoundsException e) {
-        throw new MalformedParameterException(option + "," + parameterKey);
+        throw new MalformedParameterException(option + COMA_SYMBOL + parameterKey);
       }
     }
     return parameters;
@@ -417,11 +425,10 @@ public class ProGenContext {
    * @throws IOException
    *           Si ocurre un error de E/S.
    */
-  private void loadOtherProperties() throws FileNotFoundException, IOException {
-    loadOtherProperties("progen.experiment.file");
+  private void loadOtherProperties() throws IOException {
+    loadOtherProperties(PROGEN_EXPERIMENT_FILE_PROPERTY);
     loadOptionalFile("-experimenter");
     loadOptionalFile("-hypergp");
-
   }
 
   /**
@@ -464,12 +471,12 @@ public class ProGenContext {
   }
 
   private void findPropertiesUserProjectPath(String propertyFile, Properties otherProperties) throws IOException {
-    propertyFile = proGenProps.properties.getProperty("progen.user.home").replace('.', File.separatorChar) + propertyFile;
-    findPropertiesAbsolutePath(propertyFile, otherProperties);
+    String propertyFileNormalized = proGenProps.properties.getProperty(PROGEN_USER_HOME_PROPERTY).replace('.', File.separatorChar) + propertyFile;
+    findPropertiesAbsolutePath(propertyFileNormalized, otherProperties);
   }
 
   private void findPropertiesAbsolutePath(String propertyFile, Properties otherProperties) throws IOException {
-    InputStream fis = getResource(propertyFile);
+    final InputStream fis = getResource(propertyFile);
     otherProperties.load(fis);
     fis.close();
   }
@@ -484,7 +491,7 @@ public class ProGenContext {
    * @throws IOException
    *           Si ocurre un error de E/S.
    */
-  private void loadOtherProperties(String propertyFile) throws FileNotFoundException, IOException {
+  private void loadOtherProperties(String propertyFile) throws IOException {
     Properties otherProperties;
     String otherFile = proGenProps.properties.getProperty(propertyFile);
 
@@ -492,48 +499,48 @@ public class ProGenContext {
       otherFile = convertClasspath2Path(otherFile);
       otherProperties = new Properties();
       try {
-        lookForInAbsolutePath(otherProperties, otherFile);        
+        lookForInAbsolutePath(otherProperties, otherFile);
       } catch (FileNotFoundException fnfe) {
         lookForInUserProject(propertyFile, otherProperties);
       }
       chekProperties(otherProperties);
     }
   }
-  
+
   private void lookForInAbsolutePath(Properties otherProperties, String otherFile) throws IOException {
     InputStream inputStream;
     inputStream = getResource(otherFile);
     try {
-      otherProperties.load(inputStream );
-    } finally{
-      if(inputStream != null){
+      otherProperties.load(inputStream);
+    } finally {
+      if (inputStream != null) {
         inputStream.close();
       }
     }
   }
-  
+
   private FileInputStream lookForInUserProject(String propertyFile, Properties otherProperties) throws IOException {
     FileInputStream fileInputStream = null;
-    String otherFile = proGenProps.getProperty("progen.user.home").replace('.', File.separatorChar) + proGenProps.properties.getProperty(propertyFile);
+    final String otherFile = ProGenContext.getProperty(PROGEN_USER_HOME_PROPERTY).replace('.', File.separatorChar) + proGenProps.properties.getProperty(propertyFile);
     try {
       fileInputStream = new FileInputStream(otherFile);
       otherProperties.load(fileInputStream);
-    } finally{
-      if(fileInputStream != null){
+    } finally {
+      if (fileInputStream != null) {
         fileInputStream.close();
       }
     }
-    
+
     return fileInputStream;
   }
 
   private String convertClasspath2Path(String otherFile) {
-    int lastDot = otherFile.lastIndexOf(".");
-    String path = otherFile.substring(0, lastDot);
-    String ext = otherFile.substring(lastDot);
+    final int lastDot = otherFile.lastIndexOf(DOT_SYMBOL);
+    final String path = otherFile.substring(0, lastDot);
+    final String ext = otherFile.substring(lastDot);
     return path.replace('.', File.separatorChar) + ext;
   }
-  
+
   /**
    * Método que define algunas propiedades a partir de otras ya existentes.
    * <p/>
@@ -544,25 +551,24 @@ public class ProGenContext {
    * definen el dominio concreto sobre el que se está trabajando.</li>
    * </ul>
    */
-  @SuppressWarnings("static-access")
   private void calculateProperties() {
-    String userHome = proGenProps.getProperty("progen.experiment.file");
+    final String userHome = ProGenContext.getProperty(PROGEN_EXPERIMENT_FILE_PROPERTY);
     if (userHome != null) {
       setUserHome(userHome);
     }
   }
 
   private void setUserHome(String userHome) {
-    userHome = userHome.substring(0, userHome.lastIndexOf("."));
-    setExperimentName(userHome);
-    userHome = userHome.substring(0, userHome.lastIndexOf(".") + 1);
+    String userHomeNormalized = userHome.substring(0, userHome.lastIndexOf(DOT_SYMBOL));
+    setExperimentName(userHomeNormalized);
+    userHomeNormalized = userHomeNormalized.substring(0, userHomeNormalized.lastIndexOf(DOT_SYMBOL) + 1);
 
-    proGenProps.properties.setProperty("progen.user.home", userHome);
+    proGenProps.properties.setProperty(PROGEN_USER_HOME_PROPERTY, userHomeNormalized);
   }
 
   private void setExperimentName(String userHome) {
     String experimentName;
-    experimentName = userHome.substring(userHome.lastIndexOf(".") + 1, userHome.length());
+    experimentName = userHome.substring(userHome.lastIndexOf(DOT_SYMBOL) + 1, userHome.length());
     proGenProps.properties.setProperty("progen.experiment.name", experimentName);
   }
 
@@ -579,13 +585,13 @@ public class ProGenContext {
     Enumeration<Object> keys;
     String key;
     String value;
-    StringBuilder optionalFilesLoaded = new StringBuilder();
+    final StringBuilder optionalFilesLoaded = new StringBuilder();
 
-    String optionalFile = ProGenContext.getMandatoryProperty("progen.experiment.file");
+    String optionalFile = ProGenContext.getMandatoryProperty(PROGEN_EXPERIMENT_FILE_PROPERTY);
     optionalFile = optionalFile.replaceAll("\\.txt$", sufixFile).replace('.', File.separatorChar) + ".txt";
-    optionalFilesLoaded.append(ProGenContext.getOptionalProperty("progen.optional.files", ""));
+    optionalFilesLoaded.append(ProGenContext.getOptionalProperty(PROGEN_OPTIONAL_FILES_PROPERTY, ""));
     FileInputStream fis = null;
-    
+
     try {
       fis = new FileInputStream(optionalFile);
       otherProperties = new Properties();
@@ -596,17 +602,17 @@ public class ProGenContext {
         value = otherProperties.getProperty(key);
         proGenProps.properties.put(key, value);
       }
-      
+
       optionalFilesLoaded.append(optionalFile);
       optionalFilesLoaded.append(", ");
-      ProGenContext.setProperty("progen.optional.files", optionalFilesLoaded.toString());
+      ProGenContext.setProperty(PROGEN_OPTIONAL_FILES_PROPERTY, optionalFilesLoaded.toString());
     } catch (FileNotFoundException e) {
       // do nothing, ignore
     } catch (IOException e) {
       // do nothing, ignore
-    } finally{
+    } finally {
       try {
-        if(fis != null){
+        if (fis != null) {
           fis.close();
         }
       } catch (IOException e) {
