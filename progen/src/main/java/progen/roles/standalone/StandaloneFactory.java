@@ -24,26 +24,26 @@ public class StandaloneFactory extends ProGenFactory {
 
   @Override
   public Client makeClient() {
-    String roleClass = ProGenContext.getOptionalProperty("progen.role.client.class", "ClientLocal");
+    final String roleClass = ProGenContext.getOptionalProperty("progen.role.client.class", "ClientLocal");
 
     return (Client) loadRole(roleClass);
   }
 
   @Override
   public Dispatcher makeDispatcher() {
-    String roleClass = ProGenContext.getOptionalProperty("progen.role.dispatcher.class", "DispatcherLocal");
+    final String roleClass = ProGenContext.getOptionalProperty("progen.role.dispatcher.class", "DispatcherLocal");
     return (Dispatcher) loadRole(roleClass);
   }
 
   @Override
   public Worker makeWorker() {
-    String roleClass = ProGenContext.getOptionalProperty("progen.role.worker.class", "WorkerLocal");
+    final String roleClass = ProGenContext.getOptionalProperty("progen.role.worker.class", "WorkerLocal");
     return (Worker) loadRole(roleClass);
   }
 
   private Object loadRole(String clazz) {
     Object role = null;
-    String roleName = "progen.roles.standalone." + clazz;
+    final String roleName = "progen.roles.standalone." + clazz;
     try {
       role = Class.forName(roleName).newInstance();
     } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
@@ -55,9 +55,9 @@ public class StandaloneFactory extends ProGenFactory {
   @Override
   public ExecutionRole makeExecutionRole() {
     ExecutionRole exec = null;
-    String element = ProGenContext.getOptionalProperty("progen.role", Role.CLIENT.name());
+    final String element = ProGenContext.getOptionalProperty("progen.role", Role.CLIENT.name());
     try {
-      Role executionRole = Role.valueOf(element.toUpperCase(Locale.getDefault()));
+      final Role executionRole = Role.valueOf(element.toUpperCase(Locale.getDefault()));
       switch (executionRole) {
       case CLIENT:
         exec = this.makeClient();
@@ -68,6 +68,8 @@ public class StandaloneFactory extends ProGenFactory {
       case WORKER:
         exec = this.makeWorker();
         break;
+      default:
+        throw new UnknownRoleException(executionRole.name());
       }
     } catch (IllegalArgumentException e) {
       throw new UnknownRoleException(element);

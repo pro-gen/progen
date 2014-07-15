@@ -20,32 +20,28 @@ public class DistributedFactory extends ProGenFactory {
 
   @Override
   public Client makeClient() {
-    String roleClass = ProGenContext.getOptionalProperty("progen.role.client.class", "ClientDistributed");
-
+    final String roleClass = ProGenContext.getOptionalProperty("progen.role.client.class", "ClientDistributed");
     return (Client) loadRole(roleClass);
   }
 
   @Override
   public Dispatcher makeDispatcher() {
-    String roleClass = ProGenContext.getOptionalProperty("progen.role.dispatcher.class", "DispatcherDistributed");
-    Dispatcher dispatcher = (Dispatcher) loadRole(roleClass);
-
-    return dispatcher;
+    final String roleClass = ProGenContext.getOptionalProperty("progen.role.dispatcher.class", "DispatcherDistributed");
+    return (Dispatcher) loadRole(roleClass);
   }
 
   @Override
   public Worker makeWorker() {
-    String roleClass = ProGenContext.getOptionalProperty("progen.role.worker.class", "WorkerDistributed");
-
+    final String roleClass = ProGenContext.getOptionalProperty("progen.role.worker.class", "WorkerDistributed");
     return (Worker) loadRole(roleClass);
   }
 
   @Override
   public ExecutionRole makeExecutionRole() {
     ExecutionRole exec = null;
-    String name = ProGenContext.getMandatoryProperty("progen.role");
+    final String name = ProGenContext.getMandatoryProperty("progen.role");
     try {
-      Role executionRole = Role.valueOf(name.toUpperCase(Locale.getDefault()));
+      final Role executionRole = Role.valueOf(name.toUpperCase(Locale.getDefault()));
       switch (executionRole) {
       case CLIENT:
         exec = this.makeClient();
@@ -56,6 +52,8 @@ public class DistributedFactory extends ProGenFactory {
       case WORKER:
         exec = this.makeWorker();
         break;
+      default:
+        throw new UnknownRoleException(executionRole.name());
       }
     } catch (IllegalArgumentException e) {
       throw new UnknownRoleException(name);
@@ -65,7 +63,7 @@ public class DistributedFactory extends ProGenFactory {
 
   private Object loadRole(String clazz) {
     Object role = null;
-    String roleName = "progen.roles.distributed." + clazz;
+    final String roleName = "progen.roles.distributed." + clazz;
     try {
       role = Class.forName(roleName).newInstance();
     } catch (ClassNotFoundException e) {

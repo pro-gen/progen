@@ -15,7 +15,7 @@ public interface Task extends Serializable {
   /**
    * Método que se llamará para evaluar la tarea.
    */
-  public void calculate(UserProgram userProgram);
+  void calculate(UserProgram userProgram);
 
   /**
    * Forma de obtener los resultados calculados, una vez se haya terminado de
@@ -23,7 +23,7 @@ public interface Task extends Serializable {
    * 
    * @return Resultados de la ejecución de la tarea.
    */
-  public Object getCalculateResult();
+  Object getCalculateResult();
 
   /**
    * Devuelve si la tarea se ha terminado de evaluar o no.
@@ -31,6 +31,6 @@ public interface Task extends Serializable {
    * @return <code>true</code> si la tarea está finalizada o <code>false</code>
    *         si se sigue calculando.
    */
-  public boolean isDone();
+  boolean isDone();
 
 }

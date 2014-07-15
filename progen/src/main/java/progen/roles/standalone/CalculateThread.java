@@ -38,15 +38,13 @@ public class CalculateThread implements Runnable {
   public void run() {
     synchronized (tasks) {
       for (currentTask = 0; currentTask < tasks.size(); currentTask++) {
-        Calendar before = GregorianCalendar.getInstance();
+        final Calendar before = GregorianCalendar.getInstance();
         worker.calculate(tasks.get(currentTask), userProgram);
         tasks.notifyAll();
-        Calendar after = GregorianCalendar.getInstance();
+        final Calendar after = GregorianCalendar.getInstance();
         historical.getCurrentDataCollector("PopulationTimeData").addValue("evaluation", after.getTimeInMillis() - before.getTimeInMillis());
-
       }
     }
-
   }
 
   public synchronized int getCompletedTasks() {

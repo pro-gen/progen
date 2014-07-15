@@ -16,6 +16,7 @@ import progen.context.ProGenContext;
  * @since 2.0
  */
 public abstract class ProGenFactory {
+  private static final int DEFAULT_FACTORY_CLASS_SIZE_NAME = 30;
   /** Representación única de la fábrica a lo largo de la ejecución de ProGen */
   private static ProGenFactory factory;
 
@@ -60,7 +61,7 @@ public abstract class ProGenFactory {
    */
   public static synchronized ProGenFactory makeInstance() {
     if (factory == null) {
-      String factoryClass = getFactoryClass();
+      final String factoryClass = getFactoryClass();
 
       try {
         factory = (ProGenFactory) Class.forName(factoryClass).newInstance();
@@ -77,8 +78,8 @@ public abstract class ProGenFactory {
   }
 
   private static String getFactoryClass() {
-    String factoryPackage = ProGenContext.getOptionalProperty("progen.roles.factory", "standalone");
-    StringBuilder factoryClass = new StringBuilder(30);
+    final String factoryPackage = ProGenContext.getOptionalProperty("progen.roles.factory", "standalone");
+    final StringBuilder factoryClass = new StringBuilder(DEFAULT_FACTORY_CLASS_SIZE_NAME);
     factoryClass.append("progen.roles.");
     factoryClass.append(factoryPackage + ".");
     factoryClass.append(factoryPackage.substring(0, 1).toUpperCase(Locale.getDefault()));

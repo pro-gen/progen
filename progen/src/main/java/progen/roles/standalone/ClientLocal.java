@@ -33,6 +33,10 @@ import progen.userprogram.UserProgram;
  */
 public class ClientLocal implements Client {
 
+  private static final String STATISTICAL_LITERAL = "statistical";
+
+  private static final String EXPERIMENT_INDIVIDUAL_DATA_LITERAL = "ExperimentIndividualData";
+
   /** Factoría de roles. */
   private ProGenFactory factory;
 
@@ -62,10 +66,10 @@ public class ClientLocal implements Client {
 
   @Override
   public void start() {
-    Experimenter experimenter = ExperimenterFactory.makeInstance();
-    Dispatcher dispatcher = this.initDispatcher();
-    UserProgram userProgram = UserProgram.getUserProgram();
-    int maxGenerations = ProGenContext.getOptionalProperty("progen.max-generation", Integer.MAX_VALUE);
+    final Experimenter experimenter = ExperimenterFactory.makeInstance();
+    final Dispatcher dispatcher = this.initDispatcher();
+    final UserProgram userProgram = UserProgram.getUserProgram();
+    final int maxGenerations = ProGenContext.getOptionalProperty("progen.max-generation", Integer.MAX_VALUE);
 
     userProgram.initialize();
 
@@ -80,8 +84,8 @@ public class ClientLocal implements Client {
       System.out.println(experimenter.finishMessage());
     }
 
-    Individual best = population.getBestIndividual();
-    String printable = userProgram.postProcess(best);
+    final Individual best = population.getBestIndividual();
+    final String printable = userProgram.postProcess(best);
     best.setPrintableIndividual(printable);
     System.out.println(printable);
 
@@ -127,7 +131,7 @@ public class ClientLocal implements Client {
 
   private List<Individual> applyElitism() {
     List<Individual> newPopulation;
-    Elitism elitism = new Elitism(population);
+    final Elitism elitism = new Elitism(population);
     newPopulation = elitism.propagate();
     return newPopulation;
   }
@@ -141,7 +145,7 @@ public class ClientLocal implements Client {
   }
 
   private List<Task> convertIndividualsToTasks() {
-    List<Task> individuals = new ArrayList<Task>();
+    final List<Task> individuals = new ArrayList<Task>();
     for (Individual ind : population.getIndividuals()) {
       individuals.add((Task) ind);
     }
@@ -150,9 +154,9 @@ public class ClientLocal implements Client {
 
   private void updateHistoricalData(Dispatcher dispatcher) {
     for (Task task : dispatcher.getResults()) {
-      Individual individual = (Individual) task;
-      historical.getDataCollectorExperiment("ExperimentIndividualData").addValue("statistical", individual);
-      historical.getCurrentDataCollector("ExperimentIndividualData").addValue("statistical", individual);
+      final Individual individual = (Individual) task;
+      historical.getDataCollectorExperiment(EXPERIMENT_INDIVIDUAL_DATA_LITERAL).addValue(STATISTICAL_LITERAL, individual);
+      historical.getCurrentDataCollector(EXPERIMENT_INDIVIDUAL_DATA_LITERAL).addValue(STATISTICAL_LITERAL, individual);
       historical.getCurrentDataCollector("PopulationData").addValue("individualMean", individual);
     }
   }

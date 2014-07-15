@@ -12,6 +12,7 @@ import progen.kernel.error.Error;
  */
 public class UnknownRoleException extends RuntimeException {
 
+  private static final int ID_ERROR = 21;
   /** Para serialización. */
   private static final long serialVersionUID = -7868949342835598751L;
 
@@ -23,7 +24,7 @@ public class UnknownRoleException extends RuntimeException {
    *          El tipo de rol a crear.
    */
   public UnknownRoleException(String msg) {
-    super(Error.get(21) + "(" + msg + ")");
+    super(Error.get(ID_ERROR) + "(" + msg + ")");
   }
 
 }

@@ -19,9 +19,19 @@ import progen.userprogram.UserProgram;
 
 public class DispatcherServer extends UnicastRemoteObject implements DispatcherRemote {
 
-  private static final long serialVersionUID = 1486658118278870720L;
+  private static final String SLASH_SYMBOL = "/";
+
+  private static final String COLON_SYMBOL = ":";
+
+  private static final String PROGEN_DISPATCHER_NAME_PROPERTY = "progen.dispatcher.name";
+
+  private static final String PROGEN_ROLE_DISPATCHER_BIND_ADDRESS_PROPERTY = "progen.role.dispatcher.bindAddress";
+
+  private static final String PROGEN_ROLE_DISPATCHER_PORT_PROPERTY = "progen.role.dispatcher.port";
 
   public static final int UNASIGNED_TASKS = -10;
+
+  private static final long serialVersionUID = 1486658118278870720L;
 
   private int port;
 
@@ -31,16 +41,16 @@ public class DispatcherServer extends UnicastRemoteObject implements DispatcherR
 
   protected DispatcherServer() throws RemoteException {
     super();
-    port = ProGenContext.getOptionalProperty("progen.role.dispatcher.port", Registry.REGISTRY_PORT);
+    port = ProGenContext.getOptionalProperty(PROGEN_ROLE_DISPATCHER_PORT_PROPERTY, Registry.REGISTRY_PORT);
     bindAddress = getDefaultBindAddress();
-    bindAddress = ProGenContext.getOptionalProperty("progen.role.dispatcher.bindAddress", bindAddress);
-    ProGenContext.setProperty("progen.role.dispatcher.bindAddress", bindAddress);
+    bindAddress = ProGenContext.getOptionalProperty(PROGEN_ROLE_DISPATCHER_BIND_ADDRESS_PROPERTY, bindAddress);
+    ProGenContext.setProperty(PROGEN_ROLE_DISPATCHER_BIND_ADDRESS_PROPERTY, bindAddress);
   }
 
   private String getDefaultBindAddress() {
     String address = "127.0.0.1";
     try {
-      InetAddress addr = InetAddress.getLocalHost();
+      final InetAddress addr = InetAddress.getLocalHost();
       address = addr.getHostName();
     } catch (UnknownHostException e) {
       // do nothing
@@ -92,17 +102,13 @@ public class DispatcherServer extends UnicastRemoteObject implements DispatcherR
     try {
       System.getProperties().setProperty("java.rmi.server.hostname", bindAddress);
       registry = LocateRegistry.createRegistry(port);
-      registry.bind(ProGenContext.getMandatoryProperty("progen.dispatcher.name"), this);
+      registry.bind(ProGenContext.getMandatoryProperty(PROGEN_DISPATCHER_NAME_PROPERTY), this);
 
       for (String remoteService : registry.list()) {
-        Info.show(3, bindAddress + ":" + port + "/" + remoteService);
+        Info.show(3, bindAddress + COLON_SYMBOL + port + SLASH_SYMBOL + remoteService);
       }
 
-    } catch (AccessException e) {
-      throw new ProGenDistributedException(e.getLocalizedMessage());
-    } catch (RemoteException e) {
-      throw new ProGenDistributedException(e.getLocalizedMessage());
-    } catch (AlreadyBoundException e) {
+    } catch (RemoteException | AlreadyBoundException e) {
       throw new ProGenDistributedException(e.getLocalizedMessage());
     }
 
@@ -111,20 +117,20 @@ public class DispatcherServer extends UnicastRemoteObject implements DispatcherR
   private void defineDispatcherName() {
     String defaultName = DispatcherDistributed.DISPATCHER_NAME;
     defaultName = ProGenContext.getOptionalProperty("progen.role.dispatcher.name", defaultName);
-    ProGenContext.setProperty("progen.dispatcher.name", defaultName);
+    ProGenContext.setProperty(PROGEN_DISPATCHER_NAME_PROPERTY, defaultName);
 
   }
 
   @Override
   public String toString() {
-    StringBuilder stb = new StringBuilder(32);
-    stb.append("rmi://");
-    stb.append(ProGenContext.getMandatoryProperty("progen.role.dispatcher.bindAddress"));
-    stb.append(":");
-    stb.append(ProGenContext.getMandatoryProperty("progen.role.dispatcher.port"));
-    stb.append("/");
-    stb.append(DispatcherDistributed.DISPATCHER_NAME);
-    return stb.toString();
+    StringBuilder dispatcherServer = new StringBuilder(32);
+    dispatcherServer.append("rmi://");
+    dispatcherServer.append(ProGenContext.getMandatoryProperty(PROGEN_ROLE_DISPATCHER_BIND_ADDRESS_PROPERTY));
+    dispatcherServer.append(COLON_SYMBOL);
+    dispatcherServer.append(ProGenContext.getMandatoryProperty(PROGEN_ROLE_DISPATCHER_PORT_PROPERTY));
+    dispatcherServer.append(SLASH_SYMBOL);
+    dispatcherServer.append(DispatcherDistributed.DISPATCHER_NAME);
+    return dispatcherServer.toString();
   }
 
 }

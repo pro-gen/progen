@@ -27,27 +27,27 @@ public interface Dispatcher extends ExecutionRole {
    *          representación del problema a solucionar y función concreta de
    *          evaluación de las tareas.
    */
-  public void asignTask(List<Task> tasks, UserProgram userProgram);
+  void asignTask(List<Task> tasks, UserProgram userProgram);
 
   /**
    * Devuelve las tareas asignadas, una vez evaluadas.
    * 
    * @return Conjunto de tareas evaluadas.
    */
-  public List<Task> getResults();
+  List<Task> getResults();
 
   /**
    * Devuelve el número actual de tareas que se han terminado de evaluar.
    * 
    * @return El total de tareas que ya han sido evaluadas.
    */
-  public int totalTasksDone();
+  int totalTasksDone();
 
   /**
    * Método que será llamada en el momento en el que se decida cancelar las
    * tareas que se están evaluando.
    */
-  public void stopTask();
+  void stopTask();
 
   /**
    * Método que añadirá un <code>Worker</code> al <code>Dispatcher</code> de tal
@@ -57,6 +57,6 @@ public interface Dispatcher extends ExecutionRole {
    * @param worker
    *          nuevo que recibirá tareas para su evaluación.
    */
-  public void addWorker(Worker worker);
+  void addWorker(Worker worker);
 
 }

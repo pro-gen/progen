@@ -16,6 +16,8 @@ import progen.roles.standalone.ClientLocal;
  */
 public class ClientDistributed extends ClientLocal {
 
+  private static final int DISPATCHER_ADDRESS_DEFAULT_SIZE = 32;
+
   public ClientDistributed() {
     super();
   }
@@ -29,7 +31,7 @@ public class ClientDistributed extends ClientLocal {
   public Dispatcher initDispatcher() {
     DispatcherDistributed dispatcher = null;
     try {
-      DispatcherRemote remote = (DispatcherRemote) Naming.lookup(getDispatcherAddress());
+      final DispatcherRemote remote = (DispatcherRemote) Naming.lookup(getDispatcherAddress());
       dispatcher = new DispatcherDistributed(remote);
     } catch (MalformedURLException e) {
       throw new ProGenDistributedException(getDispatcherAddress());
@@ -42,7 +44,7 @@ public class ClientDistributed extends ClientLocal {
   }
 
   private String getDispatcherAddress() {
-    StringBuilder dispatcherAddress = new StringBuilder(32);
+    final StringBuilder dispatcherAddress = new StringBuilder(DISPATCHER_ADDRESS_DEFAULT_SIZE);
     dispatcherAddress.append("rmi://");
     dispatcherAddress.append(ProGenContext.getOptionalProperty("progen.role.client.dispatcher.bindAddress", "127.0.0.1"));
     dispatcherAddress.append(":");
