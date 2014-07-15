@@ -156,7 +156,7 @@ public class MultipleExperimenter extends Experimenter {
     final File experimentDir = new File(ProGenContext.getMandatoryProperty("progen.output.dir") + ProGenContext.getMandatoryProperty("progen.output.experiment"));
     try {
       // creamos el fichero del contexto actual
-      File file = new File(experimentDir.getAbsolutePath() + File.separator + "current context.txt");
+      final File file = new File(experimentDir.getAbsolutePath() + File.separator + "current context.txt");
       context = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
       for (Property property : properties) {
         context.print(property.getLabel());
@@ -194,7 +194,7 @@ public class MultipleExperimenter extends Experimenter {
 
   @Override
   public String defineExperimentDir() {
-    StringBuilder experimenterDir = new StringBuilder(DEFAULT_STRINGBUILDER_SIZE);
+    final StringBuilder experimenterDir = new StringBuilder(DEFAULT_STRINGBUILDER_SIZE);
     experimenterDir.append("exp-");
     experimenterDir.append(currentRepetition);
     experimenterDir.append("-");
