@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
  * 
  * @author jirsis
  */
-public class Warning {
+public final class Warning {
   
   private static final String WARNING_LITERAL = "Warning";
   private static ResourceBundle literals;

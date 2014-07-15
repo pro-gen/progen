@@ -1,6 +1,3 @@
-/**
- * 
- */
 package progen.output.outputers;
 
 import java.util.ArrayList;
@@ -17,7 +14,7 @@ import progen.context.ProGenContext;
  * @since 2.0
  * 
  */
-public class OutputStore {
+public final class OutputStore {
 
   /** Conjunto de salidas disponibles. */
   private List<Outputer> outputers;
@@ -42,7 +39,7 @@ public class OutputStore {
    * 
    * @return La instancia única del almaacen de salidas.
    */
-  public synchronized static OutputStore makeInstance() {
+  public static synchronized OutputStore makeInstance() {
     if (store == null) {
       store = new OutputStore();
       store.init();
@@ -58,10 +55,10 @@ public class OutputStore {
    * <code> progen.outputers </code> y serparadas por comas (,).
    */
   public void init() {
-    String outputersName[] = ProGenContext.getOptionalProperty("progen.outputers", "NullOutputer").split(",[ ]*");
+    final String[] outputersName = ProGenContext.getOptionalProperty("progen.outputers", "NullOutputer").split(",[ ]*");
     try {
       for (String outputClass : outputersName) {
-        Outputer output = (Outputer) Class.forName("progen.output.outputers." + outputClass).newInstance();
+        final Outputer output = (Outputer) Class.forName("progen.output.outputers." + outputClass).newInstance();
 
         outputers.add(output);
       }

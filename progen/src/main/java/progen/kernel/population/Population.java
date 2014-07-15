@@ -131,7 +131,7 @@ public class Population {
    * representación de todos los individuos que conforman cada población.
    */
   public String toString() {
-    StringBuilder population = new StringBuilder();
+    final StringBuilder population = new StringBuilder();
     for (int i = 0; i < individuals.size(); i++) {
       population.append(individuals.get(i) + "\n");
     }

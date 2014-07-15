@@ -36,7 +36,7 @@ public class SimpleExperimenter extends Experimenter {
 
   @Override
   public void generateResults() {
-    OutputStore outputs = OutputStore.makeInstance();
+    final OutputStore outputs = OutputStore.makeInstance();
     outputs.print();
   }
 

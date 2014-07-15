@@ -1,7 +1,6 @@
 package progen.kernel.grammar.validations;
 
 import progen.kernel.grammar.Grammar;
-import progen.kernel.grammar.GrammarNotValidException;
 
 /**
  * Clase que encadena y comprueba las distintas comprobaciones que se realizan

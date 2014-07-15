@@ -18,6 +18,7 @@ import progen.kernel.grammar.Production;
  */
 public class Grow implements InitializeTreeMethod {
 
+  private static final int DEFAULT_MAX_ATTEMPTS = 100;
   private static final long serialVersionUID = 7620491297926843935L;
   /** Profundidad mínima de los nodos. */
   private int minDepth;
@@ -40,7 +41,7 @@ public class Grow implements InitializeTreeMethod {
     maxNodes = ProGenContext.getOptionalProperty("progen.population.max-nodes", Integer.MAX_VALUE);
     minDepth = 0;
     maxDepth = 0;
-    maxAttempts = ProGenContext.getOptionalProperty("progen.max-attempts", 100);
+    maxAttempts = ProGenContext.getOptionalProperty("progen.max-attempts", DEFAULT_MAX_ATTEMPTS);
     final String[] intervalDepth = ProGenContext.getMandatoryProperty("progen.population.init-depth-interval").split(",");
     minDepth = Integer.parseInt(intervalDepth[0]);
     if (intervalDepth.length != 2) {

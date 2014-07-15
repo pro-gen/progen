@@ -6,7 +6,6 @@ import java.util.List;
 
 import progen.context.ProGenContext;
 import progen.kernel.grammar.FunctionNotFoundException;
-import progen.kernel.grammar.UndefinedFunctionSetException;
 import progen.kernel.tree.Node;
 import progen.userprogram.UserProgram;
 

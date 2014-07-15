@@ -20,7 +20,7 @@ import progen.userprogram.UserProgram;
 public class DispatcherServer extends UnicastRemoteObject implements DispatcherRemote {
 
   private static final long serialVersionUID = 1486658118278870720L;
-  
+
   public static final int UNASIGNED_TASKS = -10;
 
   private int port;

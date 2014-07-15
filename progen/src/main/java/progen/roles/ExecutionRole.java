@@ -1,6 +1,3 @@
-/**
- * 
- */
 package progen.roles;
 
 /**
@@ -10,11 +7,11 @@ package progen.roles;
  * @author jirsis
  * @since 2.0
  */
-public interface ExecutionRole{
+public interface ExecutionRole {
 
-    /**
-     * Método que se ejecutará para que empiece a funcionar la instancia de
-     * ProGen con el rol asignado.
-     */
-    public void start();
+  /**
+   * Método que se ejecutará para que empiece a funcionar la instancia de ProGen
+   * con el rol asignado.
+   */
+  void start();
 }

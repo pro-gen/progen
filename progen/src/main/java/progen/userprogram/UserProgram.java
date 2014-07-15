@@ -25,9 +25,9 @@ public abstract class UserProgram {
    */
   public static UserProgram getUserProgram() {
     UserProgram userProgram = null;
-    String userPackage = ProGenContext.getMandatoryProperty("progen.user.home");
+    final String userPackage = ProGenContext.getMandatoryProperty("progen.user.home");
     String userProgramClass;
-    String path[] = userPackage.split("\\.");
+    final String [] path = userPackage.split("\\.");
 
     userProgramClass = path[path.length - 1].substring(0, 1).toUpperCase(Locale.getDefault());
     userProgramClass += path[path.length - 1].substring(1);

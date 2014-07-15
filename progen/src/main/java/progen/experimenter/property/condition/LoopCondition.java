@@ -16,7 +16,7 @@ public abstract class LoopCondition {
    * Tolerancia para la cual se considerará que se cumple la condición de
    * parada.
    */
-  protected static final double TOLERANCE = 0.0000000001;
+  protected final static double TOLERANCE = 0.0000000001;
 
   /**
    * Comprueba si el valor actual sigue cumpliendo la condición o no.

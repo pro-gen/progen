@@ -18,6 +18,7 @@ import progen.kernel.grammar.Production;
  * @since 2.0
  */
 public class Full implements InitializeTreeMethod {
+  private static final int DEFAULT_MAX_ATTEMPTS = 100;
   private static final String PROGEN_ACTIVE_SEARCH_PROPERTY = "progen.activeSearch";
   private static final long serialVersionUID = 3387278132317051831L;
   /** Profundidad mínima que tendrá el árbol resultante. */
@@ -48,7 +49,7 @@ public class Full implements InitializeTreeMethod {
     maxNodes = ProGenContext.getOptionalProperty("progen.population.max-nodes", Integer.MAX_VALUE);
     minDepth = 0;
     maxDepth = 0;
-    maxAttempts = ProGenContext.getOptionalProperty("progen.max-attempts", 100);
+    maxAttempts = ProGenContext.getOptionalProperty("progen.max-attempts", DEFAULT_MAX_ATTEMPTS);
     final String [] intervalDepth = ProGenContext.getMandatoryProperty("progen.population.init-depth-interval").split(",");
     minDepth = Integer.parseInt(intervalDepth[0]);
     if (intervalDepth.length != 2) {
@@ -108,7 +109,7 @@ public class Full implements InitializeTreeMethod {
    * @return Si se cumple la condición.
    */
   private boolean conditionGeneration() {
-    boolean activeSearchEnable = ProGenContext.getOptionalProperty(PROGEN_ACTIVE_SEARCH_PROPERTY, false);
+    final boolean activeSearchEnable = ProGenContext.getOptionalProperty(PROGEN_ACTIVE_SEARCH_PROPERTY, false);
     boolean condition = true;
     if (activeSearchEnable) {
       condition = activeSearchCondition();

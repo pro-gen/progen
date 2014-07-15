@@ -284,7 +284,7 @@ public class Node implements Cloneable, Serializable {
 
   @Override
   public String toString() {
-    StringBuilder node = new StringBuilder();
+    final StringBuilder node = new StringBuilder();
     if (isLeaf()) {
       node.append(function);
     } else {
@@ -338,12 +338,13 @@ public class Node implements Cloneable, Serializable {
    */
   private Node findNode(int position) {
     Node node = null;
-    if (position == 0) {
+    int currentPosition = position;
+    if (currentPosition == 0) {
       node = this;
     } else {
       for (int i = 0; node == null && i < branches.size(); i++) {
-        node = branches.get(i).findNode(position - 1);
-        position -= branches.get(i).getTotalNodes();
+        node = branches.get(i).findNode(currentPosition - 1);
+        currentPosition -= branches.get(i).getTotalNodes();
       }
     }
     return node;

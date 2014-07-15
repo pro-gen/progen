@@ -1,6 +1,3 @@
-/**
- * 
- */
 package progen.roles.distributed;
 
 import java.util.Locale;

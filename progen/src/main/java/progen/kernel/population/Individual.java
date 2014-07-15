@@ -20,6 +20,10 @@ import progen.userprogram.UserProgram;
  * 
  */
 public class Individual implements Task, Comparable<Individual>, Cloneable {
+  private static final String COLON_SPACE_SYMBOL = ": ";
+
+  private static final String RETURN_SYMBOL = "\n";
+
   private static final String ADF_PROPERTY = "ADF";
 
   private static final String RPB_PROPERTY = "RPB";
@@ -176,7 +180,7 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
    */
   @Override
   public String toString() {
-    StringBuilder individual = new StringBuilder();
+    final StringBuilder individual = new StringBuilder();
 
     if (this.printabeIndividual != null && this.printabeIndividual.length() > 0) {
       individual.append(printabeIndividual);
@@ -184,11 +188,11 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
       int RPB = 0;
       int adf = 0;
       while (trees.get(RPB_PROPERTY + RPB) != null) {
-        individual.append("\n"+ RPB_PROPERTY + RPB + ": " + trees.get(RPB_PROPERTY + RPB));
+        individual.append(RETURN_SYMBOL+ RPB_PROPERTY + RPB + COLON_SPACE_SYMBOL + trees.get(RPB_PROPERTY + RPB));
         RPB++;
       }
       while (trees.get(ADF_PROPERTY + adf) != null) {
-        individual.append("\n"+ADF_PROPERTY + adf + ": " + trees.get(ADF_PROPERTY + adf));
+        individual.append(RETURN_SYMBOL+ADF_PROPERTY + adf + COLON_SPACE_SYMBOL + trees.get(ADF_PROPERTY + adf));
         adf++;
       }
     }

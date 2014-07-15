@@ -17,19 +17,19 @@ public interface Plugin {
    * @param value
    *          El valor a añadir.
    */
-  public void addValue(Comparable<?> value);
+  void addValue(Comparable<?> value);
 
   /**
    * Devuelve el valor que se ha calculado en el plugin.
    * 
    * @return el valor calculado.
    */
-  public Object getValue();
+  Object getValue();
 
   /**
    * Define los parámetros iniciales con los que empezará a calcular el plugin.
    */
-  public void initialValue();
+  void initialValue();
 
   /**
    * Devuelve el orden relativo en el que tiene que ser calculado, es decir, si
@@ -43,14 +43,14 @@ public interface Plugin {
    * 
    * @return el orden relativo para calcular el valor del plugin.
    */
-  public int getPriority();
+  int getPriority();
 
   /**
    * Devuelve el nombre único del plugin.
    * 
    * @return La cadena con el nombre único del plugin.
    */
-  public String getName();
+  String getName();
 
   /**
    * Forma de inicializar los distintos parámetros del plugin, en función de la
@@ -60,7 +60,7 @@ public interface Plugin {
    * @param propertyFamily
    *          La famila de propiedades que hacen referencia al plugin.
    */
-  public void initPlugin(String propertyFamily);
+  void initPlugin(String propertyFamily);
 
   /**
    * Devuelve la referencia a un plugin del tipo solicitado como parámetro o un
@@ -70,7 +70,7 @@ public interface Plugin {
    *          El nombre del plugin a buscar.
    * @return La instancia del plugin solicitado o NullPlugin en otro caso.
    */
-  public Plugin getPlugin(String name);
+  Plugin getPlugin(String name);
 
   /**
    * Encargado de comprobar que ya existen los plugins necesarios para poder
@@ -80,6 +80,6 @@ public interface Plugin {
    * @param pluginCollection
    *          Colección de plugins disponibles.
    */
-  public void checkDependeces(List<Plugin> pluginCollection);
+  void checkDependeces(List<Plugin> pluginCollection);
 
 }

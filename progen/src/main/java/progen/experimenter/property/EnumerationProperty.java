@@ -68,11 +68,11 @@ public class EnumerationProperty implements Property {
 
   @Override
   public String toString() {
-    StringBuilder string = new StringBuilder();
+    final StringBuilder enumerationProperty = new StringBuilder();
     for (String value : values) {
-      string.append(value + ";");
+      enumerationProperty.append(value + ";");
     }
-    string.append("[" + values[index] + "],");
-    return string.toString();
+    enumerationProperty.append("[" + values[index] + "],");
+    return enumerationProperty.toString();
   }
 }

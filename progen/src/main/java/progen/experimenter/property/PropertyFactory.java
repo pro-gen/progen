@@ -9,7 +9,7 @@ import progen.context.ProGenContext;
  * @author jirsis
  * @since 2.0
  */
-public class PropertyFactory {
+public final class PropertyFactory {
   
   private PropertyFactory(){
     

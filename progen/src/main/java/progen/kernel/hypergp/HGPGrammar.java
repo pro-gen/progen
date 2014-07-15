@@ -55,7 +55,7 @@ public class HGPGrammar extends Grammar {
   }
 
   private Function getWildCard(Production production, List<Production> productions) {
-    WildCard wildCard = new WildCard(production.getFunction().getFunction());
+    final WildCard wildCard = new WildCard(production.getFunction().getFunction());
 
     for (Production pAux : productions) {
       // si no son la misma produccion, se comparan todos los elementos

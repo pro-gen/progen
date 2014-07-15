@@ -73,7 +73,7 @@ public class Production implements Serializable {
    * representación es de la forma <code> A -> b C </code>
    */
   public String toString() {
-    StringBuffer production = new StringBuffer();
+    final StringBuffer production = new StringBuffer();
     production.append(left.toString());
     production.append(" -> ");
     production.append(function.toString());

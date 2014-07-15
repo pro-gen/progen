@@ -85,7 +85,7 @@ public class GenneticFactory {
         throw new UndefinedGenneticOperatorException(e.getMessage());
       } catch (InstantiationException | IllegalAccessException e) {
         throw new GenneticOperatorException(e.getMessage());
-       }
+      }
     }
   }
 

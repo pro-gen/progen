@@ -3,7 +3,6 @@ package progen.kernel.functions;
 import java.util.HashMap;
 import java.util.List;
 
-import progen.kernel.functions.NonTerminal;
 import progen.kernel.tree.Node;
 import progen.userprogram.UserProgram;
 

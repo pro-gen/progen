@@ -11,6 +11,7 @@ import progen.kernel.error.Error;
  * 
  */
 public class BadConfigurationGenneticOperatorsException extends RuntimeException {
+  private static final int HUNDRED_PERCENT = 100;
   private static final int ID_ERROR = 12;
   /**
    * Para serialización.
@@ -24,6 +25,6 @@ public class BadConfigurationGenneticOperatorsException extends RuntimeException
    *          Porcentaje de uso total.
    */
   public BadConfigurationGenneticOperatorsException(double message) {
-    super(Error.get(ID_ERROR).trim() + " (" + message * 100 + "% != 100%)");
+    super(Error.get(ID_ERROR).trim() + " (" + message * HUNDRED_PERCENT + "% != 100%)");
   }
 }

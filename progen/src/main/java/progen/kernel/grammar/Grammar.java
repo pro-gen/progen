@@ -267,7 +267,7 @@ public class Grammar implements Serializable {
    * y la nomenclatura seguida.
    */
   public String toString() {
-    StringBuffer grammar = new StringBuffer();
+    final StringBuffer grammar = new StringBuffer();
     for (Production production : productions) {
       grammar.append(production.toString() + "\n");
     }
@@ -316,7 +316,7 @@ public class Grammar implements Serializable {
    * @return Conjunto de símbolos no terminales que generan los distintos
    *         valores de retorno
    */
-  private GrammarNonTerminalSymbol[] getGrammarNonTerminalSymbol(Object returnValue[]) {
+  private GrammarNonTerminalSymbol[] getGrammarNonTerminalSymbol(Object [] returnValue) {
     GrammarNonTerminalSymbol [] symbols;
     symbols = new GrammarNonTerminalSymbol[returnValue.length];
     for (int i = 0; i < returnValue.length; i++) {

@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
  * 
  * @author jirsis
  */
-public class Info {
+public final class Info {
   
   private static final String INFO_LITERAL = "Info";
   private static final String PROGEN_KERNEL_ERROR_STRINGS_BUNDLE = "progen.kernel.error.strings";

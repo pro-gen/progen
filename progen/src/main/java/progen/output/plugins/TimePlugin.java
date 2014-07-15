@@ -32,11 +32,7 @@ public class TimePlugin implements MacroPlugin {
     plugins = new ArrayList<Plugin>();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.output.plugins.Plugin#addValue(java.lang.Comparable)
-   */
+  @Override
   @SuppressWarnings("rawtypes")
   public void addValue(Comparable value) {
     for (Plugin plugin : plugins) {
@@ -44,11 +40,7 @@ public class TimePlugin implements MacroPlugin {
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.output.plugins.Plugin#getValue()
-   */
+  @Override
   public HashMap<String, Object> getValue() {
     HashMap<String, Object> values = new HashMap<String, Object>();
     for (Plugin plugin : plugins) {
@@ -57,31 +49,19 @@ public class TimePlugin implements MacroPlugin {
     return values;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.output.plugins.Plugin#initialValue()
-   */
+  @Override
   public void initialValue() {
     for (Plugin plugin : plugins) {
       plugin.initialValue();
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.output.plugins.Plugin#getName()
-   */
+  @Override
   public String getName() {
     return name;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.output.plugins.Plugin#getPriority()
-   */
+  @Override
   public int getPriority() {
     int priority = 0;
     for (Plugin plugin : plugins) {
@@ -90,11 +70,7 @@ public class TimePlugin implements MacroPlugin {
     return priority;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.output.plugins.Plugin#initPlugin(java.lang.String)
-   */
+  @Override
   public void initPlugin(String propertyFamily) {
     String pluginsName[] = ProGenContext.getOptionalProperty(propertyFamily + "." + getName() + ".enable", "Mean, Total").trim().split(",[ ]*");
     Plugin plugin;
@@ -112,11 +88,7 @@ public class TimePlugin implements MacroPlugin {
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.output.plugins.Plugin#getPlugin(java.lang.String)
-   */
+  @Override
   public Plugin getPlugin(String name) {
     Plugin plugin = null;
     if (getName().compareTo(name) == 0) {
@@ -135,21 +107,12 @@ public class TimePlugin implements MacroPlugin {
     return plugin;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.output.plugins.Plugin#checkDependeces(java.util.List)
-   */
+  @Override
   public void checkDependeces(List<Plugin> pluginCollection) {
     // do nothing
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.output.plugins.MacroPlugin#addPlugin(java.util.List,
-   * progen.output.plugins.Plugin)
-   */
+  @Override
   public void addPlugin(List<Plugin> pluginsCollection, Plugin plugin) {
     Plugin alreadyDefined = null;
     for (Plugin pluginDefined : plugins) {
@@ -163,11 +126,7 @@ public class TimePlugin implements MacroPlugin {
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.output.plugins.MacroPlugin#getPlugins()
-   */
+  @Override
   public List<Plugin> getPlugins() {
     return plugins;
   }

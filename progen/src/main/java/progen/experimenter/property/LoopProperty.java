@@ -22,6 +22,9 @@ import progen.kernel.error.Error;
  * @since 2.0
  */
 public class LoopProperty implements Property {
+  private static final int ID_ERROR = 29;
+  private static final double HUNDRED_PERCENT = 100.0;
+  private static final int NUMBER_OF_ARGUMENTS = 3;
   private static final String SPACE_SYMBOL = " ";
   private static final String PERCENT_SYMBOL = "%";
   private static final String SEMI_COLON_SYMBOL = ";";
@@ -53,8 +56,8 @@ public class LoopProperty implements Property {
   public LoopProperty(String label) {
     this.label = label.replace("progen.experimenter", "progen");
 
-    final String [] loop = ProGenContext.getMandatoryProperty(label).split(SEMI_COLON_SYMBOL);
-    if (loop.length != 3) {
+    final String[] loop = ProGenContext.getMandatoryProperty(label).split(SEMI_COLON_SYMBOL);
+    if (loop.length != NUMBER_OF_ARGUMENTS) {
       throw new IllegalArgumentException(Error.get(29) + " (" + label + ")");
     }
     try {
@@ -64,11 +67,11 @@ public class LoopProperty implements Property {
       this.increment = Double.parseDouble(loop[2].trim().replaceAll(PERCENT_SYMBOL, ""));
       this.isPercent = loop[2].endsWith(PERCENT_SYMBOL);
       if (isPercent) {
-        this.increment = (end - start) * increment / 100.0;
+        this.increment = (end - start) * increment / HUNDRED_PERCENT;
       }
       condition = LoopCondition.makeInstance(this.start, this.end, this.increment);
     } catch (NumberFormatException e) {
-      final String msg = Error.get(29) + SPACE_SYMBOL + label + SPACE_SYMBOL + e.getLocalizedMessage();
+      final String msg = Error.get(ID_ERROR) + SPACE_SYMBOL + label + SPACE_SYMBOL + e.getLocalizedMessage();
       throw new IllegalArgumentException(msg);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException(label + ": " + e.getMessage());
@@ -84,7 +87,7 @@ public class LoopProperty implements Property {
   public String getValue() {
     String value = current + "";
     if (isPercent) {
-      value = (current * 100.0) + "";
+      value = (current * HUNDRED_PERCENT) + "";
       value += PERCENT_SYMBOL;
     }
     return value;
@@ -108,7 +111,7 @@ public class LoopProperty implements Property {
 
   @Override
   public String toString() {
-    StringBuilder loopProperty = new StringBuilder();
+    final StringBuilder loopProperty = new StringBuilder();
     loopProperty.append(start + SEMI_COLON_SYMBOL);
     loopProperty.append(end + SEMI_COLON_SYMBOL);
     loopProperty.append(increment);
