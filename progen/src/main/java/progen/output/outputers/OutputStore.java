@@ -15,15 +15,15 @@ import progen.context.ProGenContext;
  * 
  */
 public final class OutputStore {
-
-  /** Conjunto de salidas disponibles. */
-  private List<Outputer> outputers;
-
+  
   /**
    * Almacén que representa la única instancia del almacén a lo largo de la
    * ejecución.
    */
   private static OutputStore store;
+
+  /** Conjunto de salidas disponibles. */
+  private List<Outputer> outputers;
 
   /**
    * Constructor privado de la clase. Únicamente se ejecutará desde el método de

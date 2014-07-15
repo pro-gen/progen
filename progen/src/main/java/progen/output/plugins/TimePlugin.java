@@ -42,7 +42,7 @@ public class TimePlugin implements MacroPlugin {
 
   @Override
   public HashMap<String, Object> getValue() {
-    HashMap<String, Object> values = new HashMap<String, Object>();
+    final HashMap<String, Object> values = new HashMap<String, Object>();
     for (Plugin plugin : plugins) {
       values.put(plugin.getName(), plugin.getValue());
     }
@@ -72,17 +72,13 @@ public class TimePlugin implements MacroPlugin {
 
   @Override
   public void initPlugin(String propertyFamily) {
-    String pluginsName[] = ProGenContext.getOptionalProperty(propertyFamily + "." + getName() + ".enable", "Mean, Total").trim().split(",[ ]*");
+    final String pluginsName[] = ProGenContext.getOptionalProperty(propertyFamily + "." + getName() + ".enable", "Mean, Total").trim().split(",[ ]*");
     Plugin plugin;
     for (int i = 0; i < pluginsName.length; i++) {
       try {
         plugin = (Plugin) Class.forName("progen.output.plugins." + pluginsName[i]).newInstance();
         this.addPlugin(plugins, plugin);
-      } catch (InstantiationException e) {
-        throw new UnknownPluginException(getName() + ": " + pluginsName[i]);
-      } catch (IllegalAccessException e) {
-        throw new UnknownPluginException(getName() + ": " + pluginsName[i]);
-      } catch (ClassNotFoundException e) {
+      } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
         throw new UnknownPluginException(getName() + ": " + pluginsName[i]);
       }
     }

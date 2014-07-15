@@ -9,7 +9,7 @@ import progen.kernel.tree.Tree;
  * @author jirsis
  * @since 2.0
  */
-public class Formatter {
+public final class Formatter {
 
   private Formatter() {
 
@@ -56,7 +56,7 @@ public class Formatter {
    * @return La cadena justificada en el espacio disponible.
    */
   public static String left(String text, int length) {
-    StringBuilder alignLeft = new StringBuilder(text);
+    final StringBuilder alignLeft = new StringBuilder(text);
     if (length > text.length()) {
       alignLeft.append(String.format("%" + (length - text.length()) + "s", " "));
     }
@@ -74,7 +74,7 @@ public class Formatter {
    * @return La cadena justificada en el espacio disponible.
    */
   public static String right(String text, int length) {
-    StringBuilder alignRight = new StringBuilder();
+    final StringBuilder alignRight = new StringBuilder();
     if (length > text.length()) {
       alignRight.append(String.format("%" + (length - text.length()) + "s", " "));
     }
@@ -93,7 +93,7 @@ public class Formatter {
    */
   public static String tree(Tree tree) {
     final StringBuilder line = new StringBuilder();
-    String[] tokens = tree.toString().trim().split(" ");
+    final String[] tokens = tree.toString().trim().split(" ");
     boolean function;
     int indent = 1;
     for (String token : tokens) {
@@ -133,7 +133,7 @@ public class Formatter {
    */
   private static String indentation(int indent) {
     int currentIndent = indent;
-    StringBuilder indentation = new StringBuilder();
+    final StringBuilder indentation = new StringBuilder();
     indentation.append(String.format("%n"));
     while ((currentIndent--) > 0) {
       indentation.append("\t");

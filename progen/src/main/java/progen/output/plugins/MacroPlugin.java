@@ -21,12 +21,12 @@ public interface MacroPlugin extends Plugin {
    * @param plugin
    *          A añadir a la colección.
    */
-  public void addPlugin(List<Plugin> pluginsCollection, Plugin plugin);
+  void addPlugin(List<Plugin> pluginsCollection, Plugin plugin);
 
   /**
    * Devuelve el conjunto de Plugins que componen el macro plugin.
    * 
    * @return el conjunto de plugins que componen el macro plugin.
    */
-  public List<Plugin> getPlugins();
+  List<Plugin> getPlugins();
 }

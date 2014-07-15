@@ -15,6 +15,8 @@ import progen.kernel.population.Individual;
  */
 public class IndividualMeanPlugin implements Plugin {
 
+  private static final String ADF_LITERAL = "ADF";
+  private static final String RPB_LITERAL = "RPB";
   /** Valor medio del rawFitness./ */
   private Mean raw;
   /** Valor medio del adjustedFitness. */
@@ -30,12 +32,12 @@ public class IndividualMeanPlugin implements Plugin {
     adjusted = new Mean();
     trees = new HashMap<String, Mean>();
     for (int i = 0; i < Integer.parseInt(ProGenContext.getMandatoryProperty("progen.total.RPB")); i++) {
-      trees.put("RPB" + i + "-nodes", new Mean());
-      trees.put("RPB" + i + "-depth", new Mean());
+      trees.put(RPB_LITERAL + i + "-nodes", new Mean());
+      trees.put(RPB_LITERAL + i + "-depth", new Mean());
     }
     for (int i = 0; i < ProGenContext.getOptionalProperty("progen.total.ADF", 0); i++) {
-      trees.put("ADF" + i + "-nodes", new Mean());
-      trees.put("ADF" + i + "-depth", new Mean());
+      trees.put(ADF_LITERAL + i + "-nodes", new Mean());
+      trees.put(ADF_LITERAL + i + "-depth", new Mean());
     }
   }
 
@@ -45,16 +47,16 @@ public class IndividualMeanPlugin implements Plugin {
       throw new ClassCastException(value.toString());
     }
 
-    Individual individual = (Individual) value;
+    final Individual individual = (Individual) value;
     raw.addValue(individual.getRawFitness());
     adjusted.addValue(individual.getAdjustedFitness());
     for (int i = 0; i < individual.getTotalRPB(); i++) {
-      trees.get("RPB" + i + "-nodes").addValue(individual.getTrees().get("RPB" + i).getRoot().getTotalNodes());
-      trees.get("RPB" + i + "-depth").addValue(individual.getTrees().get("RPB" + i).getRoot().getMaximunDepth());
+      trees.get(RPB_LITERAL + i + "-nodes").addValue(individual.getTrees().get(RPB_LITERAL + i).getRoot().getTotalNodes());
+      trees.get(RPB_LITERAL + i + "-depth").addValue(individual.getTrees().get(RPB_LITERAL + i).getRoot().getMaximunDepth());
     }
     for (int i = 0; i < individual.getTotalADF(); i++) {
-      trees.get("ADF" + i + "-nodes").addValue(individual.getTrees().get("ADF" + i).getRoot().getTotalNodes());
-      trees.get("ADF" + i + "-depth").addValue(individual.getTrees().get("ADF" + i).getRoot().getMaximunDepth());
+      trees.get(ADF_LITERAL + i + "-nodes").addValue(individual.getTrees().get(ADF_LITERAL + i).getRoot().getTotalNodes());
+      trees.get(ADF_LITERAL + i + "-depth").addValue(individual.getTrees().get(ADF_LITERAL + i).getRoot().getMaximunDepth());
     }
   }
 
@@ -82,7 +84,7 @@ public class IndividualMeanPlugin implements Plugin {
   }
 
   public Object getValue() {
-    HashMap<String, Mean> value = new HashMap<String, Mean>();
+    final HashMap<String, Mean> value = new HashMap<String, Mean>();
     value.putAll(trees);
     value.put("raw", raw);
     value.put("adjusted", adjusted);

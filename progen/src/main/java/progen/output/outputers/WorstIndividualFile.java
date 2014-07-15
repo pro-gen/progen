@@ -20,7 +20,7 @@ public class WorstIndividualFile extends FileOutput {
 
   public WorstIndividualFile() {
     super(ProGenContext.getMandatoryProperty("progen.output.experiment") + File.pathSeparator + "bestIndividual.txt", false);
-    HistoricalData historical = HistoricalData.makeInstance();
+    final HistoricalData historical = HistoricalData.makeInstance();
     data = historical.getCurrentDataCollector("ExperimentIndividualData");
     finish = false;
   }
@@ -28,14 +28,11 @@ public class WorstIndividualFile extends FileOutput {
   @Override
   public void print() {
     if (finish) {
-      Plugin plugin = data.getPlugin("worst");
-
-      Individual individual = (Individual) plugin.getValue();
-
+      final Plugin plugin = data.getPlugin("worst");
+      final Individual individual = (Individual) plugin.getValue();
       for (int i = 0; i < individual.getTotalADF(); i++) {
         super.getWriter().println(Formatter.tree(individual.getTrees().get("ADF" + i)));
       }
-
       for (int i = 0; i < individual.getTotalRPB(); i++) {
         super.getWriter().println(Formatter.tree(individual.getTrees().get("RPB" + i)));
       }

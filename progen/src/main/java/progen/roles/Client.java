@@ -14,6 +14,6 @@ public interface Client extends ExecutionRole {
    * 
    * @return El dispatcher inicializado.
    */
-  public Dispatcher initDispatcher();
+  Dispatcher initDispatcher();
 
 }

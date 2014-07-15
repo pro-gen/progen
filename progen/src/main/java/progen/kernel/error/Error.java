@@ -20,6 +20,11 @@ public final class Error {
   private static final String PROGEN_KERNEL_ERROR_STRINGS_BUNDLE = "progen.kernel.error.strings";
 
   /**
+   * Lenguaje por defecto de la que se cargarán los distintos literales.
+   */
+  private static final String DEFAULT_LANGUAGE = "en_US";
+
+  /**
    * Objeto que representa la única instancia que existirá de este objeto al ser
    * implemetado con un Singleton
    */
@@ -30,11 +35,6 @@ public final class Error {
    * correspondiente.
    */
   private ResourceBundle literals;
-
-  /**
-   * Lenguaje por defecto de la que se cargarán los distintos literales.
-   */
-  private static final String DEFAULT_LANGUAGE = "en_US";
 
   /**
    * Constructor privado de la clase, en la que por defecto se cargan los

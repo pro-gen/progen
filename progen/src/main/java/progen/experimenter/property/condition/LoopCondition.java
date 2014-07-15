@@ -11,12 +11,13 @@ import progen.kernel.error.Error;
  */
 public abstract class LoopCondition {
 
-  private static final int ID_ERROR = 30;
   /**
    * Tolerancia para la cual se considerará que se cumple la condición de
    * parada.
    */
-  protected final static double TOLERANCE = 0.0000000001;
+  protected static final double TOLERANCE = 0.0000000001;
+
+  private static final int ID_ERROR = 30;
 
   /**
    * Comprueba si el valor actual sigue cumpliendo la condición o no.

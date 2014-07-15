@@ -42,7 +42,7 @@ public class StatisticalPlugin implements MacroPlugin {
    * @return La colección de valores de los plugins que contiene.
    */
   public HashMap<String, Object> getValue() {
-    HashMap<String, Object> values = new HashMap<String, Object>();
+    final HashMap<String, Object> values = new HashMap<String, Object>();
     for (Plugin plugin : plugins) {
       values.put(plugin.getName(), plugin.getValue());
     }
@@ -87,17 +87,13 @@ public class StatisticalPlugin implements MacroPlugin {
   }
 
   public void initPlugin(String propertyFamily) {
-    String pluginsName[] = ProGenContext.getOptionalProperty(propertyFamily + "." + getName() + ".enable", "Best, Worst, Mean, Median").trim().split(",[ ]*");
+    final String [] pluginsName = ProGenContext.getOptionalProperty(propertyFamily + "." + getName() + ".enable", "Best, Worst, Mean, Median").trim().split(",[ ]*");
     Plugin plugin;
     for (int i = 0; i < pluginsName.length; i++) {
       try {
         plugin = (Plugin) Class.forName("progen.output.plugins." + pluginsName[i]).newInstance();
         this.addPlugin(plugins, plugin);
-      } catch (InstantiationException e) {
-        throw new UnknownPluginException(getName() + ": " + pluginsName[i]);
-      } catch (IllegalAccessException e) {
-        throw new UnknownPluginException(getName() + ": " + pluginsName[i]);
-      } catch (ClassNotFoundException e) {
+      } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
         throw new UnknownPluginException(getName() + ": " + pluginsName[i]);
       }
     }

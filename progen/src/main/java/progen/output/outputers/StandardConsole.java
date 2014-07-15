@@ -201,7 +201,7 @@ public class StandardConsole extends ConsoleOutput {
    */
   private void printBestTail() {
     final StringBuilder bestTail = new StringBuilder();
-    Individual best = (Individual) (experimentData.getPlugin(BEST_LITERAL).getValue());
+    final Individual best = (Individual) (experimentData.getPlugin(BEST_LITERAL).getValue());
     for (int i = 0; i < best.getTotalRPB(); i++) {
       bestTail.append(String.format("%s%d:%n", RPB_LITERAL, i));
       bestTail.append(Formatter.tree(best.getTrees().get(RPB_LITERAL + i)));
@@ -241,7 +241,7 @@ public class StandardConsole extends ConsoleOutput {
     final StringBuilder line = new StringBuilder(LEFT_SEP);
     int padding = hline.length() - (firstColumnWidth + secondColumnWidth) - 2 * CENTER_SEP.length() - 3;
     padding = padding / 2;
-    Plugin evaluation = historical.getCurrentDataCollector(POPULATION_TIME_DATA_LITERAL).getPlugin(EVALUATION_LITERAL);
+    final Plugin evaluation = historical.getCurrentDataCollector(POPULATION_TIME_DATA_LITERAL).getPlugin(EVALUATION_LITERAL);
     String ceilData;
 
     line.append(String.format(STRING_FORMAT, Formatter.center(SPACE_SYMBOL, firstColumnWidth)));
@@ -318,7 +318,7 @@ public class StandardConsole extends ConsoleOutput {
     final DataCollector populationData = historical.getCurrentDataCollector(POPULATION_DATA_LITERAL);
     final Map<String, Mean> mean = (Map<String, Mean>) (populationData.getPlugin(INDIVIDUAL_MEAN_LITERAL).getValue());
 
-    int padding = Formatter.center(getLiterals().getString(INDIVIDUAL_LITERAL), WIDTH_COLUMN).length();
+    final int padding = Formatter.center(getLiterals().getString(INDIVIDUAL_LITERAL), WIDTH_COLUMN).length();
     line = new StringBuilder(LEFT_SEP);
     line.append(String.format(STRING_FORMAT, Formatter.center(SPACE_SYMBOL, padding + CENTER_SEP.length())));
     line.append(String.format("%s%s", Formatter.left(getLiterals().getString(GENERATION_MEAN_LITERAL), secondColumnWidth), CENTER_SEP));
