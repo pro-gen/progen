@@ -43,17 +43,17 @@ public class DistributedFactory extends ProGenFactory {
     try {
       final Role executionRole = Role.valueOf(name.toUpperCase(Locale.getDefault()));
       switch (executionRole) {
-      case CLIENT:
-        exec = this.makeClient();
-        break;
-      case DISPATCHER:
-        exec = this.makeDispatcher();
-        break;
-      case WORKER:
-        exec = this.makeWorker();
-        break;
-      default:
-        throw new UnknownRoleException(executionRole.name());
+        case CLIENT:
+          exec = this.makeClient();
+          break;
+        case DISPATCHER:
+          exec = this.makeDispatcher();
+          break;
+        case WORKER:
+          exec = this.makeWorker();
+          break;
+        default:
+          throw new UnknownRoleException(executionRole.name());
       }
     } catch (IllegalArgumentException e) {
       throw new UnknownRoleException(name);

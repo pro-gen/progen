@@ -59,17 +59,17 @@ public class StandaloneFactory extends ProGenFactory {
     try {
       final Role executionRole = Role.valueOf(element.toUpperCase(Locale.getDefault()));
       switch (executionRole) {
-      case CLIENT:
-        exec = this.makeClient();
-        break;
-      case DISPATCHER:
-        exec = this.makeDispatcher();
-        break;
-      case WORKER:
-        exec = this.makeWorker();
-        break;
-      default:
-        throw new UnknownRoleException(executionRole.name());
+        case CLIENT:
+          exec = this.makeClient();
+          break;
+        case DISPATCHER:
+          exec = this.makeDispatcher();
+          break;
+        case WORKER:
+          exec = this.makeWorker();
+          break;
+        default:
+          throw new UnknownRoleException(executionRole.name());
       }
     } catch (IllegalArgumentException e) {
       throw new UnknownRoleException(element);

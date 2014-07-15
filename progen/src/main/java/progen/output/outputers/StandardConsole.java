@@ -1,6 +1,3 @@
-/**
- * 
- */
 package progen.output.outputers;
 
 import java.util.Map;
@@ -22,6 +19,7 @@ import progen.output.plugins.Plugin;
  */
 public class StandardConsole extends ConsoleOutput {
 
+  private static final int EXTRA_PADDING = 3;
   private static final String WORST_RUN_LITERAL = "worstRun";
   private static final String BEST_RUN_LITERAL = "bestRun";
   private static final String GENERATION_MEAN_LITERAL = "generationMean";
@@ -146,11 +144,11 @@ public class StandardConsole extends ConsoleOutput {
     line.append(String.format("%s%s", Formatter.left(getLiterals().getString("newBestIndividual"), firstColumnWidth + secondColumnWidth), CENTER_SEP));
 
     padding = Formatter.center(getLiterals().getString(RAW_LITERAL), WIDTH_COLUMN).length();
-    padding += Formatter.center(getLiterals().getString(ADJUSTED_LITERAL), WIDTH_COLUMN).length() + 3;
+    padding += Formatter.center(getLiterals().getString(ADJUSTED_LITERAL), WIDTH_COLUMN).length() + EXTRA_PADDING;
     line.append(String.format("%s%s", Formatter.center(getLiterals().getString(FITNESS_LITERAL), padding), CENTER_SEP));
 
     padding = Formatter.center(getLiterals().getString(NODES_LITERAL), WIDTH_COLUMN).length();
-    padding += Formatter.center(getLiterals().getString(DEPTH_LITERAL), WIDTH_COLUMN).length() + 3;
+    padding += Formatter.center(getLiterals().getString(DEPTH_LITERAL), WIDTH_COLUMN).length() + EXTRA_PADDING;
     for (int i = 0; i < totalRPB; i++) {
       line.append(String.format("%s%s", Formatter.center(RPB_LITEARL + i, padding), CENTER_SEP));
     }
@@ -239,7 +237,7 @@ public class StandardConsole extends ConsoleOutput {
    */
   private void printTimeEvaluation() {
     final StringBuilder line = new StringBuilder(LEFT_SEP);
-    int padding = hline.length() - (firstColumnWidth + secondColumnWidth) - 2 * CENTER_SEP.length() - 3;
+    int padding = hline.length() - (firstColumnWidth + secondColumnWidth) - 2 * CENTER_SEP.length() - EXTRA_PADDING;
     padding = padding / 2;
     final Plugin evaluation = historical.getCurrentDataCollector(POPULATION_TIME_DATA_LITERAL).getPlugin(EVALUATION_LITERAL);
     String ceilData;
@@ -258,7 +256,7 @@ public class StandardConsole extends ConsoleOutput {
    */
   private void printTimeBreeding() {
     final StringBuilder line = new StringBuilder(LEFT_SEP);
-    int padding = hline.length() - (firstColumnWidth + secondColumnWidth) - 2 * CENTER_SEP.length() - 3;
+    int padding = hline.length() - (firstColumnWidth + secondColumnWidth) - 2 * CENTER_SEP.length() - EXTRA_PADDING;
     padding = padding / 2;
     final Plugin breeding = historical.getCurrentDataCollector(POPULATION_TIME_DATA_LITERAL).getPlugin(BREEDING_LITERAL);
     String ceilData;
@@ -281,7 +279,7 @@ public class StandardConsole extends ConsoleOutput {
 
     line.append(String.format("%s%s", Formatter.left(getLiterals().getString("time"), firstColumnWidth + secondColumnWidth), CENTER_SEP));
 
-    padding = hline.length() - (firstColumnWidth + secondColumnWidth) - 2 * CENTER_SEP.length() - 3;
+    padding = hline.length() - (firstColumnWidth + secondColumnWidth) - 2 * CENTER_SEP.length() - EXTRA_PADDING;
     padding = padding / 2;
 
     line.append(String.format("%s%s", Formatter.center(getLiterals().getString("populationMean"), padding), CENTER_SEP));
@@ -438,11 +436,11 @@ public class StandardConsole extends ConsoleOutput {
     line.append(String.format("%s%s", Formatter.left(getLiterals().getString(INDIVIDUAL_LITERAL), firstColumnWidth + secondColumnWidth), CENTER_SEP));
 
     padding = Formatter.center(getLiterals().getString(RAW_LITERAL), WIDTH_COLUMN).length();
-    padding += Formatter.center(getLiterals().getString(ADJUSTED_LITERAL), WIDTH_COLUMN).length() + 3;
+    padding += Formatter.center(getLiterals().getString(ADJUSTED_LITERAL), WIDTH_COLUMN).length() + EXTRA_PADDING;
     line.append(String.format("%s%s", Formatter.center(getLiterals().getString(FITNESS_LITERAL), padding), CENTER_SEP));
 
     padding = Formatter.center(getLiterals().getString(NODES_LITERAL), WIDTH_COLUMN).length();
-    padding += Formatter.center(getLiterals().getString(DEPTH_LITERAL), WIDTH_COLUMN).length() + 3;
+    padding += Formatter.center(getLiterals().getString(DEPTH_LITERAL), WIDTH_COLUMN).length() + EXTRA_PADDING;
     for (int i = 0; i < totalRPB; i++) {
       line.append(String.format("%s%s", Formatter.center(RPB_LITEARL + i, padding), CENTER_SEP));
     }
