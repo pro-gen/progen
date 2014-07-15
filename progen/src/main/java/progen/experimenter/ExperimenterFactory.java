@@ -9,7 +9,7 @@ import progen.context.ProGenContext;
  * @author jirsis
  * @since 2.0
  */
-public class ExperimenterFactory {
+public final class ExperimenterFactory {
 
   private ExperimenterFactory(){
   
