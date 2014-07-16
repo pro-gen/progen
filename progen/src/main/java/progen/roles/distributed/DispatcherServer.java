@@ -18,13 +18,12 @@ import progen.roles.Worker;
 import progen.userprogram.UserProgram;
 
 public class DispatcherServer extends UnicastRemoteObject implements DispatcherRemote {
+  public static final int UNASIGNED_TASKS = -10;
 
   private static final int DEFAULT_DISPATCHER_SERVER_URL_LENGTH = 32;
 
   private static final int ID_INFO = 3;
 
-  public static final int UNASIGNED_TASKS = -10;
-  
   private static final String SLASH_SYMBOL = "/";
 
   private static final String COLON_SYMBOL = ":";
