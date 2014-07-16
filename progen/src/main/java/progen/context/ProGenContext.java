@@ -23,6 +23,7 @@ import java.util.Properties;
  * @author jirsis
  */
 public final class ProGenContext {
+  private static final int HUNDRED_PERCENT = 100;
   private static final String PROGEN_OPTIONAL_FILES_PROPERTY = "progen.optional.files";
   private static final String DOT_SYMBOL = ".";
   private static final String PROGEN_USER_HOME_PROPERTY = "progen.user.home";
@@ -316,7 +317,7 @@ public final class ProGenContext {
     double value = 0.0;
     final String percentNormalized = percent.replaceAll(" ", "");
     if (percentNormalized.endsWith("%")) {
-      value = Double.parseDouble(percentNormalized.substring(0, percentNormalized.length() - 1)) / 100;
+      value = Double.parseDouble(percentNormalized.substring(0, percentNormalized.length() - 1)) / HUNDRED_PERCENT;
     } else {
       value = Double.parseDouble(percentNormalized);
     }

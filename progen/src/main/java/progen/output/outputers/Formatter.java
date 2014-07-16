@@ -9,6 +9,7 @@ import progen.kernel.tree.Tree;
  * @author jirsis
  * @since 2.0
  */
+@SuppressWarnings("checkstyle:multiplestringliterals")
 public final class Formatter {
 
   private Formatter() {

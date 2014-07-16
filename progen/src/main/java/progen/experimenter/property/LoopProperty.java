@@ -58,7 +58,7 @@ public class LoopProperty implements Property {
 
     final String[] loop = ProGenContext.getMandatoryProperty(label).split(SEMI_COLON_SYMBOL);
     if (loop.length != NUMBER_OF_ARGUMENTS) {
-      throw new IllegalArgumentException(Error.get(29) + " (" + label + ")");
+      throw new IllegalArgumentException(Error.get(ID_ERROR) + " (" + label + ")");
     }
     try {
       this.start = Double.parseDouble(loop[0].trim());

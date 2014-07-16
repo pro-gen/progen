@@ -12,6 +12,7 @@ import progen.kernel.error.Error;
  */
 public class UnknownPluginException extends RuntimeException {
 
+  private static final int ID_ERROR = 23;
   /** Para serialización */
   private static final long serialVersionUID = -7276399548518521418L;
 
@@ -23,7 +24,7 @@ public class UnknownPluginException extends RuntimeException {
    *          Plugin que se intentó instanciar.
    */
   public UnknownPluginException(String msg) {
-    super(Error.get(23).trim() + "(" + msg + ")");
+    super(Error.get(ID_ERROR).trim() + "(" + msg + ")");
   }
 
 }

@@ -17,7 +17,7 @@ import progen.output.plugins.Plugin;
  * @since 2.0
  * 
  */
-//CHECKSTYLE.OFF: MultipleStringLiterals MagicNumber
+@SuppressWarnings("checkstyle:multiplestringliterals")
 public class StandardFile extends FileOutput {
 
   private static final int EXTRA_PADDING = 3;
@@ -275,7 +275,7 @@ public class StandardFile extends FileOutput {
    * Imprime la cabecera de la tabla de tiempos.
    */
   private void printTimeHeaderTable() {
-    StringBuilder line = new StringBuilder(LEFT_SEP);
+    final StringBuilder line = new StringBuilder(LEFT_SEP);
     int padding;
 
     line.append(String.format("%s%s", Formatter.left(getLiterals().getString("time"), firstColumnWidth + secondColumnWidth), CENTER_SEP));
@@ -314,7 +314,7 @@ public class StandardFile extends FileOutput {
   private void printIndividualGenerationMeanData() {
     StringBuilder line;
     String ceilData;
-    DataCollector populationData = historical.getCurrentDataCollector(POPULATION_DATA_LITERAL);
+    final DataCollector populationData = historical.getCurrentDataCollector(POPULATION_DATA_LITERAL);
     final Map<String, Mean> mean = (Map<String, Mean>) (populationData.getPlugin("individualMean").getValue());
 
     final int padding = Formatter.center(getLiterals().getString(INDIVIDUAL_LITERAL), WIDTH_COLUMN).length();
@@ -482,4 +482,3 @@ public class StandardFile extends FileOutput {
 
   }
 }
-//CHECKSTYLE.ON

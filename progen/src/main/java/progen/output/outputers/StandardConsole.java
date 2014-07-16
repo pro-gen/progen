@@ -17,6 +17,7 @@ import progen.output.plugins.Plugin;
  * @since 2.0
  * 
  */
+@SuppressWarnings("checkstyle:multiplestringliterals")
 public class StandardConsole extends ConsoleOutput {
 
   private static final int EXTRA_PADDING = 3;

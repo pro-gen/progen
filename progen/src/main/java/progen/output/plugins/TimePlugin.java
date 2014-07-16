@@ -72,7 +72,7 @@ public class TimePlugin implements MacroPlugin {
 
   @Override
   public void initPlugin(String propertyFamily) {
-    final String pluginsName[] = ProGenContext.getOptionalProperty(propertyFamily + "." + getName() + ".enable", "Mean, Total").trim().split(",[ ]*");
+    final String [] pluginsName = ProGenContext.getOptionalProperty(propertyFamily + "." + getName() + ".enable", "Mean, Total").trim().split(",[ ]*");
     Plugin plugin;
     for (int i = 0; i < pluginsName.length; i++) {
       try {

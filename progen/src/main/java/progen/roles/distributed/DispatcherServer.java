@@ -19,6 +19,12 @@ import progen.userprogram.UserProgram;
 
 public class DispatcherServer extends UnicastRemoteObject implements DispatcherRemote {
 
+  private static final int DEFAULT_DISPATCHER_SERVER_URL_LENGTH = 32;
+
+  private static final int ID_INFO = 3;
+
+  public static final int UNASIGNED_TASKS = -10;
+  
   private static final String SLASH_SYMBOL = "/";
 
   private static final String COLON_SYMBOL = ":";
@@ -28,8 +34,6 @@ public class DispatcherServer extends UnicastRemoteObject implements DispatcherR
   private static final String PROGEN_ROLE_DISPATCHER_BIND_ADDRESS_PROPERTY = "progen.role.dispatcher.bindAddress";
 
   private static final String PROGEN_ROLE_DISPATCHER_PORT_PROPERTY = "progen.role.dispatcher.port";
-
-  public static final int UNASIGNED_TASKS = -10;
 
   private static final long serialVersionUID = 1486658118278870720L;
 
@@ -105,7 +109,7 @@ public class DispatcherServer extends UnicastRemoteObject implements DispatcherR
       registry.bind(ProGenContext.getMandatoryProperty(PROGEN_DISPATCHER_NAME_PROPERTY), this);
 
       for (String remoteService : registry.list()) {
-        Info.show(3, bindAddress + COLON_SYMBOL + port + SLASH_SYMBOL + remoteService);
+        Info.show(ID_INFO, bindAddress + COLON_SYMBOL + port + SLASH_SYMBOL + remoteService);
       }
 
     } catch (RemoteException | AlreadyBoundException e) {
@@ -123,7 +127,7 @@ public class DispatcherServer extends UnicastRemoteObject implements DispatcherR
 
   @Override
   public String toString() {
-    StringBuilder dispatcherServer = new StringBuilder(32);
+    final StringBuilder dispatcherServer = new StringBuilder(DEFAULT_DISPATCHER_SERVER_URL_LENGTH);
     dispatcherServer.append("rmi://");
     dispatcherServer.append(ProGenContext.getMandatoryProperty(PROGEN_ROLE_DISPATCHER_BIND_ADDRESS_PROPERTY));
     dispatcherServer.append(COLON_SYMBOL);
