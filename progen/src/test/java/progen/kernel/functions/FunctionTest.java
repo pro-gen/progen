@@ -169,6 +169,8 @@ public class FunctionTest {
   
   private class FunctionSample extends Function {
 
+    private static final long serialVersionUID = 1673204109657604166L;
+
     public FunctionSample() {
       super("S", "SAMPLE");
     }
@@ -181,6 +183,8 @@ public class FunctionTest {
   }
   
   private class FunctionComplexSample extends Function {
+
+    private static final long serialVersionUID = 8494956432052087770L;
 
     public FunctionComplexSample() {
       super("A$$B$$C", "COMPLEX");

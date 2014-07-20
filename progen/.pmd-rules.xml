@@ -204,14 +204,8 @@
   <rule ref="rulesets/java/migrating.xml/AvoidEnumAsIdentifier">
     <priority>3</priority>
   </rule>
-  <rule ref="rulesets/java/logging-java.xml/SystemPrintln">
-    <priority>3</priority>
-  </rule>
   <rule ref="rulesets/java/strings.xml/UselessStringValueOf">
     <priority>4</priority>
-  </rule>
-  <rule ref="rulesets/java/strings.xml/AvoidDuplicateLiterals">
-    <priority>3</priority>
   </rule>
   <rule ref="rulesets/java/design.xml/AbstractClassWithoutAbstractMethod">
     <priority>3</priority>

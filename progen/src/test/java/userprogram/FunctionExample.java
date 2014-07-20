@@ -8,8 +8,8 @@ import progen.kernel.tree.Node;
 import progen.userprogram.UserProgram;
 
 public class FunctionExample extends NonTerminal{
+  private static final long serialVersionUID = -7682117254567382076L;
 
-  
   public FunctionExample() {
     super("boolean$$boolean$$boolean", "TEST");
   }
