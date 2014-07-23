@@ -11,6 +11,10 @@ script:
 - cd progen
 - mvn clean verify site jacoco:report coveralls:jacoco
 after_success:
+  - mkdir $TRAVIS_BUILD_DIR/progen/target/pmd
+  - cp $TRAVIS_BUILD_DIR/progen/target/pmd.xml $TRAVIS_BUILD_DIR/progen/target/pmd
+  - mvn xml:transform
+  - cp $TRAVIS_BUILD_DIR/progen/target/generated-resources/xml/xslt/pmd.xml $TRAVIS_BUILD_DIR/progen/target/site/pmd.html
   - node -v
   - cd $TRAVIS_BUILD_DIR/gen-badge
   - npm install
