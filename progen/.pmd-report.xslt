@@ -30,11 +30,11 @@
       <tr>
         <th>Files</th>
         <th>Total</th>
-        <th>Priority 1</th>
-        <th>Priority 2</th>
-        <th>Priority 3</th>
-        <th>Priority 4</th>
-        <th>Priority 5</th>                                
+        <th>Blocker</th>
+        <th>Critical</th>
+        <th>Mayor</th>
+        <th>minor</th>
+        <th>info</th>                                
       </tr>
       <tr>
         <td><xsl:value-of select="count(//file)"/></td>
