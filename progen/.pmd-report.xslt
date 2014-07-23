@@ -13,13 +13,14 @@
         table.details tr th { font-weight: bold; text-align:left; background:#a6caf0; }
         table.details tr td { background:#eeeee0; }
         table.summary tr th { font-weight: bold; text-align:left; background:#a6caf0; }
-        table.summary tr td { background:#eeeee0; text-align:center;}        
+        table.summary tr td { background:#eeeee0; text-align:center;}
+        table.summary td.filename { background:#eeeee0; text-align:left;}
         .p1 { background:#FF9999; }
         .p2 { background:#FFCC66; }
         .p3 { background:#FFFF99; }
         .p4 { background:#99FF99; }
-        .p5 { background:#9999FF; }                        
-        
+        .p5 { background:#9999FF; }
+
     </style>
 </head>
 <body>
@@ -34,7 +35,7 @@
         <th>Critical</th>
         <th>Mayor</th>
         <th>minor</th>
-        <th>info</th>                                
+        <th>info</th>
       </tr>
       <tr>
         <td><xsl:value-of select="count(//file)"/></td>
@@ -43,39 +44,79 @@
         <td><div class="p2"><xsl:value-of select="count(//violation[@priority = 2])"/></div></td>
         <td><div class="p3"><xsl:value-of select="count(//violation[@priority = 3])"/></div></td>
         <td><div class="p4"><xsl:value-of select="count(//violation[@priority = 4])"/></div></td>
-        <td><div class="p5"><xsl:value-of select="count(//violation[@priority = 5])"/></div></td>                                
+        <td><div class="p5"><xsl:value-of select="count(//violation[@priority = 5])"/></div></td>
       </tr>
     </table>
     <hr/>
+
+    <h2>Files</h2>
+    <table border="0" class="summary">
+      <tr>
+        <th>Files</th>
+        <th>Violations</th>
+        <th>Blocker</th>
+        <th>Critical</th>
+        <th>Mayor</th>
+        <th>minor</th>
+        <th>info</th>
+      </tr>
+      <xsl:for-each select="file">
+        <xsl:sort data-type="number" order="descending" select="count(violation)"/>
+        <tr>
+          <td class="filename">
+            <a>
+              <xsl:attribute name="href">
+                <xsl:value-of disable-output-escaping="yes" select="concat('#', translate(substring-before(substring-after(@name, '/src/main/java/'), '.java'), '/', '.'))"/>
+              </xsl:attribute>
+              <xsl:value-of disable-output-escaping="yes" select="translate(substring-before(substring-after(@name, '/src/main/java/'), '.java'), '/', '.')"/>
+            </a>
+          </td>
+          <td><div> <xsl:value-of select="count(violation)"/></div></td>
+          <td><div class="p1"> <xsl:value-of select="count(violation[@priority = '1'])"/></div></td>
+          <td><div class="p2"> <xsl:value-of select="count(violation[@priority = '2'])"/></div></td>
+          <td><div class="p3"> <xsl:value-of select="count(violation[@priority = '3'])"/></div></td>
+          <td><div class="p4"> <xsl:value-of select="count(violation[@priority = '4'])"/></div></td>
+          <td><div class="p5"> <xsl:value-of select="count(violation[@priority = '5'])"/></div></td>
+        </tr>
+        </xsl:for-each>
+    </table>
+    <hr/>
+
+    <h2>Details</h2>
     <xsl:for-each select="file">
         <xsl:sort data-type="number" order="descending" select="count(violation)"/>
         <xsl:variable name="filename" select="@name"/>
-		<H3><xsl:value-of disable-output-escaping="yes" select="translate(substring-before(substring-after(@name, '/src/main/java/'), '.java'), '/', '.')"/></H3>
+		<H3>
+      <xsl:attribute name="id">
+          <xsl:value-of disable-output-escaping="yes" select="translate(substring-before(substring-after(@name, '/src/main/java/'), '.java'), '/', '.')"/>
+      </xsl:attribute>
+      <xsl:value-of disable-output-escaping="yes" select="translate(substring-before(substring-after(@name, '/src/main/java/'), '.java'), '/', '.')"/>
+      </H3>
         <table border="0" width="100%" class="details">
             <tr>
             	<th>Priority</th>
                 <th>Begin Line</th>
                 <th align="left">Description</th>
             </tr>
-	    
+
 	    <xsl:for-each select="violation">
 	    	<xsl:sort data-type="number" order="descending" select="@priority"/>
 		    <tr>
 		    <td style="padding: 3px" align="center" >
-		    	<xsl:choose>
-			    	<xsl:when test="@priority = 1"> <div class="p1" > <xsl:value-of select='@priority'/> </div>	</xsl:when>
-			    	<xsl:when test="@priority = 2"> <div class="p2" > <xsl:value-of select='@priority'/> </div>	</xsl:when>
-		    		<xsl:when test="@priority = 3"> <div class="p3" > <xsl:value-of select='@priority'/> </div>	</xsl:when>
-		    		<xsl:when test="@priority = 4"> <div class="p4" > <xsl:value-of select='@priority'/> </div>	</xsl:when>
-		    		<xsl:when test="@priority = 5"> <div class="p5" > <xsl:value-of select='@priority'/> </div>	</xsl:when>
-		    	</xsl:choose>
-		    	
+          <div>
+            <xsl:attribute name="class">
+              <xsl:value-of select="concat('p', @priority)"/>
+            </xsl:attribute>
+            <xsl:value-of select='@priority'/>
+          </div>
 		    </td>
-			<td style="padding: 3px" align="right"><a><xsl:attribute name="href"><xsl:value-of select="$cvsweb"/><xsl:value-of select="$filename"/>?annotate=HEAD#<xsl:value-of disable-output-escaping="yes" select="@beginline"/></xsl:attribute><xsl:value-of disable-output-escaping="yes" select="@beginline"/></a></td>
+			<td style="padding: 3px" align="right">
+        <xsl:value-of disable-output-escaping="yes" select="@beginline"/>
+      </td>
 			<td style="padding: 3px" align="left" width="100%"><xsl:value-of disable-output-escaping="yes" select="."/></td>
 		    </tr>
 	    </xsl:for-each>
-    
+
         </table>
         <br/>
     </xsl:for-each>
