@@ -131,13 +131,13 @@ public class Production implements Serializable {
    */
   public boolean isSymbolGenerated(GrammarNonTerminalSymbol symbol) {
     boolean generate = false;
-    int i = 0;
+    int currentArgument = 0;
 
-    while (i < args.length && !generate) {
-      if (args[i].compareTo(symbol) == 0) {
+    while (currentArgument < args.length && !generate) {
+      if (args[currentArgument].compareTo(symbol) == 0) {
         generate = true;
       }
-      i++;
+      currentArgument++;
     }
 
     return generate;
@@ -164,6 +164,7 @@ public class Production implements Serializable {
    * @return <code>true</code> si son iguales, <code>false</code> en caso
    *         contrario.
    */
+  @Override
   public boolean equals(Object other) {
     boolean equals = false;
     if (other instanceof Production) {
@@ -172,11 +173,7 @@ public class Production implements Serializable {
     return equals;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#hashCode()
-   */
+  @Override
   public int hashCode() {
     return toString().hashCode();
   }
