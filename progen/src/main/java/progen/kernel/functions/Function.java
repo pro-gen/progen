@@ -50,9 +50,7 @@ public abstract class Function implements Comparable<Function>, Serializable {
 
     arity = args.length - 1;
     argsType = new Object[arity];
-    for (int i = 0; i < arity; i++) {
-      argsType[i] = args[i + 1];
-    }
+    System.arraycopy(args, 1, argsType, 0, arity);
   }
 
   /**
@@ -64,7 +62,8 @@ public abstract class Function implements Comparable<Function>, Serializable {
     final StringBuffer signature = new StringBuffer();
     signature.append(returnType);
     for (int i = 0; i < argsType.length; i++) {
-      signature.append("$$" + argsType[i]);
+      signature.append("$$");
+      signature.append(argsType[i]);
     }
     return signature.toString();
   }
@@ -120,10 +119,10 @@ public abstract class Function implements Comparable<Function>, Serializable {
     return argsType;
   }
 
-  public boolean equals(Object o) {
+  public boolean equals(Object object) {
     boolean equals = false;
-    if (o instanceof Function) {
-      equals = this.compareTo((Function) o) == 0;
+    if (object instanceof Function) {
+      equals = this.compareTo((Function) object) == 0;
     }
     return equals;
   }
