@@ -104,7 +104,7 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
     results = new HashMap<String, Object>();
 
     totalRPB = ProGenContext.getOptionalProperty(PROGEN_TOTAL_RPB_PROPERTY, 1);
-    ProGenContext.setProperty(PROGEN_TOTAL_RPB_PROPERTY, totalRPB + "");
+    ProGenContext.setProperty(PROGEN_TOTAL_RPB_PROPERTY, String.valueOf(totalRPB));
     totalADF = ProGenContext.getOptionalProperty("progen.total.ADF", 0);
 
     for (int i = 0; i < totalRPB; i++) {
@@ -362,18 +362,18 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
    * @return <code>true</code> si los dos individuos son iguales.
    */
   public boolean equals(Individual other) {
-    boolean equals = true;
+    boolean isEquals = true;
     if (other == null) {
-      equals = false;
+      isEquals = false;
     } else {
       for (int i = 0; i < totalRPB; i++) {
-        equals = equals && trees.get(RPB_PROPERTY + i).toString().compareTo(other.getTrees().get(RPB_PROPERTY + i).toString()) == 0;
+        isEquals = isEquals && trees.get(RPB_PROPERTY + i).toString().compareTo(other.getTrees().get(RPB_PROPERTY + i).toString()) == 0;
       }
       for (int i = 0; i < totalADF; i++) {
-        equals = equals && trees.get(ADF_PROPERTY + i).toString().compareTo(other.getTrees().get(ADF_PROPERTY + i).toString()) == 0;
+        isEquals = isEquals && trees.get(ADF_PROPERTY + i).toString().compareTo(other.getTrees().get(ADF_PROPERTY + i).toString()) == 0;
       }
     }
-    return equals;
+    return isEquals;
   }
 
   @Override
