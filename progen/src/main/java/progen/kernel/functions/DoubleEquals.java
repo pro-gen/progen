@@ -1,8 +1,8 @@
 package progen.kernel.functions;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import progen.kernel.tree.Node;
 import progen.userprogram.UserProgram;
@@ -25,7 +25,7 @@ public class DoubleEquals extends NonTerminal {
   }
 
   @Override
-  public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
+  public Object evaluate(List<Node> arguments, UserProgram userProgram, Map<String, Object> returnAddr) {
     final Double operador1 = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
     final Double operador2 = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
     

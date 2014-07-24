@@ -1,7 +1,7 @@
 package progen.kernel.functions;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import progen.kernel.tree.Node;
 import progen.userprogram.UserProgram;
@@ -25,7 +25,7 @@ public class OrInconditional extends NonTerminal {
   }
 
   @Override
-  public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
+  public Object evaluate(List<Node> arguments, UserProgram userProgram, Map<String, Object> returnAddr) {
     final Boolean operador1 = (Boolean) arguments.get(0).evaluate(userProgram, returnAddr);
     final Boolean operador2 = (Boolean) arguments.get(1).evaluate(userProgram, returnAddr);
     return operador1 | operador2;

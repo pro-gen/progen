@@ -2,8 +2,8 @@ package progen.kernel.tree;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import progen.kernel.functions.NullFunction;
 import progen.kernel.grammar.GrammarNonTerminalSymbol;
@@ -306,7 +306,7 @@ public class Node implements Cloneable, Serializable {
    *          Dirección de retorno de las llamadas a ADFs.
    * @return Valor después de ejecutar la función del nodo.
    */
-  public Object evaluate(UserProgram userProgram, HashMap<String, Object> returnAddr) {
+  public Object evaluate(UserProgram userProgram, Map<String, Object> returnAddr) {
     return function.getFunction().evaluate(branches, userProgram, returnAddr);
   }
 

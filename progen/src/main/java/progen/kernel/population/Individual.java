@@ -1,6 +1,7 @@
 package progen.kernel.population;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import progen.context.ProGenContext;
 import progen.kernel.functions.ADF;
@@ -37,20 +38,20 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
    * ADFs y se identifican siguiendo la nomenclatura RPBi, ADFi, donde i es un
    * número [0, máximo árbol definido).
    */
-  private HashMap<String, Tree> trees;
+  private Map<String, Tree> trees;
 
   /**
    * Resultados de la evaluación de los árboles. Únicamente tiene sentido
    * almacenar el resultado de los RPB dado que son éstos los únicos que pueden
    * ser evaluados.
    */
-  private HashMap<String, Object> results;
+  private Map<String, Object> results;
 
   /**
    * Gramáticas que generan todos y cada unos de los árboles que forman el
    * individuo concreto.
    */
-  private HashMap<String, Grammar> grammars;
+  private Map<String, Grammar> grammars;
 
   /**
    * Número total de árboles RPB en un individuo concreto.
@@ -80,7 +81,7 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
    * Tabla en la que se almacena el valor concreto de todas las variables
    * disponibles en la ejecución de un individuo.
    */
-  private HashMap<String, Object> variables;
+  private Map<String, Object> variables;
 
   /**
    * Representación del individuo para ser impresa de alguna forma. Modifica la
@@ -97,7 +98,7 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
    *          Gramáticas que generarán todos los árboles, tanto RPBs como ADFs
    *          que conforman un individuo concreto.
    */
-  public Individual(HashMap<String, Grammar> grammars) {
+  public Individual(Map<String, Grammar> grammars) {
     Tree tree;
     trees = new HashMap<String, Tree>();
     results = new HashMap<String, Object>();
@@ -119,13 +120,9 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
     }
 
     this.grammars = grammars;
-
     this.rawFitness = Double.MAX_VALUE;
-
     this.updated = true;
-
     this.variables = new HashMap<String, Object>();
-
     this.printabeIndividual = null;
   }
 
@@ -159,7 +156,7 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
    * 
    * @return Los árboles que contiene el individuo.
    */
-  public HashMap<String, Tree> getTrees() {
+  public Map<String, Tree> getTrees() {
     return trees;
   }
 
@@ -168,7 +165,7 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
    * 
    * @return Las gramáticas utilizadas para generar los distintos árboles.
    */
-  public HashMap<String, Grammar> getGrammars() {
+  public Map<String, Grammar> getGrammars() {
     return grammars;
   }
 
@@ -231,7 +228,7 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
    * @param userprogram
    *          Definición del problema que ha tenido que implementar el usuario.
    */
-  private void evaluateTree(HashMap<String, Object> variables, UserProgram userprogram) {
+  private void evaluateTree(Map<String, Object> variables, UserProgram userprogram) {
     // se actualizan los ADF correspondientes para que utilicen el arbol de
     // este individuo
     for (int i = 0; i < totalADF; i++) {

@@ -1,11 +1,12 @@
 package progen.kernel.functions;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import progen.context.ProGenContext;
 import progen.kernel.grammar.FunctionNotFoundException;
+import progen.kernel.grammar.UndefinedFunctionSetException;
 import progen.kernel.tree.Node;
 import progen.userprogram.UserProgram;
 
@@ -221,6 +222,6 @@ public abstract class Function implements Comparable<Function>, Serializable {
    *          Valor de retorno de las llamadas a ADFs
    * @return El valor de evaluar una función concreta
    */
-  public abstract Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr);
+  public abstract Object evaluate(List<Node> arguments, UserProgram userProgram, Map<String, Object> returnAddr);
 
 }

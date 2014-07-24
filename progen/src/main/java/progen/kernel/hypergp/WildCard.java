@@ -4,8 +4,8 @@
 package progen.kernel.hypergp;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import progen.kernel.functions.Function;
 import progen.kernel.tree.Node;
@@ -33,7 +33,7 @@ public class WildCard extends Function {
   }
 
   @Override
-  public Object evaluate(List<Node> argumets, UserProgram userProgram, HashMap<String, Object> returnAddr) {
+  public Object evaluate(List<Node> argumets, UserProgram userProgram, Map<String, Object> returnAddr) {
     System.err.println("WildCard.evaluate NOT YET IMPLEMENTED");
     return null;
   }

@@ -1,7 +1,7 @@
 package progen.kernel.functions;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import progen.kernel.tree.Node;
 import progen.userprogram.UserProgram;
@@ -36,14 +36,8 @@ public class ARG extends Terminal {
     this.idADF = idADF;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.kernel.functions.Function#evaluate(java.util.HashMap,
-   * java.util.List, progen.userprogram.UserProgram)
-   */
   @Override
-  public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
+  public Object evaluate(List<Node> arguments, UserProgram userProgram, Map<String, Object> returnAddr) {
     return ((Node) returnAddr.get(idADF + "-" + super.getSymbol())).evaluate(userProgram, returnAddr);
   }
 }

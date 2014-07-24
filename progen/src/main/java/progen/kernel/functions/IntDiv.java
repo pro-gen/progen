@@ -1,7 +1,7 @@
 package progen.kernel.functions;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import progen.kernel.tree.Node;
 import progen.userprogram.UserProgram;
@@ -29,7 +29,7 @@ public class IntDiv extends NonTerminal {
   }
 
   @Override
-  public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
+  public Object evaluate(List<Node> arguments, UserProgram userProgram, Map<String, Object> returnAddr) {
     final Integer dividendo = (Integer) arguments.get(0).evaluate(userProgram, returnAddr);
     final Integer divisor = (Integer) arguments.get(1).evaluate(userProgram, returnAddr);
     double result;

@@ -1,7 +1,7 @@
 package progen.kernel.functions;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import progen.context.ProGenContext;
 import progen.kernel.tree.Node;
@@ -29,14 +29,8 @@ public class ADF extends NonTerminal {
     super(ProGenContext.getMandatoryProperty("progen." + symbol + ".interface"), symbol);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.kernel.functions.Function#evaluate(java.util.HashMap,
-   * java.util.List, progen.userprogram.UserProgram)
-   */
   @Override
-  public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
+  public Object evaluate(List<Node> arguments, UserProgram userProgram, Map<String, Object> returnAddr) {
     for (int i = 0; i < arguments.size(); i++) {
       returnAddr.put(super.getSymbol() + "-" + "ARG" + i, arguments.get(i));
     }

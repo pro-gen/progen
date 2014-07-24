@@ -1,7 +1,7 @@
 package progen.kernel.functions;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import progen.kernel.tree.Node;
 import progen.userprogram.UserProgram;
@@ -26,7 +26,7 @@ public class IntMinus extends NonTerminal {
   }
 
   @Override
-  public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
+  public Object evaluate(List<Node> arguments, UserProgram userProgram, Map<String, Object> returnAddr) {
     final Integer minuendo = (Integer) arguments.get(0).evaluate(userProgram, returnAddr);
     final Integer sustraendo = (Integer) arguments.get(1).evaluate(userProgram, returnAddr);
     return minuendo - sustraendo;

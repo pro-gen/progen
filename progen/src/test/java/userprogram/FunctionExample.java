@@ -1,7 +1,7 @@
 package userprogram;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import progen.kernel.functions.NonTerminal;
 import progen.kernel.tree.Node;
@@ -15,7 +15,7 @@ public class FunctionExample extends NonTerminal{
   }
 
   @Override
-  public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
+  public Object evaluate(List<Node> arguments, UserProgram userProgram, Map<String, Object> returnAddr) {
     return "eval";
   }
 

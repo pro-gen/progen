@@ -8,6 +8,7 @@ import static org.mockito.Matchers.any;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
@@ -176,7 +177,7 @@ public class FunctionTest {
     }
 
     @Override
-    public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
+    public Object evaluate(List<Node> arguments, UserProgram userProgram, Map<String, Object> returnAddr) {
       return "sample";
     }
 
@@ -191,7 +192,7 @@ public class FunctionTest {
     }
 
     @Override
-    public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
+    public Object evaluate(List<Node> arguments, UserProgram userProgram, Map<String, Object> returnAddr) {
       return "complexFunction";
     }
 

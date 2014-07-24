@@ -1,7 +1,7 @@
 package progen.kernel.functions;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import progen.kernel.tree.Node;
 import progen.userprogram.UserProgram;
@@ -24,7 +24,7 @@ public class DoublePlus extends NonTerminal {
   }
 
   @Override
-  public Object evaluate(List<Node> arguments, UserProgram userProgram, HashMap<String, Object> returnAddr) {
+  public Object evaluate(List<Node> arguments, UserProgram userProgram, Map<String, Object> returnAddr) {
     final Double sumando1 = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
     final Double sumando2 = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
     return sumando1 + sumando2;

@@ -1,7 +1,7 @@
 package progen.kernel.tree;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.Map;
 
 import progen.context.ProGenContext;
 import progen.context.UnknownPropertyException;
@@ -103,7 +103,7 @@ public class Tree implements Cloneable, Serializable {
    *          Dirección de retorno de las llamadas a ADFs.
    * @return <code>Object</code> con el valor de la ejecución del programa.
    */
-  public Object evaluate(UserProgram userProgram, HashMap<String, Object> returnAddr) {
+  public Object evaluate(UserProgram userProgram, Map<String, Object> returnAddr) {
     return root.evaluate(userProgram, returnAddr);
   }
 
