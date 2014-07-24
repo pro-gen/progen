@@ -39,15 +39,7 @@ public class GrammarNonTerminalSymbol implements GrammarSymbol, Serializable {
   public String toString() {
     return getSymbol();
   }
-
-  public boolean equals(Object other) {
-    boolean equals = false;
-    if (other instanceof GrammarNonTerminalSymbol) {
-      equals = equals((GrammarNonTerminalSymbol) other);
-    }
-    return equals;
-  }
-
+  
   public int hashCode() {
     return symbol.hashCode();
   }
@@ -60,6 +52,15 @@ public class GrammarNonTerminalSymbol implements GrammarSymbol, Serializable {
    * @return <code>true</code> los dos símbolos se representan de la misma
    *         forma.
    */
+  @Override
+  public boolean equals(Object object){
+    boolean isEquals = false;
+    if (object instanceof GrammarNonTerminalSymbol){
+      isEquals = equals((GrammarNonTerminalSymbol)object);
+    }
+    return isEquals;
+  }
+  
   public boolean equals(GrammarNonTerminalSymbol other) {
     return this.compareTo(other) == 0;
   }
