@@ -169,7 +169,7 @@
             <th align="left">Description</th>
           </tr>
     	    <xsl:for-each select="violation">
-    	    	<xsl:sort data-type="number" order="descending" select="@priority"/>
+    	    	<xsl:sort data-type="number" order="ascending" select="@priority"/>
     		    <tr>
               <xsl:attribute name="class">
                 <xsl:if test="position() mod 2 = 0">a</xsl:if>
