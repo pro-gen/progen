@@ -131,7 +131,7 @@
               <xsl:if test="position() mod 2 = 0">a</xsl:if>
               <xsl:if test="position() mod 2 != 0">b</xsl:if>
             </xsl:attribute>
-            <td class="desc">
+            <td class="desc" width="100%">
               <a>
                 <xsl:attribute name="href">
                   <xsl:value-of disable-output-escaping="yes" select="concat('#', translate(substring-before(substring-after(@name, '/src/main/java/'), '.java'), '/', '.'))"/>
