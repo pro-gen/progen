@@ -153,9 +153,9 @@ public class Grammar implements Serializable {
    */
   public List<Production> getProductions(GrammarNonTerminalSymbol left) {
     final List<Production> prods = new ArrayList<Production>();
-    for (Production p : productions) {
-      if (p.getLeft().compareTo(left) == 0) {
-        prods.add(p);
+    for (Production production : productions) {
+      if (production.getLeft().compareTo(left) == 0) {
+        prods.add(production);
       }
     }
     return prods;
