@@ -46,6 +46,10 @@ public final class Formatter {
     return center;
   }
 
+  public static String center(int text, int length){
+    return center(String.valueOf(text), length);
+  }
+ 
   /**
    * Justifica a la izquierda el texto pasado como parámetro, en la longitud
    * solicitada.
@@ -81,6 +85,10 @@ public final class Formatter {
     }
     alignRight.append(text);
     return alignRight.toString();
+  }
+  
+  public static String right(int text, int length){
+    return right(String.valueOf(text),length);
   }
 
   /**
