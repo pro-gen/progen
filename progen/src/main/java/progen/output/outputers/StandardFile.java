@@ -104,7 +104,7 @@ public class StandardFile extends FileOutput {
    * Imprime la cabecera de la tabla de resultados.
    */
   private void printHeader(int maxGenerations) {
-    final String generation = getLiterals().getString("generation") + Formatter.right(historical.getCurrentGeneration() + "", maxGenerations);
+    final String generation = getLiterals().getString("generation") + Formatter.right(historical.getCurrentGeneration(), maxGenerations);
     getWriter().printf("%n%n%s", hline);
     getWriter().printf("%s%s%s%n", LEFT_SEP, Formatter.center(generation, getMaxLine().length() - LEFT_SEP.length() - RIGHT_SEP.length()), RIGHT_SEP);
 
@@ -185,12 +185,12 @@ public class StandardFile extends FileOutput {
     line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
 
     for (int i = 0; i < totalRPB; i++) {
-      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(RBP_LITERAL + i).getRoot().getTotalNodes() + "", WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(RBP_LITERAL + i).getRoot().getMaximunDepth() + "", WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(RBP_LITERAL + i).getRoot().getTotalNodes(), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(RBP_LITERAL + i).getRoot().getMaximunDepth(), WIDTH_COLUMN), CENTER_SEP));
     }
     for (int i = 0; i < totalADF; i++) {
-      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(ADF_LITERAL + i).getRoot().getTotalNodes() + "", WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(ADF_LITERAL + i).getRoot().getMaximunDepth() + "", WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(ADF_LITERAL + i).getRoot().getTotalNodes(), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(ADF_LITERAL + i).getRoot().getMaximunDepth(), WIDTH_COLUMN), CENTER_SEP));
     }
     getWriter().printf("%s%n%s", line.toString(), hline);
   }
@@ -357,12 +357,12 @@ public class StandardFile extends FileOutput {
     line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
 
     for (int i = 0; i < totalRPB; i++) {
-      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(RBP_LITERAL + i).getRoot().getTotalNodes() + "", WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(RBP_LITERAL + i).getRoot().getMaximunDepth() + "", WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(RBP_LITERAL + i).getRoot().getTotalNodes(), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(RBP_LITERAL + i).getRoot().getMaximunDepth(), WIDTH_COLUMN), CENTER_SEP));
     }
     for (int i = 0; i < totalADF; i++) {
-      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(ADF_LITERAL + i).getRoot().getTotalNodes() + "", WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(ADF_LITERAL + i).getRoot().getMaximunDepth() + "", WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(ADF_LITERAL + i).getRoot().getTotalNodes(), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(ADF_LITERAL + i).getRoot().getMaximunDepth(), WIDTH_COLUMN), CENTER_SEP));
     }
     getWriter().println(line.toString());
 
@@ -387,12 +387,12 @@ public class StandardFile extends FileOutput {
     line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
 
     for (int i = 0; i < totalRPB; i++) {
-      line.append(String.format("%s%s", Formatter.center(worst.getTrees().get(RBP_LITERAL + i).getRoot().getTotalNodes() + "", WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(worst.getTrees().get(RBP_LITERAL + i).getRoot().getMaximunDepth() + "", WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(worst.getTrees().get(RBP_LITERAL + i).getRoot().getTotalNodes(), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(worst.getTrees().get(RBP_LITERAL + i).getRoot().getMaximunDepth(), WIDTH_COLUMN), CENTER_SEP));
     }
     for (int i = 0; i < totalADF; i++) {
-      line.append(String.format("%s%s", Formatter.center(worst.getTrees().get(ADF_LITERAL + i).getRoot().getTotalNodes() + "", WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(worst.getTrees().get(ADF_LITERAL + i).getRoot().getMaximunDepth() + "", WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(worst.getTrees().get(ADF_LITERAL + i).getRoot().getTotalNodes(), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(worst.getTrees().get(ADF_LITERAL + i).getRoot().getMaximunDepth(), WIDTH_COLUMN), CENTER_SEP));
     }
     getWriter().printf("%s%n%s", line.toString(), hline);
 
