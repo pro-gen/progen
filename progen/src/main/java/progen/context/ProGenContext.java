@@ -72,14 +72,7 @@ public final class ProGenContext {
       throw new MissingContextFileException();
     } else {
       try {
-        final InputStream fis = getResource(file);
-
-        proGenProps = new ProGenContext();
-        proGenProps.loadOtherPropertiesFile("ProGen.conf");
-
-        proGenProps.properties.load(fis);
-        ProGenContext.setProperty("progen.masterfile", new File(file).getAbsolutePath());
-        fis.close();
+        execMakeInstance(file);
       } catch (NullPointerException e) {
         throw new MissingContextFileException(e.getMessage());
       } catch (IOException e) {
@@ -87,6 +80,17 @@ public final class ProGenContext {
       }
     }
     return proGenProps;
+  }
+
+  private static void execMakeInstance(String file) throws IOException {
+    final InputStream fis = getResource(file);
+
+    proGenProps = new ProGenContext();
+    proGenProps.loadOtherPropertiesFile("ProGen.conf");
+
+    proGenProps.properties.load(fis);
+    ProGenContext.setProperty("progen.masterfile", new File(file).getAbsolutePath());
+    fis.close();
   }
 
   private static InputStream getResource(String file) {
@@ -377,27 +381,37 @@ public final class ProGenContext {
    * @return La colección de parámetros asociados a dicha opción.
    */
   public static Map<String, String> getParameters(String option) {
-    final Map<String, String> parameters = new HashMap<String, String>();
-    String parametersContext;
-    parametersContext = getProperty(option);
+    Map<String, String> parameters = new HashMap<String, String>();
+    String parametersContext = getProperty(option);
 
-    // Se controla que exista la opción y tenga al menos un parámetro.
-    if (parametersContext != null && parametersContext.split(parametersDelim).length > 1) {
-      parametersContext = parametersContext.split(parametersDelim)[1];
-      // se recupera el valor y se elimina el el posible ) del final
-      parametersContext = parametersContext.replace(")", "");
-      String parameterKey = null, parameterValue = null;
-      try {
-        // se separan todos los parámetros
-        final String[] parametersValues = parametersContext.split(COMA_SYMBOL);
-        for (String parameter : parametersValues) {
-          parameterKey = parameter.split(EQUAL_SYMBOL)[0].trim();
-          parameterValue = parameter.split(EQUAL_SYMBOL)[1].trim();
-          parameters.put(parameterKey, parameterValue);
-        }
-      } catch (ArrayIndexOutOfBoundsException e) {
-        throw new MalformedParameterException(option + COMA_SYMBOL + parameterKey);
+    if (checkAtLeastOneParameter(parametersContext)) {
+      parametersContext = normalizeParameters(parametersContext);
+      parameters = splitParameters(option, parametersContext);
+    }
+    return parameters;
+  }
+
+  private static String normalizeParameters(String parametersContext) {
+    final String parameterContextNormalized = parametersContext.split(parametersDelim)[1];
+    return parameterContextNormalized.replace(")", "");
+  }
+
+  private static boolean checkAtLeastOneParameter(String parametersContext) {
+    return parametersContext != null && parametersContext.split(parametersDelim).length > 1;
+  }
+
+  private static Map<String, String> splitParameters(String option, String parametersContext) {
+    String parameterValue;
+    String parameterKey = null;
+    final Map<String, String> parameters = new HashMap<String, String>();
+    try {
+      for (String parameter : parametersContext.split(COMA_SYMBOL)) {
+        parameterKey = parameter.split(EQUAL_SYMBOL)[0].trim();
+        parameterValue = parameter.split(EQUAL_SYMBOL)[1].trim();
+        parameters.put(parameterKey, parameterValue);
       }
+    } catch (ArrayIndexOutOfBoundsException e) {
+      throw new MalformedParameterException(option + COMA_SYMBOL + parameterKey);
     }
     return parameters;
   }
@@ -582,45 +596,56 @@ public final class ProGenContext {
    *          fichero de propiedades.
    */
   private void loadOptionalFile(String sufixFile) {
+    final StringBuilder optionalFilesLoaded = new StringBuilder();
+    final String optionalFile = normalizeOptionalFileName(sufixFile, optionalFilesLoaded);
+    loadOptionalsProperties(optionalFile);
+    optionalFilesLoaded.append(optionalFile).append(", ");
+    ProGenContext.setProperty(PROGEN_OPTIONAL_FILES_PROPERTY, optionalFilesLoaded.toString());
+
+  }
+
+  private void closeSilently(FileInputStream fis) {
+    try {
+      if (fis != null) {
+        fis.close();
+      }
+    } catch (IOException e) {
+      // do nothing, ignore
+    }
+  }
+
+  private String normalizeOptionalFileName(String sufixFile, final StringBuilder optionalFilesLoaded) {
+    String optionalFile = ProGenContext.getMandatoryProperty(PROGEN_EXPERIMENT_FILE_PROPERTY);
+    optionalFile = optionalFile.replaceAll("\\.txt$", sufixFile).replace('.', File.separatorChar) + ".txt";
+    optionalFilesLoaded.append(ProGenContext.getOptionalProperty(PROGEN_OPTIONAL_FILES_PROPERTY, ""));
+    return optionalFile;
+  }
+
+  private void loadOptionalsProperties(String optionalFile) {
+    FileInputStream fis = null;
+    try {
+      fis = new FileInputStream(optionalFile);
+      mixProperties(fis);
+    } catch (IOException e) {
+      // do nothing, ignore
+    } finally {
+      closeSilently(fis);
+    }
+  }
+
+  private void mixProperties(FileInputStream fis) throws IOException {
     Properties otherProperties;
     Enumeration<Object> keys;
     String key;
     String value;
-    final StringBuilder optionalFilesLoaded = new StringBuilder();
-
-    String optionalFile = ProGenContext.getMandatoryProperty(PROGEN_EXPERIMENT_FILE_PROPERTY);
-    optionalFile = optionalFile.replaceAll("\\.txt$", sufixFile).replace('.', File.separatorChar) + ".txt";
-    optionalFilesLoaded.append(ProGenContext.getOptionalProperty(PROGEN_OPTIONAL_FILES_PROPERTY, ""));
-    FileInputStream fis = null;
-
-    try {
-      fis = new FileInputStream(optionalFile);
-      otherProperties = new Properties();
-      otherProperties.load(fis);
-      keys = otherProperties.keys();
-      while (keys.hasMoreElements()) {
-        key = (String) keys.nextElement();
-        value = otherProperties.getProperty(key);
-        proGenProps.properties.put(key, value);
-      }
-
-      optionalFilesLoaded.append(optionalFile);
-      optionalFilesLoaded.append(", ");
-      ProGenContext.setProperty(PROGEN_OPTIONAL_FILES_PROPERTY, optionalFilesLoaded.toString());
-    } catch (FileNotFoundException e) {
-      // do nothing, ignore
-    } catch (IOException e) {
-      // do nothing, ignore
-    } finally {
-      try {
-        if (fis != null) {
-          fis.close();
-        }
-      } catch (IOException e) {
-        // do nothing, ignore
-      }
+    otherProperties = new Properties();
+    otherProperties.load(fis);
+    keys = otherProperties.keys();
+    while (keys.hasMoreElements()) {
+      key = (String) keys.nextElement();
+      value = otherProperties.getProperty(key);
+      proGenProps.properties.put(key, value);
     }
-
   }
 
 }
