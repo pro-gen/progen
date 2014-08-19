@@ -124,9 +124,7 @@ public abstract class Experimenter {
    */
   public boolean deleteDirectory(File path) {
     boolean deleted = true;
-    if (!path.exists()) {
-      deleted = false;
-    } else {
+    if (path.exists()) {
       for (File file : path.listFiles()) {
         if (file.isDirectory()) {
           deleteDirectory(file);
@@ -135,7 +133,9 @@ public abstract class Experimenter {
         }
       }
       deleted = path.delete() && deleted;
-    }
+    }else{
+      deleted = false;
+    } 
     return deleted;
   }
 
@@ -147,26 +147,28 @@ public abstract class Experimenter {
    * @return <code>true</code> si se pudieron crear todas las carpetas
    *         necesarias y <code>false</code> en caso contrario.
    */
-  protected boolean generateOutputDir() {
-    boolean createDir = false;
-    final StringBuilder defaultPath = new StringBuilder(100);
-
-    defaultPath.append("outputs");
-    defaultPath.append(File.separator);
-    defaultPath.append(ProGenContext.getMandatoryProperty("progen.experiment.name"));
-
-    final String outputDir = ProGenContext.getOptionalProperty(PROGEN_OUTPUT_DIR_PROPERTY, defaultPath.toString());
-
-    final File dir = new File(outputDir);
+  private boolean generateOutputDir() {
+    final StringBuilder defaultPath = generateDefaultPath();
+    final File dir = generateOutputDir(defaultPath);
     ProGenContext.setProperty(PROGEN_OUTPUT_DIR_PROPERTY, dir.getAbsolutePath() + File.separator);
-
     if (dir.exists()) {
       deleteDirectory(dir);
     }
-    // creacion de la carpeta "home" de todos los ficheros de salida
-    createDir = dir.mkdirs();
+    return dir.mkdirs();
+  }
 
-    return createDir;
+  private File generateOutputDir(final StringBuilder defaultPath) {
+    final String outputDir = ProGenContext.getOptionalProperty(PROGEN_OUTPUT_DIR_PROPERTY, defaultPath.toString());
+    final File dir = new File(outputDir);
+    return dir;
+  }
+
+  private StringBuilder generateDefaultPath() {
+    final StringBuilder defaultPath = new StringBuilder(100);
+    defaultPath.append("outputs");
+    defaultPath.append(File.separator);
+    defaultPath.append(ProGenContext.getMandatoryProperty("progen.experiment.name"));
+    return defaultPath;
   }
 
   /**

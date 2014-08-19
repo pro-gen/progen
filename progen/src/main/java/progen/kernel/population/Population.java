@@ -3,6 +3,7 @@ package progen.kernel.population;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import progen.context.ProGenContext;
 import progen.kernel.grammar.Grammar;
@@ -25,7 +26,7 @@ public class Population {
    * 
    * @see Individual
    */
-  private HashMap<String, Grammar> grammars;
+  private Map<String, Grammar> grammars;
 
   /** Indica el número de árboles RPB que tiene cada individuo de la poblción. */
   private int totalRPB;
@@ -43,7 +44,7 @@ public class Population {
    */
   public Population() {
     final int populationSize = ProGenContext.getOptionalProperty(PROGEN_POPULATION_SIZE_PROPERTY, 100);
-    ProGenContext.setProperty(PROGEN_POPULATION_SIZE_PROPERTY, populationSize + "");
+    ProGenContext.setProperty(PROGEN_POPULATION_SIZE_PROPERTY, String.valueOf(populationSize));
     final Population pop = new Population(populationSize);
     this.grammars = pop.grammars;
     this.individuals = pop.individuals;
@@ -74,7 +75,7 @@ public class Population {
    */
   private void loadGrammars() {
     totalRPB = ProGenContext.getOptionalProperty(PROGEN_TOTAL_RPB_PROPERTY, 1);
-    ProGenContext.setProperty(PROGEN_TOTAL_RPB_PROPERTY, totalRPB + "");
+    ProGenContext.setProperty(PROGEN_TOTAL_RPB_PROPERTY, String.valueOf(totalRPB));
     totalADF = ProGenContext.getOptionalProperty("progen.total.ADF", 0);
 
     loadGrammar("RPB", totalRPB);
@@ -107,9 +108,9 @@ public class Population {
       }
 
       if (grammarLoaded == null) {
-        grammarLoaded = Grammar.makeInstance(type + "" + i);
+        grammarLoaded = Grammar.makeInstance(type + i);
       }
-      grammars.put(type + "" + i, grammarLoaded);
+      grammars.put(type + i, grammarLoaded);
     }
   }
 
@@ -133,7 +134,7 @@ public class Population {
   public String toString() {
     final StringBuilder population = new StringBuilder();
     for (int i = 0; i < individuals.size(); i++) {
-      population.append(individuals.get(i) + "\n");
+      population.append(individuals.get(i)).append("\n");
     }
     return population.toString();
   }
@@ -150,12 +151,12 @@ public class Population {
   /**
    * Devuelve el idindividuo que ocupa la posición indicada como parámetro.
    * 
-   * @param id
+   * @param individualId
    *          El identificador del individuo.
    * @return El individuo deseado.
    */
-  public Individual getIndividual(int id) {
-    return individuals.get(id);
+  public Individual getIndividual(int individualId) {
+    return individuals.get(individualId);
   }
 
   /**
