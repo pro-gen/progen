@@ -87,13 +87,7 @@ public class Grammar implements Serializable {
 
     if (idTree.startsWith("ADF")) {
       generateADFProductions(idTree);
-    }
-
-    try {
-      validate();
-    } catch (GrammarNotValidException e) {
-      throw new ProGenException(e.getMessage());
-    }
+    }   
   }
 
   /**
@@ -154,7 +148,7 @@ public class Grammar implements Serializable {
   public List<Production> getProductions(GrammarNonTerminalSymbol left) {
     final List<Production> prods = new ArrayList<Production>();
     for (Production production : productions) {
-      if (production.getLeft().compareTo(left) == 0) {
+      if (productionGenerateNonTerminal(production, left)) {
         prods.add(production);
       }
     }
@@ -163,14 +157,20 @@ public class Grammar implements Serializable {
 
   public List<Production> getProductionsCompatibleWithFunction(GrammarNonTerminalSymbol nonTerminal, GrammarTerminalSymbol terminal) {
     final List<Production> prods = new ArrayList<Production>();
-    for (Production p : productions) {
-      if (p.getLeft().compareTo(nonTerminal) == 0) {
-        if (terminal.getFunction().isCompatibleWith(p.getFunction().getFunction())) {
-          prods.add(p);
-        }
+    for (Production production : productions) {
+      if (productionGenerateNonTerminal(production, nonTerminal) && functionIsCompatible(terminal, production)) {
+          prods.add(production);
       }
     }
     return prods;
+  }
+
+  private boolean functionIsCompatible(GrammarTerminalSymbol terminal, Production production) {
+    return terminal.getFunction().isCompatibleWith(production.getFunction().getFunction());
+  }
+
+  private boolean productionGenerateNonTerminal(Production production, GrammarNonTerminalSymbol nonTerminal) {
+    return production.getLeft().compareTo(nonTerminal) == 0;
   }
 
   /**
@@ -269,7 +269,7 @@ public class Grammar implements Serializable {
   public String toString() {
     final StringBuffer grammar = new StringBuffer();
     for (Production production : productions) {
-      grammar.append(production.toString() + "\n");
+      grammar.append(production.toString()).append("\n");
     }
     return grammar.toString();
   }
@@ -365,6 +365,11 @@ public class Grammar implements Serializable {
       grammar = new HGPGrammar(idTree);
     } else {
       grammar = new Grammar(idTree);
+      try {
+        grammar.validate();
+      } catch (GrammarNotValidException e) {
+        throw new ProGenException(e.getMessage());
+      }
     }
     return grammar;
   }
