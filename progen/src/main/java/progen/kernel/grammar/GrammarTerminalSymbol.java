@@ -23,6 +23,7 @@ public class GrammarTerminalSymbol implements GrammarSymbol, Serializable {
     return function;
   }
 
+  @Override
   public String toString() {
     return function.toString();
   }
@@ -30,42 +31,24 @@ public class GrammarTerminalSymbol implements GrammarSymbol, Serializable {
   public int compareTo(GrammarTerminalSymbol symbol) {
     return function.compareTo(symbol.getFunction());
   }
-
-  public boolean equals(GrammarTerminalSymbol symbol) {
-    return this.compareTo(symbol) == 0;
+  
+  public int compareTo(GrammarSymbol other) {
+    return compareTo((GrammarTerminalSymbol) other);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
+  @Override
   public boolean equals(Object other) {
     boolean equals = false;
     if (other instanceof GrammarTerminalSymbol) {
-      equals = equals((GrammarTerminalSymbol) other);
+      equals = (this.compareTo((GrammarTerminalSymbol)other) == 0);
     }
     return equals;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#hashCode()
-   */
   public int hashCode() {
     return function.hashCode();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.kernel.grammar.GrammarSymbol#compareTo(progen.kernel.grammar.
-   * GrammarSymbol)
-   */
-  public int compareTo(GrammarSymbol other) {
-    return compareTo((GrammarTerminalSymbol) other);
-  }
 
   public String getSymbol() {
     return function.getSymbol();

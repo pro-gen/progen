@@ -341,7 +341,7 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
   public boolean equals(Object other) {
     boolean equals = false;
     if (other instanceof Individual) {
-      equals = this.equals((Individual) other);
+      equals = this.equalsIndividual((Individual) other);
     } else {
       equals = false;
     }
@@ -361,7 +361,7 @@ public class Individual implements Task, Comparable<Individual>, Cloneable {
    *          Individuo con el que comparar
    * @return <code>true</code> si los dos individuos son iguales.
    */
-  public boolean equals(Individual other) {
+  private boolean equalsIndividual(Individual other) {
     boolean isEquals = true;
     if (other == null) {
       isEquals = false;

@@ -168,7 +168,7 @@ public class Production implements Serializable {
   public boolean equals(Object other) {
     boolean equals = false;
     if (other instanceof Production) {
-      equals = equals((Production) other);
+      equals = equalsProduction((Production) other);
     }
     return equals;
   }
@@ -187,7 +187,7 @@ public class Production implements Serializable {
    * @return <code>true</code> si son iguales, <code>false</code> en caso
    *         contrario.
    */
-  public boolean equals(Production other) {
+  private boolean equalsProduction(Production other) {
     boolean equal;
     equal = this.left.equals(other.left);
     equal &= this.function.equals(other.function);

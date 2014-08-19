@@ -52,10 +52,10 @@ public class Full implements InitializeTreeMethod {
     maxAttempts = ProGenContext.getOptionalProperty("progen.max-attempts", DEFAULT_MAX_ATTEMPTS);
     final String [] intervalDepth = ProGenContext.getMandatoryProperty("progen.population.init-depth-interval").split(",");
     minDepth = Integer.parseInt(intervalDepth[0]);
-    if (intervalDepth.length != 2) {
-      maxDepth = minDepth;
-    } else {
+    if (intervalDepth.length == 2) {
       maxDepth = Integer.parseInt(intervalDepth[1]);
+    } else {
+      maxDepth = minDepth;
     }
   }
   

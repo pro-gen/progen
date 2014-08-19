@@ -56,13 +56,9 @@ public class GrammarNonTerminalSymbol implements GrammarSymbol, Serializable {
   public boolean equals(Object object){
     boolean isEquals = false;
     if (object instanceof GrammarNonTerminalSymbol){
-      isEquals = equals((GrammarNonTerminalSymbol)object);
+      isEquals = (this.compareTo((GrammarNonTerminalSymbol) object) == 0);
     }
     return isEquals;
-  }
-  
-  public boolean equals(GrammarNonTerminalSymbol other) {
-    return this.compareTo(other) == 0;
   }
 
   @Override

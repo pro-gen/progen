@@ -26,10 +26,10 @@ public abstract class NonTerminal extends Function {
     boolean equals = true;
     if(other == null ){
       equals = false;
-    } else if (! (other instanceof NonTerminal)){
-      equals = false;
-    }else {
+    } else if (other instanceof NonTerminal){
       equals = this.hashCode() == other.hashCode();
+    }else {
+      equals = false;
     }
     return equals;
   }
