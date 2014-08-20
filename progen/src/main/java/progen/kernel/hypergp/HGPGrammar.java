@@ -10,6 +10,7 @@ import progen.kernel.functions.Function;
 import progen.kernel.grammar.Grammar;
 import progen.kernel.grammar.GrammarTerminalSymbol;
 import progen.kernel.grammar.Production;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Gramática específica para la evaluación de HiperGP.
@@ -36,7 +37,7 @@ public class HGPGrammar extends Grammar {
    * Convierte una gramática normal, en una en la que todos los operadores están
    * agrupados para generar formas de árbol, en función de su signatura.
    */
-  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "BC_UNCONFIRMED_CAST_OF_RETURN_VALUE", justification = "Inherit code")
+  @SuppressFBWarnings(value = "BC_UNCONFIRMED_CAST_OF_RETURN_VALUE", justification = "Inherit code")
   private void transformGrammar() {
     Production productionHGP;
     Function wildCard;

@@ -3,6 +3,7 @@ package progen.kernel.grammar;
 import java.io.Serializable;
 
 import progen.kernel.functions.ERC;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Clase que representa las producciones de la gramática que generará todos los
@@ -99,7 +100,7 @@ public class Production implements Serializable {
    * 
    * @return Los argumentos de la función de esta <code>Production</code>
    */
-  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "EI_EXPOSE_REP", justification = "Its is a getter method")
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "Its is a getter method")
   public GrammarNonTerminalSymbol[] getArgs() {
     return args;
   }

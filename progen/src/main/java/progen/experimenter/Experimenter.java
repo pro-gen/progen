@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import progen.ProGenException;
 import progen.context.ProGenContext;
 import progen.kernel.error.Error;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Interface que define los métodos de acceso a un experimento
@@ -159,8 +160,7 @@ public abstract class Experimenter {
 
   private File generateOutputDir(final StringBuilder defaultPath) {
     final String outputDir = ProGenContext.getOptionalProperty(PROGEN_OUTPUT_DIR_PROPERTY, defaultPath.toString());
-    final File dir = new File(outputDir);
-    return dir;
+    return new File(outputDir);
   }
 
   private StringBuilder generateDefaultPath() {
@@ -177,7 +177,7 @@ public abstract class Experimenter {
    * - crea la carpeta <br>
    * - generateResults()
    */
-  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "I don't really care makeDirs result")
+  @SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "I don't really care makeDirs result")
   public final void generateOutputs() {
     String experimentDir = defineExperimentDir();
 

@@ -10,6 +10,7 @@ import progen.kernel.population.Individual;
 import progen.kernel.population.Population;
 import progen.kernel.tree.Node;
 import progen.kernel.tree.Tree;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Implementación del operador genético de cruce estándar. El funcionamiento de
@@ -166,7 +167,7 @@ public class StandardCrossover extends GenneticOperator {
     return nodes;
   }
 
-  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "NS_DANGEROUS_NON_SHORT_CIRCUIT", justification = "It's mandatory to evaluate both trees")
+  @SuppressFBWarnings(value = "NS_DANGEROUS_NON_SHORT_CIRCUIT", justification = "It's mandatory to evaluate both trees")
   private boolean checkTrees(Tree treeA, Tree treeB) {
     return checkTreeSize(treeA) & checkTreeSize(treeB);
   }

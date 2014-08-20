@@ -2,7 +2,6 @@ package progen.kernel.evolution;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import progen.context.ProGenContext;
 import progen.kernel.error.Warning;
@@ -43,7 +42,7 @@ public class GenneticFactory {
     final int totalOperators = Integer.parseInt(ProGenContext.getMandatoryProperty(PROGEN_TOTAL_OPERATORS_PROPERTY));
     double probability = 0.0;
     for (int i = 0; i < totalOperators; i++) {
-      probability += ProGenContext.getOptionalPercent(PROGEN_GENNETIC_OPERATOR_PROPERTY + i + PROBABILITY_PROPERTY, (1 - probability) + "");
+      probability += ProGenContext.getOptionalPercent(PROGEN_GENNETIC_OPERATOR_PROPERTY + i + PROBABILITY_PROPERTY, String.valueOf(1 - probability));
     }
 
     if (probability != 1.0) {
@@ -60,26 +59,14 @@ public class GenneticFactory {
   private void loadOperators() {
     final int totalOperators = Integer.parseInt(ProGenContext.getMandatoryProperty(PROGEN_TOTAL_OPERATORS_PROPERTY));
     GenneticOperator operator;
-    String operatorClass;
     String selectorPropertyContext;
     double probability = 0.0;
-    String selectorName;
-    Map<String, String> selectorParams;
 
     for (int idOperator = 0; idOperator < totalOperators; idOperator++) {
       selectorPropertyContext = PROGEN_GENNETIC_OPERATOR_PROPERTY + idOperator + ".selector";
       try {
-        operatorClass = ProGenContext.getMandatoryProperty(PROGEN_GENNETIC_OPERATOR_PROPERTY + idOperator + ".class");
-        operator = (GenneticOperator) Class.forName("progen.kernel.evolution.operators." + operatorClass).newInstance();
-
-        probability = ProGenContext.getOptionalPercent(PROGEN_GENNETIC_OPERATOR_PROPERTY + idOperator + PROBABILITY_PROPERTY, (1 - probability) + "");
-        operator.setProbability(probability);
-
-        selectorName = ProGenContext.getMandatoryProperty(selectorPropertyContext);
-        selectorParams = ProGenContext.getParameters(selectorPropertyContext);
-
-        operator.setSelector(selectorName, selectorParams);
-
+        probability = ProGenContext.getOptionalPercent(PROGEN_GENNETIC_OPERATOR_PROPERTY + idOperator + PROBABILITY_PROPERTY, String.valueOf(1 - probability));
+        operator = configureOperator(idOperator, selectorPropertyContext, probability);
         operators.add(operator);
       } catch (ClassNotFoundException e) {
         throw new UndefinedGenneticOperatorException(e.getMessage());
@@ -87,6 +74,22 @@ public class GenneticFactory {
         throw new GenneticOperatorException(e.getMessage());
       }
     }
+  }
+
+  private GenneticOperator configureOperator(int idOperator, String selectorPropertyContext, double probability) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+    GenneticOperator operator;
+    operator = makeOperatorInstance(idOperator);
+    operator.setProbability(probability);
+    operator.setSelector(ProGenContext.getMandatoryProperty(selectorPropertyContext), ProGenContext.getParameters(selectorPropertyContext));
+    return operator;
+  }
+
+  private GenneticOperator makeOperatorInstance(int idOperator) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+    GenneticOperator operator;
+    String operatorClass;
+    operatorClass = ProGenContext.getMandatoryProperty(PROGEN_GENNETIC_OPERATOR_PROPERTY + idOperator + ".class");
+    operator = (GenneticOperator) Class.forName("progen.kernel.evolution.operators." + operatorClass).newInstance();
+    return operator;
   }
 
   /**

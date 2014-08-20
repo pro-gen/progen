@@ -1,10 +1,11 @@
 package progen.kernel.error;
 
-import progen.context.ProGenContext;
-import progen.context.UninitializedContextException;
-
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import progen.context.ProGenContext;
+import progen.context.UninitializedContextException;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * En esta clase es de donde se obtienen de una forma uniforme, los distintos
@@ -51,7 +52,7 @@ public final class Error {
   /**
    * Método para inicializar el Singleton de esta clase.
    */
-  @edu.umd.cs.findbugs.annotations.SuppressWarnings("ISC_INSTANTIATE_STATIC_CLASS")
+  @SuppressFBWarnings("ISC_INSTANTIATE_STATIC_CLASS")
   public static synchronized void makeInstance() {
     if (error == null) {
       error = new Error();

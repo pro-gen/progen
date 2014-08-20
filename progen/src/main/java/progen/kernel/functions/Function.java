@@ -6,8 +6,10 @@ import java.util.Map;
 
 import progen.context.ProGenContext;
 import progen.kernel.grammar.FunctionNotFoundException;
+import progen.kernel.grammar.UndefinedFunctionSetException;
 import progen.kernel.tree.Node;
 import progen.userprogram.UserProgram;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Clase abstracta que define los métodos necesarios para acceder a las
@@ -113,7 +115,7 @@ public abstract class Function implements Comparable<Function>, Serializable {
    * 
    * @return el tipo de los argumentos de la función.
    */
-  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "EI_EXPOSE_REP", justification = "Its is a getter method")
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "Its is a getter method")
   public Object[] getArgsType() {
     return argsType;
   }

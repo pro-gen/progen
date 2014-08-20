@@ -2,6 +2,8 @@ package progen.kernel.functions;
 
 import java.util.Random;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * ERC que define un valor aleatorio de 32 bits.
  * 
@@ -22,7 +24,7 @@ public class Bit32ERC extends ERC {
   }
 
   @Override
-  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "DMI_RANDOM_USED_ONLY_ONCE", justification = "Original design ProGen v1.0")
+  @SuppressFBWarnings(value = "DMI_RANDOM_USED_ONLY_ONCE", justification = "Original design ProGen v1.0")
   protected Object defineERC() {
     return Integer.valueOf(new Random().nextInt());
   }
@@ -33,7 +35,7 @@ public class Bit32ERC extends ERC {
   }
 
   @Override
-  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "CN_IDIOM_NO_SUPER_CALL", justification = "super.clone() doesn't exists")
+  @SuppressFBWarnings(value = "CN_IDIOM_NO_SUPER_CALL", justification = "super.clone() doesn't exists")
   public ERC clone() {
     return new Bit32ERC();
   }

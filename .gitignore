@@ -9,3 +9,4 @@ progen/target
 .project
 */.settings/*
 */.idea/*
+progen/src/main/**/app/*

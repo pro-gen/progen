@@ -1,5 +1,7 @@
 package progen.kernel.functions;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Implementación concreta de un ERC que toma valores entre 0 y 1.
  * 
@@ -28,7 +30,7 @@ public class ERC01 extends ERC {
   }
 
   @Override
-  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "CN_IDIOM_NO_SUPER_CALL", justification = "super.clone() doesn't exists")
+  @SuppressFBWarnings(value = "CN_IDIOM_NO_SUPER_CALL", justification = "super.clone() doesn't exists")
   public ERC clone() {
     return new ERC01();
   }
