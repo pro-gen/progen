@@ -6,7 +6,6 @@ import java.util.Map;
 
 import progen.context.ProGenContext;
 import progen.kernel.grammar.FunctionNotFoundException;
-import progen.kernel.grammar.UndefinedFunctionSetException;
 import progen.kernel.tree.Node;
 import progen.userprogram.UserProgram;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
