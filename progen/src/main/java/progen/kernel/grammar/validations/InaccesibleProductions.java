@@ -1,9 +1,8 @@
 package progen.kernel.grammar.validations;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-import progen.kernel.grammar.GrammarNonTerminalSymbol;
 import progen.kernel.grammar.Grammar;
 import progen.kernel.grammar.GrammarNotValidException;
 import progen.kernel.grammar.Production;
@@ -18,7 +17,6 @@ public class InaccesibleProductions implements Validation {
 
   public void validate(Grammar gram) {
     boolean grammarOK = false;
-    final GrammarNonTerminalSymbol axiom = gram.getAxiom();
     final List<Production> productionsToCheck = new ArrayList<Production>(gram.getProductions());
     final List<Production> productionsChecked = gram.getProductions(gram.getAxiom());
     Production toCheck;
@@ -32,7 +30,7 @@ public class InaccesibleProductions implements Validation {
       productionsToCheckBefore = productionsToCheck.size();
       for (int i = 0; i < productionsToCheckBefore; i++) {
         toCheck = productionsToCheck.get(index);
-        if (!checkProduction(toCheck, productionsChecked, axiom, productionsToCheck)) {
+        if (!checkProduction(toCheck, productionsChecked, productionsToCheck)) {
           index++;
         }
 
@@ -48,18 +46,18 @@ public class InaccesibleProductions implements Validation {
     }
   }
 
-  private boolean checkProduction(Production p, List<Production> productionsChecked, GrammarNonTerminalSymbol axiom, List<Production> productionsToCheck) {
-    boolean ok = false;
+  private boolean checkProduction(Production production, List<Production> productionsChecked, List<Production> productionsToCheck) {
+    boolean checkedOk = false;
 
-    if (productionsChecked.contains(p)) {
-      ok = true;
-      productionsToCheck.remove(p);
-    } else if (isGeneretatedBy(p, productionsChecked)) {
-      productionsChecked.add(p);
-      productionsToCheck.remove(p);
-      ok = true;
+    if (productionsChecked.contains(production)) {
+      checkedOk = true;
+      productionsToCheck.remove(production);
+    } else if (isGeneretatedBy(production, productionsChecked)) {
+      productionsChecked.add(production);
+      productionsToCheck.remove(production);
+      checkedOk = true;
     }
-    return ok;
+    return checkedOk;
   }
 
   private boolean isGeneretatedBy(Production p, List<Production> productionsChecked) {
