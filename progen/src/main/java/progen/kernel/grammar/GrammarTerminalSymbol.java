@@ -40,7 +40,7 @@ public class GrammarTerminalSymbol implements GrammarSymbol, Serializable {
   public boolean equals(Object other) {
     boolean equals = false;
     if (other instanceof GrammarTerminalSymbol) {
-      equals = (this.compareTo((GrammarTerminalSymbol)other) == 0);
+      equals = this.compareTo((GrammarTerminalSymbol)other) == 0;
     }
     return equals;
   }

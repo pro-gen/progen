@@ -92,7 +92,7 @@ public class PointMutation extends GenneticOperator {
       }
     }
     // no se ha podido mutar ningún nodo del árbol.
-    if (mutate == false) {
+    if (!mutate) {
       Warning.show(1);
     }
   }

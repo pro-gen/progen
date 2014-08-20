@@ -87,7 +87,7 @@ public class Grammar implements Serializable {
 
     if (idTree.startsWith("ADF")) {
       generateADFProductions(idTree);
-    }   
+    }
   }
 
   /**
@@ -159,7 +159,7 @@ public class Grammar implements Serializable {
     final List<Production> prods = new ArrayList<Production>();
     for (Production production : productions) {
       if (productionGenerateNonTerminal(production, nonTerminal) && functionIsCompatible(terminal, production)) {
-          prods.add(production);
+        prods.add(production);
       }
     }
     return prods;
@@ -234,10 +234,10 @@ public class Grammar implements Serializable {
    *         el <i>function-set</i> o <code>false</code> en caso contrario.
    */
   private boolean loadGrammar(int functionSet) {
-    final String [] functions = ProGenContext.getMandatoryProperty(PROGEN_FUNCTION_SET_PROPERTY + functionSet).trim().split(",[ ]*");
+    final String[] functions = ProGenContext.getMandatoryProperty(PROGEN_FUNCTION_SET_PROPERTY + functionSet).trim().split(",[ ]*");
     Function function;
     Production production;
-    GrammarNonTerminalSymbol [] args;
+    GrammarNonTerminalSymbol[] args;
     GrammarNonTerminalSymbol left;
     GrammarTerminalSymbol right;
     boolean loadedOK = true;
@@ -316,8 +316,8 @@ public class Grammar implements Serializable {
    * @return Conjunto de símbolos no terminales que generan los distintos
    *         valores de retorno
    */
-  private GrammarNonTerminalSymbol[] getGrammarNonTerminalSymbol(Object [] returnValue) {
-    GrammarNonTerminalSymbol [] symbols;
+  private GrammarNonTerminalSymbol[] getGrammarNonTerminalSymbol(Object[] returnValue) {
+    GrammarNonTerminalSymbol[] symbols;
     symbols = new GrammarNonTerminalSymbol[returnValue.length];
     for (int i = 0; i < returnValue.length; i++) {
       symbols[i] = getGrammarNonTerminalSymbol(returnValue[i]);
