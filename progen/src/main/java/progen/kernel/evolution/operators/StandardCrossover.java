@@ -172,9 +172,9 @@ public class StandardCrossover extends GenneticOperator {
     return checkTreeSize(treeA) & checkTreeSize(treeB);
   }
 
-  private boolean checkTreeSize(Tree t) {
+  private boolean checkTreeSize(Tree tree) {
     final int maxNodes = ProGenContext.getOptionalProperty("progen.population.max-nodes", Integer.MAX_VALUE);
-    return t.getRoot().getTotalNodes() <= maxNodes;
+    return tree.getRoot().getTotalNodes() <= maxNodes;
   }
 
 }
