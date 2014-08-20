@@ -58,7 +58,7 @@ public final class Error {
       error = new Error();
       try {
         final String defaultLanguage = ProGenContext.getOptionalProperty("progen.language", DEFAULT_LANGUAGE);
-        System.err.println(defaultLanguage);
+        System.out.println(defaultLanguage);
         final Locale locale = new Locale(defaultLanguage);
         Locale.setDefault(locale);
         error.literals = ResourceBundle.getBundle(PROGEN_KERNEL_ERROR_STRINGS_BUNDLE, locale);
