@@ -87,9 +87,9 @@ public abstract class Experimenter {
       outputStream = new FileOutputStream(destinationFile);
       copyFile(inputStream, outputStream);
     } catch (FileNotFoundException e) {
-      throw new ProGenException(Error.get(PROGEN_ID_ERROR) + SQUARE_RIGHT_BRACKET_SYMBOL + original + SQUARE_LEFT_BRACKET_SYMBOL);
+      throw new ProGenException(Error.get(PROGEN_ID_ERROR) + SQUARE_RIGHT_BRACKET_SYMBOL + original + SQUARE_LEFT_BRACKET_SYMBOL, e);
     } catch (IOException e) {
-      throw new ProGenException(e.getLocalizedMessage());
+      throw new ProGenException(e.getLocalizedMessage(), e);
     } finally {
       try {
         if (inputStream != null) {
@@ -99,7 +99,7 @@ public abstract class Experimenter {
           outputStream.close();
         }
       } catch (IOException e) {
-        throw new ProGenException(e.getLocalizedMessage());
+        throw new ProGenException(e.getLocalizedMessage(), e);
       }
 
     }
@@ -134,9 +134,9 @@ public abstract class Experimenter {
         }
       }
       deleted = path.delete() && deleted;
-    }else{
+    } else {
       deleted = false;
-    } 
+    }
     return deleted;
   }
 
