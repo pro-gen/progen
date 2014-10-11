@@ -176,7 +176,7 @@ public abstract class Function implements Comparable<Function>, Serializable {
       try {
         function = (Function) Class.forName(classPathProGen + functionName).newInstance();
       } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e1) {
-        throw new FunctionNotFoundException(functionName);
+        throw new FunctionNotFoundException(functionName, e1);
       }
     }
     return function;
