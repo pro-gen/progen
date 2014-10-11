@@ -89,23 +89,23 @@ public class MultipleExperimenter extends Experimenter {
         currentExperimenter = 0;
       } else {
         // incremento de las propiedades
-        int i = 0;
-        while (i < properties.size() && !actualizado) {
-          nextProp = properties.get(i);
+        int propertyIndex = 0;
+        while (propertyIndex < properties.size() && !actualizado) {
+          nextProp = properties.get(propertyIndex);
           if (nextProp.hasNext()) {
             nextProp.nextValue();
             actualizado = true;
             currentExperimenter++;
           } else {
-            i++;
+            propertyIndex++;
           }
         }
 
         // si se actualizo algo, se resetean todas las propiedades
         // anteriores
         if (actualizado) {
-          while (--i >= 0) {
-            properties.get(i).reset();
+          while (--propertyIndex >= 0) {
+            properties.get(propertyIndex).reset();
           }
         }
       }
@@ -166,7 +166,7 @@ public class MultipleExperimenter extends Experimenter {
       context.close();
       experimenter.generateResults();
     } catch (IOException e) {
-      throw new ProGenException(e.getLocalizedMessage());
+      throw new ProGenException(e.getLocalizedMessage(), e);
     }
   }
 
