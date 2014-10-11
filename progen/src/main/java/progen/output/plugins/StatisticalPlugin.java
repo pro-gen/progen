@@ -94,7 +94,7 @@ public class StatisticalPlugin implements MacroPlugin {
         plugin = (Plugin) Class.forName("progen.output.plugins." + pluginsName[i]).newInstance();
         this.addPlugin(plugins, plugin);
       } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-        throw new UnknownPluginException(getName() + ": " + pluginsName[i]);
+        throw new UnknownPluginException(getName() + ": " + pluginsName[i], e);
       }
     }
   }
