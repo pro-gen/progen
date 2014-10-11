@@ -32,11 +32,11 @@ public abstract class Selector {
       selector = (Selector) Class.forName("progen.kernel.evolution.selector." + name).newInstance();
       selector.setParams(params);
     } catch (InstantiationException e) {
-      throw new UnknownSelectorException(name);
+      throw new UnknownSelectorException(name, e);
     } catch (IllegalAccessException e) {
-      throw new UnknownSelectorException(name);
+      throw new UnknownSelectorException(name, e);
     } catch (ClassNotFoundException e) {
-      throw new UnknownSelectorException(name);
+      throw new UnknownSelectorException(name, e);
     }
     return selector;
   }

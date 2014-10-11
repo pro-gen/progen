@@ -25,7 +25,13 @@ public class UnknownSelectorException extends RuntimeException {
    *          Nombre del selector que no existe.
    */
   public UnknownSelectorException(String name) {
-    super(Error.get(ID_ERROR).trim() + " (" + name + ")");
+    super(getMessage(name));
+  }
+  public UnknownSelectorException(String name, Exception originalException) {
+    super(getMessage(name), originalException);
+  }
+  private static String getMessage(String name) {
+    return Error.get(ID_ERROR).trim() + " (" + name + ")";
   }
 
 }
