@@ -66,7 +66,7 @@ public final class HistoricalData {
    *         no exista.
    */
   public DataCollector getCurrentDataCollector(String name) {
-    return this.getDataCollector(name + "" + currentGeneration);
+    return this.getDataCollector(String.format("%s%d", name, currentGeneration));
   }
 
   /**
@@ -95,7 +95,7 @@ public final class HistoricalData {
    * @return El colector deseado o <code>null</code> en caso de que no exista.
    */
   public DataCollector getDataCollector(String name, int generation) {
-    return this.getDataCollector(name + "" + generation);
+    return this.getDataCollector(String.format("%s%d", name, generation));
   }
 
   /**
@@ -131,7 +131,7 @@ public final class HistoricalData {
   private void addCollectors(String tag) {
     for (int i = 0; i < totalCollectors; i++) {
       final DataCollector collector = new DataCollector("progen.datacollector" + i);
-      collectors.put(collector.getName() + "" + tag, collector);
+      collectors.put(String.format("%s%s", collector.getName(), tag), collector);
     }
   }
 
