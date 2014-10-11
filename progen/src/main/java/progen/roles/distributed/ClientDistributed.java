@@ -34,11 +34,11 @@ public class ClientDistributed extends ClientLocal {
       final DispatcherRemote remote = (DispatcherRemote) Naming.lookup(getDispatcherAddress());
       dispatcher = new DispatcherDistributed(remote);
     } catch (MalformedURLException e) {
-      throw new ProGenDistributedException(getDispatcherAddress());
+      throw new ProGenDistributedException(getDispatcherAddress(), e);
     } catch (RemoteException e) {
-      throw new ProGenDistributedException(getDispatcherAddress());
+      throw new ProGenDistributedException(getDispatcherAddress(), e);
     } catch (NotBoundException e) {
-      throw new ProGenDistributedException(getDispatcherAddress());
+      throw new ProGenDistributedException(getDispatcherAddress(), e);
     }
     return dispatcher;
   }
