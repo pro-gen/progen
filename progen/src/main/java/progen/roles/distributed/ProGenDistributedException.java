@@ -13,6 +13,10 @@ public class ProGenDistributedException extends RuntimeException {
   public ProGenDistributedException() {
     super(Error.get(ID_ERROR));
   }
+  
+  public ProGenDistributedException(Exception originalException) {
+    super(Error.get(ID_ERROR), originalException);
+  }
 
   public ProGenDistributedException(String msg) {
     super(getMessage(ID_ERROR, msg));
