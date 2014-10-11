@@ -78,7 +78,7 @@ public class ProGenTest {
     String args [] = {"master-file.txt"};
     mockStatic(ProGenContext.class);
     
-    when(ProGenContext.makeInstance(any(String.class))).thenThrow(new MissingContextFileException());
+    when(ProGenContext.makeInstance(any(String.class))).thenThrow(new MissingContextFileException()).thenReturn(null);
     ProGen.main(args);
     
     assertEquals("File not found in the configuration files.(File not found.)\n", systemErr.toString("UTF-8"));
