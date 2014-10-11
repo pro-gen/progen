@@ -3,6 +3,7 @@ package progen.output.plugins;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import progen.context.ProGenContext;
 
@@ -41,7 +42,7 @@ public class StatisticalPlugin implements MacroPlugin {
    * 
    * @return La colección de valores de los plugins que contiene.
    */
-  public HashMap<String, Object> getValue() {
+  public Map<String, Object> getValue() {
     final HashMap<String, Object> values = new HashMap<String, Object>();
     for (Plugin plugin : plugins) {
       values.put(plugin.getName(), plugin.getValue());
