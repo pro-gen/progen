@@ -70,7 +70,7 @@ public class EnumerationProperty implements Property {
   public String toString() {
     final StringBuilder enumerationProperty = new StringBuilder();
     for (String value : values) {
-      enumerationProperty.append(value + ";");
+      enumerationProperty.append(value).append(";");
     }
     enumerationProperty.append("[" + values[index] + "],");
     return enumerationProperty.toString();
