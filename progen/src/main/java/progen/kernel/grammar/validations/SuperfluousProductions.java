@@ -31,7 +31,7 @@ public class SuperfluousProductions implements Validation {
       for (int i = 0; i < symbolsToCheckBefore; i++) {
         symbol = symbolsToCheck.get(index);
 
-        if (checkSymbol(symbol, symbolsChecked, gram.getProductions(symbol))) {
+        if (checkSymbol(symbolsChecked, gram.getProductions(symbol))) {
           symbolsChecked.add(symbol);
           symbolsToCheck.remove(symbol);
         } else {
@@ -50,13 +50,13 @@ public class SuperfluousProductions implements Validation {
     }
   }
 
-  private boolean checkSymbol(GrammarNonTerminalSymbol symbol, List<GrammarNonTerminalSymbol> symbolsChecked, List<Production> productions) {
+  private boolean checkSymbol(List<GrammarNonTerminalSymbol> symbolsChecked, List<Production> productions) {
     boolean isOK = true;
-    for (Production p : productions) {
-      if (p.getArgs().length == 0) {
+    for (Production production : productions) {
+      if (production.getArgs().length == 0) {
         isOK = true;
       } else {
-        for (GrammarNonTerminalSymbol arg : p.getArgs()) {
+        for (GrammarNonTerminalSymbol arg : production.getArgs()) {
           isOK = isOK && symbolsChecked.contains(arg);
         }
       }
