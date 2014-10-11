@@ -68,7 +68,7 @@ public class DataCollector {
         plugin.initPlugin(proGenProperty);
         this.addPlugin(plugin);
       } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-        throw new UnknownPluginException(e.getMessage());
+        throw new UnknownPluginException(e.getMessage(), e);
       }
     }
 

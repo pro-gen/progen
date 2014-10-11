@@ -24,7 +24,13 @@ public class UnknownPluginException extends RuntimeException {
    *          Plugin que se intentó instanciar.
    */
   public UnknownPluginException(String msg) {
-    super(Error.get(ID_ERROR).trim() + "(" + msg + ")");
+    super(getMessage(msg));
+  }
+  public UnknownPluginException(String msg, Exception originalException) {
+    super(getMessage(msg), originalException);
+  }
+  private static String getMessage(String msg) {
+    return Error.get(ID_ERROR).trim() + "(" + msg + ")";
   }
 
 }
