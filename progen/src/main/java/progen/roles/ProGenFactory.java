@@ -81,7 +81,7 @@ public abstract class ProGenFactory {
     final String factoryPackage = ProGenContext.getOptionalProperty("progen.roles.factory", "standalone");
     final StringBuilder factoryClass = new StringBuilder(DEFAULT_FACTORY_CLASS_SIZE_NAME);
     factoryClass.append("progen.roles.");
-    factoryClass.append(factoryPackage + ".");
+    factoryClass.append(factoryPackage).append(".");
     factoryClass.append(factoryPackage.substring(0, 1).toUpperCase(Locale.getDefault()));
     factoryClass.append(factoryPackage.substring(1));
     factoryClass.append("Factory");
