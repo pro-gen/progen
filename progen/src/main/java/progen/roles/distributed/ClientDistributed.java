@@ -23,11 +23,6 @@ public class ClientDistributed extends ClientLocal {
   }
 
   @Override
-  public void start() {
-    super.start();
-  }
-
-  @Override
   public Dispatcher initDispatcher() {
     DispatcherDistributed dispatcher = null;
     try {
