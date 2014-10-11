@@ -26,7 +26,13 @@ public class FactoryNotFoundException extends RuntimeException {
    *          concreta.
    */
   public FactoryNotFoundException(String msg) {
-    super(Error.get(ID_ERROR) + " [" + msg + "]");
+    super(getMessage(msg));
+  }
+  public FactoryNotFoundException(String msg, Exception originalException) {
+    super(getMessage(msg), originalException);
+  }
+  private static String getMessage(String msg) {
+    return Error.get(ID_ERROR) + " [" + msg + "]";
   }
 
 }

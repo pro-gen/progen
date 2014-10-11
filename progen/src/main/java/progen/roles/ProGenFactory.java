@@ -66,11 +66,11 @@ public abstract class ProGenFactory {
       try {
         factory = (ProGenFactory) Class.forName(factoryClass).newInstance();
       } catch (InstantiationException e) {
-        throw new FactoryNotFoundException(factoryClass);
+        throw new FactoryNotFoundException(factoryClass,e);
       } catch (IllegalAccessException e) {
-        throw new FactoryNotFoundException(factoryClass);
+        throw new FactoryNotFoundException(factoryClass,e);
       } catch (ClassNotFoundException e) {
-        throw new FactoryNotFoundException(factoryClass);
+        throw new FactoryNotFoundException(factoryClass,e);
       }
     }
 
