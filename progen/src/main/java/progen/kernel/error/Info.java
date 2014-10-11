@@ -27,27 +27,27 @@ public final class Info {
    * Muetra por pantalla un aviso, al que es necesario proporcionarle el código
    * de información y el mensaje personalizado.
    * 
-   * @param id
+   * @param idInfo
    *          Identificador de la información
    * @param msg
    *          Mensaje personalizado
    */
-  public static void show(int id, String msg) {
-    System.out.println(get(id) + " [" + msg + "]");
+  public static void show(int idInfo, String msg) {
+    System.out.println(get(idInfo) + " [" + msg + "]");
   }
 
   /**
    * Muetra por pantalla un aviso, al que es necesario proporcionarle el código
    * de información.
    * 
-   * @param id
+   * @param idInfo
    *          Identificador de la información.
    */
-  public static void show(int id) {
-    System.out.println(get(id));
+  public static void show(int idInfo) {
+    System.out.println(get(idInfo));
   }
 
-  public static String get(int id) {
-    return literals.getString(INFO_LITERAL + id);
+  public static String get(int idInfo) {
+    return literals.getString(INFO_LITERAL + idInfo);
   }
 }
