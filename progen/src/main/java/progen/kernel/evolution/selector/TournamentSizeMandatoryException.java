@@ -8,6 +8,12 @@ public class TournamentSizeMandatoryException extends RuntimeException {
   private static final long serialVersionUID = 6841406532040966608L;
 
   public TournamentSizeMandatoryException() {
-    super(Error.get(ID_ERROR).trim());
+    super(getMessageException());
+  }
+  public TournamentSizeMandatoryException(Exception originalException) {
+    super(getMessageException(), originalException);
+  }
+  private static String getMessageException() {
+    return Error.get(ID_ERROR).trim();
   }
 }

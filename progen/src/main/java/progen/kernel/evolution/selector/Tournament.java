@@ -59,11 +59,6 @@ public class Tournament extends Selector {
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.kernel.evolution.selector.Selector#setParams(java.util.Map)
-   */
   @Override
   public void setParams(Map<String, String> params) {
     try {
@@ -72,7 +67,7 @@ public class Tournament extends Selector {
         throw new TournamentSizeException();
       }
     } catch (java.lang.NumberFormatException e) {
-      throw new TournamentSizeMandatoryException();
+      throw new TournamentSizeMandatoryException(e);
     }
   }
 
