@@ -24,7 +24,15 @@ public class UnknownRoleException extends RuntimeException {
    *          El tipo de rol a crear.
    */
   public UnknownRoleException(String msg) {
-    super(Error.get(ID_ERROR) + "(" + msg + ")");
+    super(getMessage(msg));
+  }
+  
+  public UnknownRoleException(String msg, Exception originalException) {
+    super(getMessage(msg), originalException);
+  }
+
+  private static String getMessage(String msg) {
+    return Error.get(ID_ERROR) + "(" + msg + ")";
   }
 
 }

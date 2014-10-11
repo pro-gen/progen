@@ -56,7 +56,7 @@ public class DistributedFactory extends ProGenFactory {
           throw new UnknownRoleException(executionRole.name());
       }
     } catch (IllegalArgumentException e) {
-      throw new UnknownRoleException(name);
+      throw new UnknownRoleException(name, e);
     }
     return exec;
   }
