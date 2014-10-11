@@ -24,7 +24,15 @@ public class UnknowOutputerException extends RuntimeException {
    *          Mensaje descriptivo de la causa de la excepción.
    */
   public UnknowOutputerException(String message) {
-    super(Error.get(ID_ERROR) + "(" + message + ")");
+    super(getMessage(message));
+  }
+
+  public UnknowOutputerException(String message, Exception originalException) {
+    super(getMessage(message), originalException);
+  }
+
+  private static String getMessage(String message) {
+    return Error.get(ID_ERROR) + "(" + message + ")";
   }
 
 }

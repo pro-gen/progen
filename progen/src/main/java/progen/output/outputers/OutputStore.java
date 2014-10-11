@@ -62,12 +62,8 @@ public final class OutputStore {
 
         outputers.add(output);
       }
-    } catch (InstantiationException e) {
-      throw new UnknowOutputerException(e.getMessage());
-    } catch (IllegalAccessException e) {
-      throw new UnknowOutputerException(e.getMessage());
-    } catch (ClassNotFoundException e) {
-      throw new UnknowOutputerException(e.getMessage());
+    } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+      throw new UnknowOutputerException(e.getMessage(), e);
     }
 
   }
