@@ -1,6 +1,7 @@
 package progen.output;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import progen.context.ProGenContext;
 import progen.output.dataCollectors.DataCollector;
@@ -26,7 +27,7 @@ public final class HistoricalData {
    * Colección de todos los recolectores de datos a lo largo de las
    * generaciónes.
    */
-  private HashMap<String, DataCollector> collectors;
+  private Map<String, DataCollector> collectors;
   /** Identifica la generación actual. */
   private int currentGeneration;
   /** Total de colectores disponibles en la ejecución. */
