@@ -67,11 +67,11 @@ public class DistributedFactory extends ProGenFactory {
     try {
       role = Class.forName(roleName).newInstance();
     } catch (ClassNotFoundException e) {
-      throw new UnknownRoleImplementationException(roleName);
+      throw new UnknownRoleImplementationException(roleName, e);
     } catch (InstantiationException e) {
-      throw new UnknownRoleImplementationException(roleName);
+      throw new UnknownRoleImplementationException(roleName, e);
     } catch (IllegalAccessException e) {
-      throw new UnknownRoleImplementationException(roleName);
+      throw new UnknownRoleImplementationException(roleName, e);
     }
     return role;
   }

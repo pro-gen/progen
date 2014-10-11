@@ -8,7 +8,15 @@ public class UnknownRoleImplementationException extends RuntimeException {
   private static final long serialVersionUID = 1842918295160613392L;
 
   public UnknownRoleImplementationException(String msg) {
-    super(Error.get(ID_ERROR) + "[" + msg + "]");
+    super(getError(msg));
+  }
+  
+  public UnknownRoleImplementationException(String msg, Exception originalException) {
+    super(getError(msg), originalException);
+  }
+
+  private static String getError(String msg) {
+    return Error.get(ID_ERROR) + "[" + msg + "]";
   }
 
 }
