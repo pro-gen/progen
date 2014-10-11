@@ -60,10 +60,10 @@ public class InaccesibleProductions implements Validation {
     return checkedOk;
   }
 
-  private boolean isGeneretatedBy(Production p, List<Production> productionsChecked) {
+  private boolean isGeneretatedBy(Production production, List<Production> productionsChecked) {
     boolean isGenerated = false;
     for (Production checked : productionsChecked) {
-      isGenerated |= checked.isSymbolGenerated(p.getLeft());
+      isGenerated |= checked.isSymbolGenerated(production.getLeft());
     }
     return isGenerated;
   }
