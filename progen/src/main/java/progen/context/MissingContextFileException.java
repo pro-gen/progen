@@ -22,7 +22,11 @@ public class MissingContextFileException extends RuntimeException {
    *          El nombre del fichero que se intentó leer.
    */
   public MissingContextFileException(String message) {
-    super(Error.get(ID_ERROR).trim() + "(" + message + ")");
+    super(getMessage(message));
+  }
+
+  private static String getMessage(String message) {
+    return Error.get(ID_ERROR).trim() + "(" + message + ")";
   }
 
   /**
@@ -30,5 +34,9 @@ public class MissingContextFileException extends RuntimeException {
    */
   public MissingContextFileException() {
     super(Error.get(ID_ERROR).trim());
+  }
+  
+  public MissingContextFileException(String message, Exception originalException){
+    super(getMessage(message), originalException);
   }
 }

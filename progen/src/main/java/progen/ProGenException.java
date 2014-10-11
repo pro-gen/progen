@@ -22,5 +22,9 @@ public class ProGenException extends RuntimeException {
   public ProGenException(String msg) {
     super(msg);
   }
+  
+  public ProGenException(String msg, Exception originalException) {
+    super(msg, originalException);
+  }
 
 }

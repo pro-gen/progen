@@ -20,7 +20,15 @@ public class MalformedParameterException extends RuntimeException {
    * @param message
    */
   public MalformedParameterException(String message) {
-    super(Error.get(ID_ERROR).trim() + " (" + message + ")");
+    super(getMessage(message));
+  }
+  
+  public MalformedParameterException(String message, Exception originalException) {
+    super(getMessage(message), originalException);
+  }
+
+  private static String getMessage(String message) {
+    return Error.get(ID_ERROR).trim() + " (" + message + ")";
   }
 
 }
