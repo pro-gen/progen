@@ -22,6 +22,12 @@ public class GenneticOperatorException extends RuntimeException {
    *          Original que originó la excepción.
    */
   public GenneticOperatorException(String message) {
-    super(Error.get(ID_ERROR).trim() + " (" + message + ")");
+    super(getMessage(message));
+  }
+  public GenneticOperatorException(String message, Exception originalException) {
+    super(getMessage(message), originalException);
+  }
+  private static String getMessage(String message) {
+    return Error.get(ID_ERROR).trim() + " (" + message + ")";
   }
 }

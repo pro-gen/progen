@@ -69,9 +69,9 @@ public class GenneticFactory {
         operator = configureOperator(idOperator, selectorPropertyContext, probability);
         operators.add(operator);
       } catch (ClassNotFoundException e) {
-        throw new UndefinedGenneticOperatorException(e.getMessage());
+        throw new UndefinedGenneticOperatorException(e.getMessage(), e);
       } catch (InstantiationException | IllegalAccessException e) {
-        throw new GenneticOperatorException(e.getMessage());
+        throw new GenneticOperatorException(e.getMessage(), e);
       }
     }
   }

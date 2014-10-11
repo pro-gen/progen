@@ -25,6 +25,12 @@ public class UndefinedGenneticOperatorException extends RuntimeException {
    *          Nombre del operador que se intentó instanciar.
    */
   public UndefinedGenneticOperatorException(String message) {
-    super(Error.get(ID_ERROR).trim() + " (" + message + ")");
+    super(getMessage(message));
+  }
+  public UndefinedGenneticOperatorException(String message, Exception originalException) {
+    super(getMessage(message), originalException);
+  }
+  private static String getMessage(String message) {
+    return Error.get(ID_ERROR).trim() + " (" + message + ")";
   }
 }
