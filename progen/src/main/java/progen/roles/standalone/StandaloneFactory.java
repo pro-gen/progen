@@ -47,7 +47,7 @@ public class StandaloneFactory extends ProGenFactory {
     try {
       role = Class.forName(roleName).newInstance();
     } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-      throw new UnknownRoleImplementationException(roleName);
+      throw new UnknownRoleImplementationException(roleName, e);
     }
     return role;
   }
@@ -72,7 +72,7 @@ public class StandaloneFactory extends ProGenFactory {
           throw new UnknownRoleException(executionRole.name());
       }
     } catch (IllegalArgumentException e) {
-      throw new UnknownRoleException(element);
+      throw new UnknownRoleException(element, e);
     }
     return exec;
   }
