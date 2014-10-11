@@ -238,14 +238,14 @@ public class Node implements Cloneable, Serializable {
    * Actualiza el número total de nodos que cuelgan de un nodo y de los nodos
    * que están por encima de él hasta llegar a la raíz.
    * 
-   * @param n
+   * @param totalNodes
    *          El número de nodos a actualizar.
    */
-  public void addTotalNodes(int n) {
+  public void addTotalNodes(int totalNodes) {
     if (parent != null) {
-      parent.addTotalNodes(n);
+      parent.addTotalNodes(totalNodes);
     }
-    this.totalNodes += n;
+    this.totalNodes += totalNodes;
   }
 
   /**
@@ -288,9 +288,9 @@ public class Node implements Cloneable, Serializable {
     if (isLeaf()) {
       node.append(function);
     } else {
-      node.append("(" + function);
+      node.append("(").append(function);
       for (int i = 0; i < branches.size(); i++) {
-        node.append(" " + branches.get(i).toString());
+        node.append(" ").append(branches.get(i).toString());
       }
       node.append(" )");
     }

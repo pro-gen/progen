@@ -184,15 +184,23 @@ public class StandardFile extends FileOutput {
     ceilData = String.format("%.5f", best.getAdjustedFitness());
     line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
 
-    for (int i = 0; i < totalRPB; i++) {
-      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(RBP_LITERAL + i).getRoot().getTotalNodes(), WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(RBP_LITERAL + i).getRoot().getMaximunDepth(), WIDTH_COLUMN), CENTER_SEP));
-    }
+    printBestDataRPB(line, best);
+    printBestDataADF(line, best);
+    getWriter().printf("%s%n%s", line.toString(), hline);
+  }
+
+  private void printBestDataADF(StringBuilder line, final Individual best) {
     for (int i = 0; i < totalADF; i++) {
       line.append(String.format("%s%s", Formatter.center(best.getTrees().get(ADF_LITERAL + i).getRoot().getTotalNodes(), WIDTH_COLUMN), CENTER_SEP));
       line.append(String.format("%s%s", Formatter.center(best.getTrees().get(ADF_LITERAL + i).getRoot().getMaximunDepth(), WIDTH_COLUMN), CENTER_SEP));
     }
-    getWriter().printf("%s%n%s", line.toString(), hline);
+  }
+
+  private void printBestDataRPB(StringBuilder line, final Individual best) {
+    for (int i = 0; i < totalRPB; i++) {
+      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(RBP_LITERAL + i).getRoot().getTotalNodes(), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(RBP_LITERAL + i).getRoot().getMaximunDepth(), WIDTH_COLUMN), CENTER_SEP));
+    }
   }
 
   /**
@@ -356,14 +364,8 @@ public class StandardFile extends FileOutput {
     ceilData = String.format("%.5f", best.getAdjustedFitness());
     line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
 
-    for (int i = 0; i < totalRPB; i++) {
-      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(RBP_LITERAL + i).getRoot().getTotalNodes(), WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(RBP_LITERAL + i).getRoot().getMaximunDepth(), WIDTH_COLUMN), CENTER_SEP));
-    }
-    for (int i = 0; i < totalADF; i++) {
-      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(ADF_LITERAL + i).getRoot().getTotalNodes(), WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(best.getTrees().get(ADF_LITERAL + i).getRoot().getMaximunDepth(), WIDTH_COLUMN), CENTER_SEP));
-    }
+    printBestDataRPB(line, best);
+    printBestDataADF(line, best);
     getWriter().println(line.toString());
 
   }
@@ -386,14 +388,8 @@ public class StandardFile extends FileOutput {
     ceilData = String.format("%.5f", worst.getAdjustedFitness());
     line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
 
-    for (int i = 0; i < totalRPB; i++) {
-      line.append(String.format("%s%s", Formatter.center(worst.getTrees().get(RBP_LITERAL + i).getRoot().getTotalNodes(), WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(worst.getTrees().get(RBP_LITERAL + i).getRoot().getMaximunDepth(), WIDTH_COLUMN), CENTER_SEP));
-    }
-    for (int i = 0; i < totalADF; i++) {
-      line.append(String.format("%s%s", Formatter.center(worst.getTrees().get(ADF_LITERAL + i).getRoot().getTotalNodes(), WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(worst.getTrees().get(ADF_LITERAL + i).getRoot().getMaximunDepth(), WIDTH_COLUMN), CENTER_SEP));
-    }
+    printBestDataRPB(line, worst);
+    printBestDataADF(line, worst);
     getWriter().printf("%s%n%s", line.toString(), hline);
 
   }

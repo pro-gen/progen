@@ -249,11 +249,11 @@ public class Grammar implements Serializable {
       args = getGrammarNonTerminalSymbol(function.getArgsType());
       right = new GrammarTerminalSymbol(function);
       production = new Production(left, right, args);
-      if (!productions.contains(production)) {
+      if (productions.contains(production)) {
+        loadedOK = false;
+      } else {
         productions.add(production);
         grammarTerminalSymbols.add(right);
-      } else {
-        loadedOK = false;
       }
 
     }
@@ -290,11 +290,9 @@ public class Grammar implements Serializable {
     boolean find = false;
     GrammarNonTerminalSymbol symbol = null;
     for (GrammarNonTerminalSymbol symbolTemp : grammarNonTerminalSymbols) {
-      if (!find) {
-        if (symbolTemp.getValue().compareTo((String) returnValue) == 0) {
-          find = true;
-          symbol = symbolTemp;
-        }
+      if (!find && symbolTemp.getValue().compareTo((String) returnValue) == 0) {
+        find = true;
+        symbol = symbolTemp;
       }
     }
 
@@ -368,7 +366,7 @@ public class Grammar implements Serializable {
       try {
         grammar.validate();
       } catch (GrammarNotValidException e) {
-        throw new ProGenException(e.getMessage());
+        throw new ProGenException(e.getMessage(), e);
       }
     }
     return grammar;

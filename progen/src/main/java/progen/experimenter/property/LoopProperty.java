@@ -72,9 +72,9 @@ public class LoopProperty implements Property {
       condition = LoopCondition.makeInstance(this.start, this.end, this.increment);
     } catch (NumberFormatException e) {
       final String msg = Error.get(ID_ERROR) + SPACE_SYMBOL + label + SPACE_SYMBOL + e.getLocalizedMessage();
-      throw new IllegalArgumentException(msg);
+      throw new IllegalArgumentException(msg, e);
     } catch (IllegalArgumentException e) {
-      throw new IllegalArgumentException(label + ": " + e.getMessage());
+      throw new IllegalArgumentException(label + ": " + e.getMessage(), e);
     }
   }
 
@@ -85,9 +85,9 @@ public class LoopProperty implements Property {
 
   @Override
   public String getValue() {
-    String value = current + "";
+    String value = String.valueOf(current);
     if (isPercent) {
-      value = (current * HUNDRED_PERCENT) + "";
+      value = String.valueOf(current * HUNDRED_PERCENT);
       value += PERCENT_SYMBOL;
     }
     return value;

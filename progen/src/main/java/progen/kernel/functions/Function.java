@@ -131,8 +131,8 @@ public abstract class Function implements Comparable<Function>, Serializable {
     return symbol.hashCode();
   }
 
-  public int compareTo(Function f) {
-    return symbol.compareTo(f.getSymbol());
+  public int compareTo(Function function) {
+    return symbol.compareTo(function.getSymbol());
   }
 
   /**
@@ -156,10 +156,10 @@ public abstract class Function implements Comparable<Function>, Serializable {
     final String classPathProGen = "progen.kernel.functions.";
     final String classPathUser = ProGenContext.getOptionalProperty("progen.user.home", classPathProGen);
 
-    if (!functionName.startsWith("ADF")) {
-      function = loadReagularFunction(functionName, classPathProGen, classPathUser);
-    } else {
+    if (functionName.startsWith("ADF")) {
       function = loadFunctionADF(functionName);
+    } else {
+      function = loadReagularFunction(functionName, classPathProGen, classPathUser);
     }
     return function;
   }
@@ -193,13 +193,13 @@ public abstract class Function implements Comparable<Function>, Serializable {
    */
   public boolean isCompatibleWith(Function function) {
     boolean isCompatible = true;
-    // si las aridades son distintas, no pueden ser compatibles
-    if (this.arity != function.arity) {
-      isCompatible = false;
-    } else {
+    // si las aridades no son distintas, no pueden ser compatibles
+    if (this.arity == function.arity) {
       for (int i = 0; i < arity; i++) {
         isCompatible &= argsType[i].equals(function.argsType[i]);
       }
+    } else {
+      isCompatible = false;
     }
 
     // comprobacion del valor de retorno

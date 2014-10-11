@@ -74,9 +74,9 @@ public final class ProGenContext {
       try {
         execMakeInstance(file);
       } catch (NullPointerException e) {
-        throw new MissingContextFileException(e.getMessage());
+        throw new MissingContextFileException(e.getMessage(), e);
       } catch (IOException e) {
-        throw new MissingContextFileException(e.getMessage());
+        throw new MissingContextFileException(e.getMessage(), e);
       }
     }
     return proGenProps;
@@ -411,7 +411,7 @@ public final class ProGenContext {
         parameters.put(parameterKey, parameterValue);
       }
     } catch (ArrayIndexOutOfBoundsException e) {
-      throw new MalformedParameterException(option + COMA_SYMBOL + parameterKey);
+      throw new MalformedParameterException(option + COMA_SYMBOL + parameterKey, e);
     }
     return parameters;
   }
@@ -421,9 +421,9 @@ public final class ProGenContext {
       proGenProps.calculateProperties();
       proGenProps.loadOtherProperties();
     } catch (FileNotFoundException fnfe) {
-      throw new MissingContextFileException(fnfe.getMessage());
+      throw new MissingContextFileException(fnfe.getMessage(), fnfe);
     } catch (IOException ioe) {
-      throw new MissingContextFileException(ioe.getMessage());
+      throw new MissingContextFileException(ioe.getMessage(), ioe);
     }
 
   }
