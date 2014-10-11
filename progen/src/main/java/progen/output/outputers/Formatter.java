@@ -123,10 +123,10 @@ public final class Formatter {
         line.deleteCharAt(line.length() - 1);
       }
       if (function) {
-        line.append(token + " \t");
+        line.append(token).append(" \t");
         function = false;
       } else {
-        line.append(token + " " + indentation(indent));
+        line.append(token).append(" ").append(indentation(indent));
       }
     }
 
