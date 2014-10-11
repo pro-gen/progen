@@ -24,7 +24,15 @@ public class UnknownUserProgramException extends RuntimeException {
    *          La clase a instanciar y que no existe.
    */
   public UnknownUserProgramException(String msg) {
-    super(Error.get(ID_ERROR) + " (" + msg + ")");
+    super(getMessage(msg));
+  }
+  
+  public UnknownUserProgramException(String msg, Exception originalException) {
+    super(getMessage(msg), originalException);
+  }
+
+  private static String getMessage(String msg) {
+    return Error.get(ID_ERROR) + " (" + msg + ")";
   }
 
 }

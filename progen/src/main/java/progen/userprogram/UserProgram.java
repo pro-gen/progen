@@ -35,11 +35,11 @@ public abstract class UserProgram {
     try {
       userProgram = (UserProgram) Class.forName(userPackage + userProgramClass).newInstance();
     } catch (InstantiationException e) {
-      throw new ProGenException(e.getMessage());
+      throw new ProGenException(e.getMessage(), e);
     } catch (IllegalAccessException e) {
-      throw new ProGenException(e.getMessage());
+      throw new ProGenException(e.getMessage(), e);
     } catch (ClassNotFoundException e) {
-      throw new UnknownUserProgramException(userPackage + userProgramClass);
+      throw new UnknownUserProgramException(userPackage + userProgramClass, e);
     }
 
     return userProgram;
