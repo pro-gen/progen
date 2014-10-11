@@ -25,10 +25,6 @@ public class MissingContextFileException extends RuntimeException {
     super(getMessage(message));
   }
 
-  private static String getMessage(String message) {
-    return Error.get(ID_ERROR).trim() + "(" + message + ")";
-  }
-
   /**
    * Constructor genérico de la excepción.
    */
@@ -39,4 +35,9 @@ public class MissingContextFileException extends RuntimeException {
   public MissingContextFileException(String message, Exception originalException){
     super(getMessage(message), originalException);
   }
+  
+  private static String getMessage(String message) {
+    return Error.get(ID_ERROR).trim() + "(" + message + ")";
+  }
+
 }
