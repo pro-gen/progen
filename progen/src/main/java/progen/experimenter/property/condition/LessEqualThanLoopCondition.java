@@ -21,6 +21,7 @@ public class LessEqualThanLoopCondition extends LoopCondition {
    *          El incremento a validar.
    */
   public LessEqualThanLoopCondition(double increment) {
+    super();
     if (increment <= 0) {
       throw new IllegalArgumentException(Error.get(ID_ERROR));
     }

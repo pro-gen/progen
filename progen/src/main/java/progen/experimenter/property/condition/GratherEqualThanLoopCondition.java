@@ -21,6 +21,7 @@ public class GratherEqualThanLoopCondition extends LoopCondition {
    *          El incremento a validar.
    */
   public GratherEqualThanLoopCondition(double increment) {
+    super();
     if (increment >= 0) {
       throw new IllegalArgumentException(Error.get(ID_ERROR));
     }
