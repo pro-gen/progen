@@ -1,9 +1,9 @@
-package progen.output.dataCollectors;
+package progen.output.datacollectors;
 
 import org.junit.Before;
 import org.junit.Test;
 import progen.context.ProGenContext;
-import progen.output.dataCollectors.DataCollector;
+import progen.output.datacollectors.DataCollector;
 import progen.output.plugins.Plugin;
 
 import static org.junit.Assert.assertTrue;

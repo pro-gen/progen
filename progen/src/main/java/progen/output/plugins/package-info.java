@@ -6,6 +6,6 @@
  * @author jirsis
  * @since 2.0
  * @see progen.output
- * @see progen.output.dataCollectors
+ * @see progen.output.datacollectors
  */
 package progen.output.plugins;

@@ -24,8 +24,8 @@ public class BitMult extends NonTerminal {
 
   @Override
   public Object evaluate(List<Node> arguments, UserProgram userProgram, Map<String, Object> returnAddr) {
-    final int x = (Integer) arguments.get(0).evaluate(userProgram, returnAddr);
-    final int y = (Integer) arguments.get(1).evaluate(userProgram, returnAddr);
+    final int firstOperator = (Integer) arguments.get(0).evaluate(userProgram, returnAddr);
+    final int secondOperator = (Integer) arguments.get(1).evaluate(userProgram, returnAddr);
 
     Integer result = 0;
 
@@ -37,11 +37,11 @@ public class BitMult extends NonTerminal {
       // will be one or zero bits set to 1. If there is one, that means that
       // there is
       // a 1 in position x_i, or a 0 otherwise.
-      final int count = Integer.bitCount(mask & x);
+      final int count = Integer.bitCount(mask & firstOperator);
       // If there were a 1 in x_i, then add to result the value 2^i * Y (or
       // which is the same Y << i)
       if (count > 0) {
-        result += y << i;
+        result += secondOperator << i;
       }
     }
 

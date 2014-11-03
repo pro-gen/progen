@@ -33,10 +33,10 @@ public class DoubleDiv extends NonTerminal {
     final Double dividendo = (Double) arguments.get(0).evaluate(userProgram, returnAddr);
     final Double divisor = (Double) arguments.get(1).evaluate(userProgram, returnAddr);
     Double result;
-    if (divisor != 0) {
-      result = dividendo / divisor;
-    } else {
+    if (divisor == 0) {
       result = Double.POSITIVE_INFINITY;
+    } else {
+      result = dividendo / divisor;
     }
     return result;
   }

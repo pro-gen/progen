@@ -58,6 +58,7 @@ public abstract class ERC extends Terminal implements Cloneable {
    */
   protected abstract String printERC();
 
+  @Override
   public abstract ERC clone();
 
 }

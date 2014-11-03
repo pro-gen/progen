@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import progen.context.ProGenContext;
-import progen.output.dataCollectors.DataCollector;
+import progen.output.datacollectors.DataCollector;
 
 /**
  * Representación de todos los datos históricos disponibles en la ejecución de
@@ -13,7 +13,7 @@ import progen.output.dataCollectors.DataCollector;
  * 
  * @author jirsis
  * @since 2.0
- * @see progen.output.dataCollectors
+ * @see progen.output.datacollectors
  */
 public final class HistoricalData {
 

@@ -18,8 +18,6 @@ import progen.userprogram.UserProgram;
  * @since 2.0
  */
 public class DispatcherLocal implements Dispatcher {
-  /** Fábrica general de roles */
-  private ProGenFactory factory;
   /**
    * Representación del único worker que tiene sentido a la hora de ejecutar en
    * local.
@@ -32,8 +30,7 @@ public class DispatcherLocal implements Dispatcher {
    * Constructor genérico de la clase.
    */
   public DispatcherLocal() {
-    factory = ProGenFactory.makeInstance();
-    worker = factory.makeWorker();
+    worker = ProGenFactory.makeInstance().makeWorker();
   }
 
   public void start() {

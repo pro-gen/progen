@@ -33,10 +33,10 @@ public class IntDiv extends NonTerminal {
     final Integer dividendo = (Integer) arguments.get(0).evaluate(userProgram, returnAddr);
     final Integer divisor = (Integer) arguments.get(1).evaluate(userProgram, returnAddr);
     double result;
-    if (divisor != 0) {
-      result = ((double) dividendo) / divisor;
-    } else {
+    if (divisor == 0) {
       result = Double.POSITIVE_INFINITY;
+    } else {
+      result = ((double) dividendo) / divisor;
     }
     return result;
   }

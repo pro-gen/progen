@@ -27,8 +27,6 @@ public class HalfAndHalf implements InitializeTreeMethod {
   private InitializeTreeMethod grow;
   /** Probabilidad de usar el inicializador Full */
   private double percentFull;
-  /** Probabilidad de usar el inicializador Grow */
-  private double percentGrow;
 
   /**
    * Constructor genérico de la clase, en la que se inicializan las
@@ -40,7 +38,7 @@ public class HalfAndHalf implements InitializeTreeMethod {
     full = new Full();
     grow = new Grow();
     percentFull = ProGenContext.getSuboptionPercent(PROGEN_POPULATION_INIT_MODE_PROPERTY, "full", DEFAULT_PROBABILITY);
-    percentGrow = ProGenContext.getSuboptionPercent(PROGEN_POPULATION_INIT_MODE_PROPERTY, "grow", DEFAULT_PROBABILITY);
+    final double percentGrow = ProGenContext.getSuboptionPercent(PROGEN_POPULATION_INIT_MODE_PROPERTY, "grow", DEFAULT_PROBABILITY);
     if (percentFull + percentGrow != 1) {
       throw new MalformedPercentSuboptionException(PROGEN_POPULATION_INIT_MODE_PROPERTY);
     }

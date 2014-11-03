@@ -27,12 +27,12 @@ public class ARG extends Terminal {
    *          Identifiador del ADF del que es argumento.
    * @param signature
    *          Signatura o tipo de valor que almacena.
-   * @param id
+   * @param argumentPosition
    *          Identificador de la posición que representa dentro del conjunto de
    *          argumentos del ADF.
    */
-  public ARG(String idADF, String signature, int id) {
-    super(signature, "ARG" + id);
+  public ARG(String idADF, String signature, int argumentPosition) {
+    super(signature, "ARG" + argumentPosition);
     this.idADF = idADF;
   }
 

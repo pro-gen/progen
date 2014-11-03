@@ -26,8 +26,8 @@ public class ProGenDistributedException extends RuntimeException {
     super(getMessage(ID_ERROR, msg), originalException);
   }
 
-  public ProGenDistributedException(int id, String msg) {
-    super(getMessage(id, msg));
+  public ProGenDistributedException(int idException, String msg) {
+    super(getMessage(idException, msg));
   }
 
   private static String getMessage(int idError, String msg) {

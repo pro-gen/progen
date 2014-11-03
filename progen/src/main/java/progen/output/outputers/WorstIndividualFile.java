@@ -5,7 +5,7 @@ import java.io.File;
 import progen.context.ProGenContext;
 import progen.kernel.population.Individual;
 import progen.output.HistoricalData;
-import progen.output.dataCollectors.DataCollector;
+import progen.output.datacollectors.DataCollector;
 import progen.output.plugins.Plugin;
 
 /**
