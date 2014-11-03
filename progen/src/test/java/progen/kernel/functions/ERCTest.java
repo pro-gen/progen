@@ -60,7 +60,7 @@ public class ERCTest {
 
     @Override
     public ERC clone() {
-      return new ERCSample(this.getSignature());
+      return null;
     }
 
   }

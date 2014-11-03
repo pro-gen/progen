@@ -1,10 +1,10 @@
 package progen.kernel.functions;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
+
 import org.junit.Before;
 import org.junit.Test;
-import progen.kernel.functions.ERC01;
-
-import static org.junit.Assert.assertTrue;
 
 /**
  * @author jirsis
@@ -34,4 +34,10 @@ public class ERC01Test {
     assertTrue(value == (Double) erc.getValue());
   }
 
+  @Test
+  public void cloneTest(){
+    ERC otherERC = erc.clone();
+    assertTrue(otherERC instanceof ERC01);
+    assertNotEquals(erc, otherERC);    
+  }
 }
