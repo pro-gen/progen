@@ -17,10 +17,10 @@ import progen.output.dataCollectors.DataCollector;
  */
 public final class HistoricalData {
 
-  private static final String STRING_INTEGER_FORMATTER = "%s%d";
-
   /** Identificador de los dator referentes a la totalidad del experimento. */
   public static final String EXPERIMENT = "-ALL";
+
+  private static final String STRING_INTEGER_FORMATTER = "%s%d";
   
   /** Instancia única de la clase. */
   private static HistoricalData historical;
