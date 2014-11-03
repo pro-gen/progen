@@ -34,9 +34,7 @@ public class StandardCrossover extends GenneticOperator {
   public List<Individual> evolve(Population population) {
     final List<Individual> individuals = getSelector().select(population, 2);
     final List<Individual> individualsCrossover = new ArrayList<Individual>();
-    if (individuals.size() != 2) {
-      throw new SelectorSizeIncorrectValueException(2, individuals.size());
-    } else {
+    if (individuals.size() == 2) {
       final Individual mother = individuals.get(0);
       final Individual father = individuals.get(1);
       final Object[] treesSet = (Object[]) mother.getTrees().keySet().toArray();
@@ -62,6 +60,8 @@ public class StandardCrossover extends GenneticOperator {
         individualsCrossover.add(father);
       }
 
+    }else{
+      throw new SelectorSizeIncorrectValueException(2, individuals.size());
     }
     return individualsCrossover;
   }
