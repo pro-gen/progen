@@ -1,5 +1,7 @@
 package progen.kernel.functions;
 
+import java.util.Objects;
+
 /**
  * @author jirsis
  * 
@@ -27,6 +29,11 @@ public abstract class NonTerminal extends Function {
       equals = false;
     }
     return equals;
+  }
+  
+  @Override
+  public int hashCode(){
+    return Objects.hash(this.getArity(), this.getSignature(), this.getSignature(), this.getReturnType());
   }
 
 }
