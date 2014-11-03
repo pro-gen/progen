@@ -17,6 +17,8 @@ import progen.output.dataCollectors.DataCollector;
  */
 public final class HistoricalData {
 
+  private static final String STRING_INTEGER_FORMATTER = "%s%d";
+
   /** Identificador de los dator referentes a la totalidad del experimento. */
   public static final String EXPERIMENT = "-ALL";
   
@@ -67,7 +69,7 @@ public final class HistoricalData {
    *         no exista.
    */
   public DataCollector getCurrentDataCollector(String name) {
-    return this.getDataCollector(String.format("%s%d", name, currentGeneration));
+    return this.getDataCollector(String.format(STRING_INTEGER_FORMATTER, name, currentGeneration));
   }
 
   /**
@@ -96,7 +98,7 @@ public final class HistoricalData {
    * @return El colector deseado o <code>null</code> en caso de que no exista.
    */
   public DataCollector getDataCollector(String name, int generation) {
-    return this.getDataCollector(String.format("%s%d", name, generation));
+    return this.getDataCollector(String.format(STRING_INTEGER_FORMATTER, name, generation));
   }
 
   /**
