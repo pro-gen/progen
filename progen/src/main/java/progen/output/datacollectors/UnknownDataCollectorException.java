@@ -1,4 +1,4 @@
-package progen.output.dataCollectors;
+package progen.output.datacollectors;
 
 import progen.kernel.error.Error;
 
@@ -8,7 +8,7 @@ import progen.kernel.error.Error;
  * 
  * @author jirsis
  * @since 2.0
- * @see progen.output.dataCollectors
+ * @see progen.output.datacollectors
  */
 public class UnknownDataCollectorException extends RuntimeException {
 

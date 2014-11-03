@@ -1,4 +1,4 @@
-package progen.output.dataCollectors;
+package progen.output.datacollectors;
 
 import java.util.ArrayList;
 import java.util.List;

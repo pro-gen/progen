@@ -6,4 +6,4 @@
  * @since 2.0
  * @see progen.output
  */
-package progen.output.dataCollectors;
+package progen.output.datacollectors;
