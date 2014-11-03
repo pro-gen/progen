@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.regex.Pattern;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,6 +33,8 @@ public class Bit32ERCTest {
     assertEquals(firstPrinted, secondPrinted);
     assertTrue(firstPrinted.startsWith("0x"));
     assertEquals(10, firstPrinted.length());
+    assertTrue(Pattern.matches("0x[\\da-f]{8}", firstPrinted));
+    assertTrue(Pattern.matches("0x[\\da-f]{8}", secondPrinted));
   }
 
   @Test
