@@ -8,8 +8,7 @@ public class MissingContextFileExceptionTest {
 
   @Rule
   public ExpectedException exception = ExpectedException.none();
-  
-  
+
   @Test
   public void testString() {
     exception.expect(MissingContextFileException.class);
@@ -19,9 +18,9 @@ public class MissingContextFileExceptionTest {
 
   @Test
   public void test() {
-      exception.expect(MissingContextFileException.class);
-      exception.expectMessage("File not found");
-      throw new MissingContextFileException();
-    }
-    
+    exception.expect(MissingContextFileException.class);
+    exception.expectMessage("File not found");
+    throw new MissingContextFileException();
+  }
+
 }

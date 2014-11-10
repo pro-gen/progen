@@ -16,5 +16,11 @@ public class FactoryNotFoundExceptionTest {
     exception.expectMessage("Concrete factory not found. [Factory]");
     throw new FactoryNotFoundException("Factory");
   }
-
+  
+  @Test
+  public void testStringException() {
+    exception.expect(FactoryNotFoundException.class);
+    exception.expectMessage("Concrete factory not found. [Factory]");
+    throw new FactoryNotFoundException("Factory", new IllegalArgumentException());
+  }
 }

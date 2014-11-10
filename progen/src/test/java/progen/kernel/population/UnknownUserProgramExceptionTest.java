@@ -16,5 +16,12 @@ public class UnknownUserProgramExceptionTest {
     exception.expectMessage("User program class not found. (Userprogram.class)");
     throw new UnknownUserProgramException("Userprogram.class");
   }
+  
+  @Test
+  public void testStringException() {
+    exception.expect(UnknownUserProgramException.class);
+    exception.expectMessage("User program class not found. (Userprogram.class)");
+    throw new UnknownUserProgramException("Userprogram.class", new IllegalArgumentException());
+  }
 
 }

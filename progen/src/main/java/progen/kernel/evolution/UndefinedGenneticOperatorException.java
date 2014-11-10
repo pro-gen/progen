@@ -1,6 +1,3 @@
-/**
- * 
- */
 package progen.kernel.evolution;
 
 import progen.kernel.error.Error;
