@@ -10,3 +10,6 @@ progen/target
 */.settings/*
 */.idea/*
 progen/src/main/**/app/*
+**/reports/*
+.checkstyle
+.pmd

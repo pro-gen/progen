@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset>
-  <rule ref="rulesets/java/basic.xml/UnusedNullCheckInEquals">
+  <rule ref="rulesets/java/unnecessary.xml/UnusedNullCheckInEquals">
     <priority>3</priority>
   </rule>
   <rule ref="rulesets/java/strings.xml/StringInstantiation">
@@ -75,13 +75,13 @@
   <rule ref="rulesets/java/basic.xml/CollapsibleIfStatements">
     <priority>4</priority>
   </rule>
-  <rule ref="rulesets/java/basic.xml/UselessOperationOnImmutable">
+  <rule ref="rulesets/java/unnecessary.xml/UselessOperationOnImmutable">
     <priority>2</priority>
   </rule>
   <rule ref="rulesets/java/clone.xml/CloneMethodMustImplementCloneable">
     <priority>3</priority>
   </rule>
-  <rule ref="rulesets/java/basic.xml/UselessOverridingMethod">
+  <rule ref="rulesets/java/unnecessary.xml/UselessOverridingMethod">
     <priority>3</priority>
   </rule>
   <rule ref="rulesets/java/design.xml/PreserveStackTrace">
@@ -222,7 +222,7 @@
   <rule ref="rulesets/java/design.xml/AvoidDeeplyNestedIfStmts">
     <priority>3</priority>
   </rule>
-  <rule ref="rulesets/java/basic.xml/EmptyInitializer">
+  <rule ref="rulesets/java/empty.xml/EmptyInitializer">
     <priority>3</priority>
   </rule>
   <rule ref="rulesets/java/naming.xml/BooleanGetMethodName">
@@ -243,7 +243,7 @@
   <rule ref="rulesets/java/design.xml/DefaultLabelNotLastInSwitchStmt">
     <priority>3</priority>
   </rule>
-  <rule ref="rulesets/java/basic.xml/EmptyStatementNotInLoop">
+  <rule ref="rulesets/java/empty.xml/EmptyStatementNotInLoop">
     <priority>3</priority>
   </rule>
   <rule ref="rulesets/java/codesize.xml/ExcessiveClassLength">
@@ -306,16 +306,16 @@
   <rule ref="rulesets/java/codesize.xml/TooManyFields">
     <priority>3</priority>
   </rule>
-  <rule ref="rulesets/java/basic.xml/UnnecessaryConversionTemporary">
+  <rule ref="rulesets/java/unnecessary.xml/UnnecessaryConversionTemporary">
     <priority>3</priority>
   </rule>
-  <rule ref="rulesets/java/basic.xml/UnnecessaryFinalModifier">
+  <rule ref="rulesets/java/unnecessary.xml/UnnecessaryFinalModifier">
     <priority>5</priority>
   </rule>
   <rule ref="rulesets/java/controversial.xml/UnnecessaryParentheses">
     <priority>4</priority>
   </rule>
-  <rule ref="rulesets/java/basic.xml/UnnecessaryReturn">
+  <rule ref="rulesets/java/unnecessary.xml/UnnecessaryReturn">
     <priority>4</priority>
   </rule>
   <rule ref="rulesets/java/optimizations.xml/UnnecessaryWrapperObjectCreation">
