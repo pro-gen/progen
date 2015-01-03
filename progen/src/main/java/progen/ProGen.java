@@ -64,10 +64,9 @@ public class ProGen {
         System.err.println(e.getMessage());
       } catch (NumberFormatException e) {
         System.err.println(e.getMessage());
-      } finally {
-        final Calendar end = GregorianCalendar.getInstance();
-        System.out.println("\nEXECUTION TIME: " + (end.getTimeInMillis() - begin.getTimeInMillis()) + " ms.");
       }
+      final Calendar end = GregorianCalendar.getInstance();
+      System.out.println("\nEXECUTION TIME: " + (end.getTimeInMillis() - begin.getTimeInMillis()) + " ms.");
     }
   }
 

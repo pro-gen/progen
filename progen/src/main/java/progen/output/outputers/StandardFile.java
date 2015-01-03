@@ -150,12 +150,8 @@ public class StandardFile extends FileOutput {
 
     padding = Formatter.center(getLiterals().getString(NODES_LITERAL), WIDTH_COLUMN).length();
     padding += Formatter.center(getLiterals().getString(DEPTH_LITERAL), WIDTH_COLUMN).length() + EXTRA_PADDING;
-    for (int i = 0; i < totalRPB; i++) {
-      line.append(String.format("%s%s", Formatter.center(RBP_LITERAL + i, padding), CENTER_SEP));
-    }
-    for (int i = 0; i < totalADF; i++) {
-      line.append(String.format("%s%s", Formatter.center(ADF_LITERAL + i, padding), CENTER_SEP));
-    }
+    printIndividualHeaderTableRPB(line, padding);
+    printIndividualHeaderTableADF(line, padding);
     getWriter().printf("%s%n%s", line.toString(), hline);
   }
 
@@ -335,15 +331,23 @@ public class StandardFile extends FileOutput {
     ceilData = String.format("%.5f", mean.get(ADJUSTED_LITERAL).getValue());
     line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
 
-    for (int i = 0; i < totalRPB; i++) {
-      line.append(String.format("%s%s", Formatter.center(mean.get(RBP_LITERAL + i + DASH_NODES_LITERAL).getValue().toString(), WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(mean.get(RBP_LITERAL + i + DASH_DEPTH_LITERAL).getValue().toString(), WIDTH_COLUMN), CENTER_SEP));
-    }
+    printIndividualGenerationMeanDataRPB(line, mean);
+    printIndividualGenerationMeanDataADF(line, mean);
+    getWriter().println(line.toString());
+  }
+
+  private void printIndividualGenerationMeanDataADF(StringBuilder line, final Map<String, Mean> mean) {
     for (int i = 0; i < totalADF; i++) {
       line.append(String.format("%s%s", Formatter.center(mean.get(ADF_LITERAL + i + DASH_NODES_LITERAL).getValue().toString(), WIDTH_COLUMN), CENTER_SEP));
       line.append(String.format("%s%s", Formatter.center(mean.get(ADF_LITERAL + i + DASH_DEPTH_LITERAL).getValue().toString(), WIDTH_COLUMN), CENTER_SEP));
     }
-    getWriter().println(line.toString());
+  }
+
+  private void printIndividualGenerationMeanDataRPB(StringBuilder line, final Map<String, Mean> mean) {
+    for (int i = 0; i < totalRPB; i++) {
+      line.append(String.format("%s%s", Formatter.center(mean.get(RBP_LITERAL + i + DASH_NODES_LITERAL).getValue().toString(), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format("%s%s", Formatter.center(mean.get(RBP_LITERAL + i + DASH_DEPTH_LITERAL).getValue().toString(), WIDTH_COLUMN), CENTER_SEP));
+    }
   }
 
   /**
@@ -426,9 +430,7 @@ public class StandardFile extends FileOutput {
     int padding;
     firstColumnWidth = WIDTH_COLUMN + CENTER_SEP.length();
 
-    secondColumnWidth = Math.max(WIDTH_COLUMN, getLiterals().getString(GENERATION_MEAN_LITERAL).length());
-    secondColumnWidth = Math.max(secondColumnWidth, getLiterals().getString(BEST_RUN_LITERAL).length());
-    secondColumnWidth = Math.max(secondColumnWidth, getLiterals().getString(WORST_RUN_LITERAL).length());
+    calculateSecondColumnWidth();
 
     line.append(String.format("%s%s", Formatter.left(getLiterals().getString(INDIVIDUAL_LITERAL), firstColumnWidth + secondColumnWidth), CENTER_SEP));
 
@@ -438,13 +440,27 @@ public class StandardFile extends FileOutput {
 
     padding = Formatter.center(getLiterals().getString(NODES_LITERAL), WIDTH_COLUMN).length();
     padding += Formatter.center(getLiterals().getString(DEPTH_LITERAL), WIDTH_COLUMN).length() + EXTRA_PADDING;
-    for (int i = 0; i < totalRPB; i++) {
-      line.append(String.format("%s%s", Formatter.center(RBP_LITERAL + i, padding), CENTER_SEP));
-    }
+    printIndividualHeaderTableRPB(line, padding);
+    printIndividualHeaderTableADF(line, padding);
+    getWriter().printf("%s%n%s", line.toString(), hline);
+  }
+
+  private void printIndividualHeaderTableADF(final StringBuilder line, int padding) {
     for (int i = 0; i < totalADF; i++) {
       line.append(String.format("%s%s", Formatter.center(ADF_LITERAL + i, padding), CENTER_SEP));
     }
-    getWriter().printf("%s%n%s", line.toString(), hline);
+  }
+
+  private void printIndividualHeaderTableRPB(final StringBuilder line, int padding) {
+    for (int i = 0; i < totalRPB; i++) {
+      line.append(String.format("%s%s", Formatter.center(RBP_LITERAL + i, padding), CENTER_SEP));
+    }
+  }
+
+  private void calculateSecondColumnWidth() {
+    secondColumnWidth = Math.max(WIDTH_COLUMN, getLiterals().getString(GENERATION_MEAN_LITERAL).length());
+    secondColumnWidth = Math.max(secondColumnWidth, getLiterals().getString(BEST_RUN_LITERAL).length());
+    secondColumnWidth = Math.max(secondColumnWidth, getLiterals().getString(WORST_RUN_LITERAL).length());
   }
 
   /**

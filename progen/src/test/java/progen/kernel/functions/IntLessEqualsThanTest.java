@@ -1,21 +1,20 @@
 package progen.kernel.functions;
 
-import org.junit.Before;
-import org.junit.Test;
-import progen.kernel.functions.IntLessEqualsThan;
-import progen.kernel.functions.IntM;
-import progen.kernel.functions.IntN;
-import progen.kernel.functions.NonTerminal;
-import progen.kernel.grammar.GrammarNonTerminalSymbol;
-import progen.kernel.grammar.GrammarTerminalSymbol;
-import progen.kernel.tree.Node;
-import progen.userprogram.UserProgram;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+
+import progen.kernel.grammar.GrammarNonTerminalSymbol;
+import progen.kernel.grammar.GrammarTerminalSymbol;
+import progen.kernel.tree.Node;
+import progen.userprogram.UserProgram;
 
 /**
  * @author jirsis
@@ -23,20 +22,20 @@ import static org.junit.Assert.*;
  */
 public class IntLessEqualsThanTest {
 
-  private IntLessEqualsThan le;
+  private IntLessEqualsThan lessEqualsThan;
 
   @Before
   public void setUp() {
-    le = new IntLessEqualsThan();
+    lessEqualsThan = new IntLessEqualsThan();
   }
 
   @Test
   public void lessEqualsThanTest() {
-    assertTrue(le instanceof NonTerminal);
-    assertEquals(2, le.getArity());
-    assertEquals("boolean", le.getReturnType());
-    assertEquals("boolean$$int$$int", le.getSignature());
-    assertEquals("<=", le.getSymbol());
+    assertTrue(lessEqualsThan instanceof NonTerminal);
+    assertEquals(2, lessEqualsThan.getArity());
+    assertEquals("boolean", lessEqualsThan.getReturnType());
+    assertEquals("boolean$$int$$int", lessEqualsThan.getSignature());
+    assertEquals("<=", lessEqualsThan.getSymbol());
 
   }
 
@@ -46,8 +45,8 @@ public class IntLessEqualsThanTest {
     UserProgram userProgram = null;
     HashMap<String, Object> returnAddr = null;
 
-    Node a = new Node(new GrammarNonTerminalSymbol("Ax", le.getReturnType().toString()));
-    Node b = new Node(new GrammarNonTerminalSymbol("Ax", le.getReturnType().toString()));
+    Node a = new Node(new GrammarNonTerminalSymbol("Ax", lessEqualsThan.getReturnType().toString()));
+    Node b = new Node(new GrammarNonTerminalSymbol("Ax", lessEqualsThan.getReturnType().toString()));
 
     IntN x = new IntN();
     x.setValue(1);
@@ -62,22 +61,22 @@ public class IntLessEqualsThanTest {
     //1<=2?
     a.setFunction(one);
     b.setFunction(two);
-    assertTrue((Boolean) le.evaluate(arguments, userProgram, returnAddr));
+    assertTrue((Boolean) lessEqualsThan.evaluate(arguments, userProgram, returnAddr));
 
     //2<=1?
     a.setFunction(two);
     b.setFunction(one);
-    assertFalse((Boolean) le.evaluate(arguments, userProgram, returnAddr));
+    assertFalse((Boolean) lessEqualsThan.evaluate(arguments, userProgram, returnAddr));
 
     //1<=1?
     a.setFunction(one);
     b.setFunction(one);
-    assertTrue((Boolean) le.evaluate(arguments, userProgram, returnAddr));
+    assertTrue((Boolean) lessEqualsThan.evaluate(arguments, userProgram, returnAddr));
 
     //2<=2?
     a.setFunction(two);
     b.setFunction(two);
-    assertTrue((Boolean) le.evaluate(arguments, userProgram, returnAddr));
+    assertTrue((Boolean) lessEqualsThan.evaluate(arguments, userProgram, returnAddr));
   }
 
 }

@@ -70,10 +70,7 @@ public class PointMutation extends GenneticOperator {
 
       final Node node = tree.getNode(nodeMutate);
       final List<Production> productions = grammar.getProductionsCompatibleWithFunction(node.getSymbol(), node.getFunction());
-      Production production = productions.remove((int) (Math.random() * productions.size()));
-      while (productionCompatibility(node, productions, production)) {
-        production = productions.remove((int) (Math.random() * productions.size()));
-      }
+      final Production production = getProductionCompatible(node, productions);
 
       if (hasMoreProductionsAvailable(productions)) {
         node.setFunction(production.getFunction());
@@ -82,6 +79,14 @@ public class PointMutation extends GenneticOperator {
     }
     
     warningIfNotMutation(mutate);
+  }
+
+  private Production getProductionCompatible(final Node node, final List<Production> productions) {
+    Production production = productions.remove((int) (Math.random() * productions.size()));
+    while (productionCompatibility(node, productions, production)) {
+      production = productions.remove((int) (Math.random() * productions.size()));
+    }
+    return production;
   }
 
   private void warningIfNotMutation(boolean mutate) {

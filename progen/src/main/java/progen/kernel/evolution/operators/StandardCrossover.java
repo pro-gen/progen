@@ -43,16 +43,18 @@ public class StandardCrossover extends GenneticOperator {
       final String key = (String) treesSet[(int) (Math.random() * treesSet.length)];
       final Tree treeA = mother.getTrees().get(key);
       final Tree treeB = father.getTrees().get(key);
-
-      if (validCross(treeA, treeB)) {
-        individualsCrossover.add(mother);
-        individualsCrossover.add(father);
-      }
-
+      updateIndividualCrossover(individualsCrossover, mother, father, treeA, treeB);
     }else{
       throw new SelectorSizeIncorrectValueException(2, individuals.size());
     }
     return individualsCrossover;
+  }
+
+  private void updateIndividualCrossover(final List<Individual> individualsCrossover, final Individual mother, final Individual father, final Tree treeA, final Tree treeB) {
+    if (validCross(treeA, treeB)) {
+      individualsCrossover.add(mother);
+      individualsCrossover.add(father);
+    }
   }
 
   private boolean validCross(final Tree treeA, final Tree treeB) {
@@ -89,6 +91,8 @@ public class StandardCrossover extends GenneticOperator {
     Node crossNode2;
     Node parent1;
     Node parent2;
+    
+    
     boolean treesCrossed = false;
 
     crossNodes = selectNodes(treeA, treeB);
@@ -151,24 +155,40 @@ public class StandardCrossover extends GenneticOperator {
     Node crossNode1;
     Node crossNode2;
     Function function1;
-    Function function2;
-    // se buscan los nodos de corte, sin tener en cuenta el nodo raiz
-    crossNode1 = treeA.getNode(1 + (int) (Math.random() * treeA.getRoot().getTotalNodes() - 1));
-    crossNode2 = treeB.getNode(1 + (int) (Math.random() * treeB.getRoot().getTotalNodes() - 1));
-    // se recuperan las funciones de cada nodo
-    function1 = crossNode1.getFunction().getFunction();
-    function2 = crossNode2.getFunction().getFunction();
-    // si la funcion no devuelve el mismo tipo, se busca otro nodo que si
-    // que lo cumpla
-    while (!function1.getReturnType().equals(function2.getReturnType())) {
-      crossNode2 = treeB.getNode(1 + (int) (Math.random() * treeB.getRoot().getTotalNodes() - 1));
-      function2 = crossNode2.getFunction().getFunction();
-    }
+    crossNode1 = getBranchNode(treeA);
+    function1 = getRealFunction(crossNode1);
+    
+    crossNode2 = getCrossNode2(treeB, function1);
 
     nodes.add(crossNode1);
     nodes.add(crossNode2);
 
     return nodes;
+  }
+
+  private Node getCrossNode2(Tree treeB, Function function1) {
+    Node crossNode2;
+    Function function2;
+    crossNode2 = getBranchNode(treeB);
+    function2 = getRealFunction(crossNode2);
+    
+    while (!functionsHasSameReturnType(function1, function2)) {
+      crossNode2 = getBranchNode(treeB);
+      function2 = getRealFunction(crossNode2);
+    }
+    return crossNode2;
+  }
+
+  private Function getRealFunction(Node crossNode1) {
+    return crossNode1.getFunction().getFunction();
+  }
+
+  private Node getBranchNode(Tree treeA) {
+    return treeA.getNode(1 + (int) (Math.random() * treeA.getRoot().getTotalNodes() - 1));
+  }
+
+  private boolean functionsHasSameReturnType(Function function1, Function function2) {
+    return function1.getReturnType().equals(function2.getReturnType());
   }
 
   @SuppressFBWarnings(value = "NS_DANGEROUS_NON_SHORT_CIRCUIT", justification = "It's mandatory to evaluate both trees")

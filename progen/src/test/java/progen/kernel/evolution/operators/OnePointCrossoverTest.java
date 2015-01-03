@@ -3,22 +3,24 @@
  */
 package progen.kernel.evolution.operators;
 
-import org.junit.Before;
-import org.junit.Test;
-import progen.context.ProGenContext;
-import progen.kernel.evolution.operators.OnePointCrossover;
-import progen.kernel.population.Individual;
-import progen.kernel.population.Population;
+import static org.junit.Assert.assertFalse;
 
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertFalse;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import progen.context.ProGenContext;
+import progen.kernel.population.Individual;
+import progen.kernel.population.Population;
 
 /**
  * @author jirsis
  * @since 2.0
  */
+@Ignore
 public class OnePointCrossoverTest {
   /**
    * Referencia al operador de cruce

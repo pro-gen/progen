@@ -1,6 +1,7 @@
 package progen;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
@@ -13,7 +14,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -23,6 +23,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import progen.context.MissingContextFileException;
 import progen.context.ProGenContext;
+import progen.kernel.grammar.UndefinedFunctionSetException;
 import progen.kernel.population.Individual;
 import progen.output.outputers.OutputStore;
 import progen.roles.ProGenFactory;
@@ -32,11 +33,11 @@ import progen.userprogram.UserProgram;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ ProGenContext.class, UserProgram.class, ProGenFactory.class, OutputStore.class })
-@Ignore
 public class ProGenTest {
 
   @Rule
   public ExpectedException exception = ExpectedException.none();
+  
 
   @Test
   public void testNoMasterFile() {
@@ -73,19 +74,34 @@ public class ProGenTest {
     
   }
 
-  @Test@Ignore
+  @Test
   public void testMissingContextFileException() throws UnsupportedEncodingException{
-    ByteArrayOutputStream systemErr = mockSystemErr();
-
-    String args [] = {"master-file.txt"};
-    mockStatic(ProGenContext.class);
-    
-    when(ProGenContext.makeInstance(any(String.class))).thenThrow(new MissingContextFileException()).thenReturn(null);
-    ProGen.main(args);
-    
+    ByteArrayOutputStream systemErr = mockProGenContextException(new MissingContextFileException());
+    ProGen.main(new String []{"master-file.txt"});
     assertEquals("File not found in the configuration files.(File not found.)\n", systemErr.toString("UTF-8"));
   }
   
+  @Test
+  public void testUndefinedFunctionSetException() throws UnsupportedEncodingException{
+    ByteArrayOutputStream systemErr = mockProGenContextException(new UndefinedFunctionSetException("message"));
+    ProGen.main(new String []{"master-file.txt"});
+    assertEquals("message\n", systemErr.toString("UTF-8"));
+  }
+  
+  @Test
+  public void testNumberFormatException() throws UnsupportedEncodingException{
+    ByteArrayOutputStream systemErr = mockProGenContextException(new NumberFormatException());
+    ProGen.main(new String []{"master-file.txt"});
+    assertEquals("null\n", systemErr.toString("UTF-8"));
+  }
+  
+  private ByteArrayOutputStream mockProGenContextException(Exception e) {
+    mockStatic(ProGenContext.class);
+    ByteArrayOutputStream systemErr = mockSystemErr();
+    when(ProGenContext.makeInstance(any(String.class))).thenThrow(e).thenReturn(null);
+    return systemErr;
+  }
+
   private ByteArrayOutputStream mockSystemOut() {
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     PrintStream printStream = new PrintStream(outputStream);
