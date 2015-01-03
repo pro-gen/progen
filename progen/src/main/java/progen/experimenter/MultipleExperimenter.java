@@ -78,37 +78,49 @@ public class MultipleExperimenter extends Experimenter {
   @Override
   public void updateValues() {
     boolean actualizado = false;
-    Property nextProp;
     if (!isDone()) {
       defined = false;
       if (nextRepetition) {
-        for (Property property : properties) {
-          property.reset();
-        }
+        resetAllProperties();
         nextRepetition = false;
         currentExperimenter = 0;
       } else {
         // incremento de las propiedades
         int propertyIndex = 0;
+        Property nextProp;
         while (propertyIndex < properties.size() && !actualizado) {
           nextProp = properties.get(propertyIndex);
           if (nextProp.hasNext()) {
-            nextProp.nextValue();
-            actualizado = true;
-            currentExperimenter++;
+            actualizado = incrementPropertyValue(nextProp);
           } else {
             propertyIndex++;
           }
         }
-
-        // si se actualizo algo, se resetean todas las propiedades
-        // anteriores
-        if (actualizado) {
-          while (--propertyIndex >= 0) {
-            properties.get(propertyIndex).reset();
-          }
-        }
+        resetPreviousProperties(actualizado, propertyIndex);
       }
+    }
+  }
+
+  private void resetPreviousProperties(boolean actualizado, int lastPropertyIndex) {
+    int currentProperty=lastPropertyIndex;
+    if (actualizado) {
+      while (--currentProperty>= 0) {
+        properties.get(currentProperty).reset();
+      }
+    }
+  }
+
+  private boolean incrementPropertyValue(Property nextProp) {
+    boolean actualizado;
+    nextProp.nextValue();
+    actualizado = true;
+    currentExperimenter++;
+    return actualizado;
+  }
+
+  private void resetAllProperties() {
+    for (Property property : properties) {
+      property.reset();
     }
   }
 

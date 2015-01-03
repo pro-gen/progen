@@ -7,6 +7,7 @@ import java.util.List;
 import progen.kernel.error.Warning;
 import progen.kernel.evolution.GenneticOperator;
 import progen.kernel.grammar.Grammar;
+import progen.kernel.grammar.GrammarTerminalSymbol;
 import progen.kernel.grammar.Production;
 import progen.kernel.population.Individual;
 import progen.kernel.population.Population;
@@ -61,40 +62,61 @@ public class PointMutation extends GenneticOperator {
    */
   private void mutate(Tree tree, Grammar grammar) {
     boolean mutate = false;
-    final List<Integer> nodes = new ArrayList<Integer>();
-    // se genera una lista aleatoria con los nodos a intentar mutar
-    for (int i = 0; i < tree.getRoot().getTotalNodes(); i++)
-      nodes.add(i);
-    Collections.shuffle(nodes);
+    
+    final List<Integer> nodes =generateRandomNodeList(tree);
 
-    // mientras no se haya mutado ya el arbol y queden nodos candidatos
-    while (!mutate && nodes.size() > 0) {
+    while (!mutate && hasMoreCandidateNodes(nodes)) {
       final int nodeMutate = nodes.remove(0);
 
       final Node node = tree.getNode(nodeMutate);
       final List<Production> productions = grammar.getProductionsCompatibleWithFunction(node.getSymbol(), node.getFunction());
       Production production = productions.remove((int) (Math.random() * productions.size()));
-      /*
-       * se busca una producción que tenga la misma aridad en la función y que
-       * sea distinta a la que se uso para generar este nodo, mientras queden
-       * producciones disponibles
-       */
-      while ((production.getFunction().compareTo(node.getFunction()) == 0 || production.getArgs().length != node.getFunction().getFunction().getArity()) && productions.size() > 0) {
-
+      while (productionCompatibility(node, productions, production)) {
         production = productions.remove((int) (Math.random() * productions.size()));
       }
 
-      // si no se han eliminado todas las producciones disponibles, se muta el
-      // nodo
-      if (productions.size() > 0) {
+      if (hasMoreProductionsAvailable(productions)) {
         node.setFunction(production.getFunction());
         mutate = true;
       }
     }
-    // no se ha podido mutar ningún nodo del árbol.
+    
+    warningIfNotMutation(mutate);
+  }
+
+  private void warningIfNotMutation(boolean mutate) {
     if (!mutate) {
       Warning.show(1);
     }
   }
 
+  private boolean hasMoreCandidateNodes(final List<Integer> nodes) {
+    return nodes.size() > 0;
+  }
+
+  private boolean productionCompatibility(final Node node, final List<Production> productions, Production production) {
+    return (nodeFunctionEqualsProductionFunction(node.getFunction(), production.getFunction()) || productionHasSameNodeArity(node, production)) && hasMoreProductionsAvailable(productions);
+  }
+
+  private boolean hasMoreProductionsAvailable(final List<Production> productions) {
+    return productions.size() > 0;
+  }
+
+  private boolean productionHasSameNodeArity(final Node node, Production production) {
+    return production.getArgs().length != node.getFunction().getFunction().getArity();
+  }
+
+  private boolean nodeFunctionEqualsProductionFunction(final GrammarTerminalSymbol nodeFunction, GrammarTerminalSymbol productionFunction) {
+    return productionFunction.compareTo(nodeFunction) == 0;
+  }
+
+  private List<Integer> generateRandomNodeList(Tree tree) {
+    final List<Integer> nodes = new ArrayList<Integer>();
+    for (int i = 0; i < tree.getRoot().getTotalNodes(); i++){
+      nodes.add(i);
+    }
+    Collections.shuffle(nodes);
+    return nodes;
+  }
+  
 }

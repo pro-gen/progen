@@ -30,6 +30,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 public class StandardCrossover extends GenneticOperator {
 
+  private static final int MAX_TRIES_VALID_CROSS = 50;
+
   @Override
   public List<Individual> evolve(Population population) {
     final List<Individual> individuals = getSelector().select(population, 2);
@@ -42,20 +44,7 @@ public class StandardCrossover extends GenneticOperator {
       final Tree treeA = mother.getTrees().get(key);
       final Tree treeB = father.getTrees().get(key);
 
-      // A ver que te parece así:
-      boolean validCross = false;
-      int tries = 0;
-      boolean giveUp = false;
-      while (!validCross && !giveUp) {
-        if (crossTree(treeA, treeB)) {
-          validCross = checkTrees(treeA, treeB);
-        }
-        if (++tries > 50) {
-          giveUp = true;
-        }
-      }
-
-      if (validCross) {
+      if (validCross(treeA, treeB)) {
         individualsCrossover.add(mother);
         individualsCrossover.add(father);
       }
@@ -64,6 +53,21 @@ public class StandardCrossover extends GenneticOperator {
       throw new SelectorSizeIncorrectValueException(2, individuals.size());
     }
     return individualsCrossover;
+  }
+
+  private boolean validCross(final Tree treeA, final Tree treeB) {
+    boolean validCross = false;
+    int tries = 0;
+    boolean giveUp = false;
+    while (!validCross && !giveUp) {
+      if (crossTree(treeA, treeB)) {
+        validCross = checkTrees(treeA, treeB);
+      }
+      if (++tries > MAX_TRIES_VALID_CROSS) {
+        giveUp = true;
+      }
+    }
+    return validCross;
   }
 
   /**

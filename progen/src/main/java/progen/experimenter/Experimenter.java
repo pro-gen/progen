@@ -1,5 +1,6 @@
 package progen.experimenter;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -76,9 +77,9 @@ public abstract class Experimenter {
 
   private void copyFileSecure(String original, String copyPath) {
     final File originalFile = new File(original);
-    final File destinationFile = new File(copyPath + File.separator + originalFile.getName());
+    final File destinationFile = new File(String.format("%s%s%s", copyPath, File.separator, originalFile.getName()));
     if (!originalFile.exists()) {
-      throw new ProGenException(Error.get(PROGEN_ID_ERROR) + SPACE_SYMBOL + SQUARE_RIGHT_BRACKET_SYMBOL + original + SQUARE_LEFT_BRACKET_SYMBOL);
+      throw new ProGenException(String.format("%s%s%s%s%s", Error.get(PROGEN_ID_ERROR), SPACE_SYMBOL, SQUARE_RIGHT_BRACKET_SYMBOL, original, SQUARE_LEFT_BRACKET_SYMBOL));
     }
     InputStream inputStream = null;
     OutputStream outputStream = null;
@@ -91,17 +92,18 @@ public abstract class Experimenter {
     } catch (IOException e) {
       throw new ProGenException(e.getLocalizedMessage(), e);
     } finally {
-      try {
-        if (inputStream != null) {
-          inputStream.close();
-        }
-        if (outputStream != null) {
-          outputStream.close();
-        }
-      } catch (IOException e) {
-        throw new ProGenException(e.getLocalizedMessage(), e);
-      }
+      closeSilentlyStream(inputStream);
+      closeSilentlyStream(outputStream);
+    }
+  }
 
+  private void closeSilentlyStream(Closeable stream) {
+    try {
+      if (stream != null) {
+        stream.close();
+      }
+    } catch (IOException e) {
+      throw new ProGenException(e.getLocalizedMessage(), e);
     }
   }
 

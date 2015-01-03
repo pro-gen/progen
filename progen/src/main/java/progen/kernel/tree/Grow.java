@@ -101,47 +101,51 @@ public class Grow implements InitializeTreeMethod {
    */
   private boolean generate(Grammar grammar, Node node, List<Production> stack) {
     boolean generated = false;
-    List<Production> branchStack;
-    Node branch;
 
     if (node.getDepth() > maxDepth) {
       generated = false;
     } else {
       while (!generated && stack.size() > 0) {
         generated = true;
-        // se define el nodo con en funcion de la produccion elegida
         node.setProduction(stack.remove(0));
-        // si el nodo es una hoja y esta a una profundidad menor
-        // es necesario limpiarlo y pasar a la siguiente producción
-        // para probar otra opción.
-        if (node.isLeaf() && node.getDepth() < minDepth) {
-          generated = false;
-        } else if (maxNodeExceded(node)) {
-          // si se sobrepasa el número máximo de nodos, es necesario
-          // probar con
-          // otra opción.
-          generated = false;
-        } else {
-          // se definen los hijos de este nodo
-          final int initialBranch = (int) (Math.random() * node.getBranches().size());
-          for (int i = 0; generated && i < node.getBranches().size(); i++) {
-            branch = node.getBranches().get((i + initialBranch) % node.getBranches().size());
-            // for(Node branch: node.getBranches()){
-            branchStack = grammar.getRandomProductions(branch.getSymbol());
-            generated &= generate(grammar, branch, branchStack);
-          }
-        }
-        /*
-         * si alguno de los hijos no se pudo generar, se limpia el actual, para
-         * continuar con la siguiente producción.
-         */
-        if (!generated) {
-          node.clearNode();
-        }
+        generated = generateChildren(grammar, node);
+        tryNextNode(node, generated);
 
       }
     }
 
+    return generated;
+  }
+
+  private boolean generateChildren(Grammar grammar, Node node) {
+    boolean generated;
+    if (node.isLeaf() && node.getDepth() < minDepth) {
+      generated = false;
+    } else if (maxNodeExceded(node)) {
+      generated = false;
+    } else {
+      generated = generateChildrenOfNode(grammar, node);
+    }
+    return generated;
+  }
+
+  private void tryNextNode(Node node, boolean generated) {
+    if (!generated) {
+      node.clearNode();
+    }
+  }
+
+  private boolean generateChildrenOfNode(Grammar grammar, Node node) {
+    boolean generated = true;
+    List<Production> branchStack;
+    Node branch;
+    final int initialBranch = (int) (Math.random() * node.getBranches().size());
+    for (int i = 0; generated && i < node.getBranches().size(); i++) {
+      branch = node.getBranches().get((i + initialBranch) % node.getBranches().size());
+      // for(Node branch: node.getBranches()){
+      branchStack = grammar.getRandomProductions(branch.getSymbol());
+      generated &= generate(grammar, branch, branchStack);
+    }
     return generated;
   }
 
