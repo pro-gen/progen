@@ -37,7 +37,7 @@ public class MissingContextFileException extends RuntimeException {
   }
   
   private static String getMessage(String message) {
-    return Error.get(ID_ERROR).trim() + "(" + message + ")";
+    return Error.get(ID_ERROR).trim() + " (" + message + ")";
   }
 
 }

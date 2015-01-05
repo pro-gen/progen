@@ -12,7 +12,7 @@ public class MissingContextFileExceptionTest {
   @Test
   public void testString() {
     exception.expect(MissingContextFileException.class);
-    exception.expectMessage("File not found.(extra)");
+    exception.expectMessage("File not found. (extra)");
     throw new MissingContextFileException("extra");
   }
 
