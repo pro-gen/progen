@@ -17,32 +17,30 @@ import progen.kernel.population.UnknownUserProgramException;
  */
 public abstract class UserProgram {
 
-  /**
-   * Inicializa el atributo <code> userProgram </code>. Crea una nueva instancia
-   * a partir de la propiedad definida como <i>"progen.experiment.file"</i>
-   * 
-   * @return Una instancia de <code>userProgram</code>
-   */
   public static UserProgram getUserProgram() {
-    UserProgram userProgram = null;
     final String userPackage = ProGenContext.getMandatoryProperty("progen.user.home");
-    String userProgramClass;
-    final String [] path = userPackage.split("\\.");
+    final String[] path = userPackage.split("\\.");
+    final String userProgramClass = getPathCapitalize(path);
+    return makeUserProgram(userPackage, userProgramClass);
+  }
 
-    userProgramClass = path[path.length - 1].substring(0, 1).toUpperCase(Locale.getDefault());
-    userProgramClass += path[path.length - 1].substring(1);
-
+  private static UserProgram makeUserProgram(final String userPackage, final String userProgramClass) {
+    UserProgram userProgram = null;
     try {
       userProgram = (UserProgram) Class.forName(userPackage + userProgramClass).newInstance();
-    } catch (InstantiationException e) {
-      throw new ProGenException(e.getMessage(), e);
-    } catch (IllegalAccessException e) {
+    } catch (InstantiationException | IllegalAccessException e) {
       throw new ProGenException(e.getMessage(), e);
     } catch (ClassNotFoundException e) {
       throw new UnknownUserProgramException(userPackage + userProgramClass, e);
     }
-
     return userProgram;
+  }
+
+  private static String getPathCapitalize(final String[] path) {
+    String userProgramClass;
+    userProgramClass = path[path.length - 1].substring(0, 1).toUpperCase(Locale.getDefault());
+    userProgramClass += path[path.length - 1].substring(1);
+    return userProgramClass;
   }
 
   /**

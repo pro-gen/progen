@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -28,72 +29,53 @@ public final class ProGenContext {
   private static final String DOT_SYMBOL = ".";
   private static final String PROGEN_USER_HOME_PROPERTY = "progen.user.home";
   private static final String PROGEN_EXPERIMENT_FILE_PROPERTY = "progen.experiment.file";
+  private static final String PROGEN_EXPERIMENT_ABSOLUTE_FILE_PROPERTY = "progen.experiment.file.absolute";
   private static final String EQUAL_SYMBOL = "=";
   private static final String COMA_SYMBOL = ",";
-  /**
-   * Cadena que se utiliza para subopciones en distintos parámetros.
-   */
-  private static final String parametersDelim = "\\(";
-  /**
-   * Almacénd de propiedades que es implementado por un Singleton de tal forma
-   * que únicamente exista una instancia en toda la ejecución.
-   */
+  private static final String PARAMETERS_DELIMITER = "\\(";
+  
   private static ProGenContext proGenProps;
-  /**
-   * Estructura de datos que almacenta todas las propiedades disponibles en el
-   * dominio del problema
-   */
+  
   private Properties properties;
 
-  /**
-   * Constructor privado del Singleton
-   */
   private ProGenContext() {
     properties = new Properties();
   }
 
-  /**
-   * Define la única forma que existe de instanciar e inicializar este
-   * componente, a partir del fichero <i>master</i> del dominio de la
-   * aplicación.
-   * 
-   * @param file
-   *          Fichero maestro de donde se cargarán los distintos valores de
-   *          configuración.
-   * @return La instancia desde la que se podrán recuperar las opciones
-   *         definidas.
-   * @throws MissingContextFileException
-   *           En caso de que no se encuentre el fichero maestro de
-   *           configuración. múltiples veces.
-   * @throws IOException
-   */
-  public static ProGenContext makeInstance(String file) {
-    if (file == null) {
+  public static ProGenContext makeInstance(String masterFile) {
+    if (masterFile == null) {
       throw new MissingContextFileException();
     } else {
       try {
-        execMakeInstance(file);
+        execMakeInstance(masterFile);
       } catch (NullPointerException e) {
-        throw new MissingContextFileException(e.getMessage(), e);
+        throw new MissingContextFileException(masterFile, e);
       } catch (IOException e) {
         throw new MissingContextFileException(e.getMessage(), e);
       }
     }
     return proGenProps;
   }
+  
+  @Override
+  public String toString(){
+    return properties.toString();
+  }
 
   private static void execMakeInstance(String file) throws IOException {
-    final InputStream fis = getResource(file);
-
     proGenProps = new ProGenContext();
     proGenProps.loadOtherPropertiesFile("ProGen.conf");
-
+    final InputStream fis = getResourceInClassPath(file);
     proGenProps.properties.load(fis);
-    ProGenContext.setProperty("progen.masterfile", new File(file).getAbsolutePath());
+    proGenProps.properties.setProperty("progen.masterfile", ProGenContext.class.getClassLoader().getResource(file).getFile());
     fis.close();
   }
 
-  private static InputStream getResource(String file) {
+  private static InputStream getResourceInClassPath(String file) throws FileNotFoundException {
+    return new FileInputStream(new File(ProGenContext.class.getClassLoader().getResource(file).getFile()));
+  }
+  
+  private static InputStream getResource(String file) throws FileNotFoundException {
     return ProGenContext.class.getClassLoader().getResourceAsStream(file);
   }
 
@@ -127,7 +109,7 @@ public final class ProGenContext {
     if (ProGenContext.getProperty(property) == null) {
       value = defaultValue;
     } else {
-      value = Integer.parseInt(ProGenContext.getProperty(property).split(parametersDelim)[0]);
+      value = Integer.parseInt(ProGenContext.getProperty(property).split(PARAMETERS_DELIMITER)[0]);
     }
     return value;
   }
@@ -149,7 +131,7 @@ public final class ProGenContext {
     if (ProGenContext.getProperty(property) == null) {
       value = defaultValue;
     } else {
-      value = ProGenContext.getProperty(property).split(parametersDelim)[0];
+      value = ProGenContext.getProperty(property).split(PARAMETERS_DELIMITER)[0];
     }
     return value;
   }
@@ -171,7 +153,7 @@ public final class ProGenContext {
     if (ProGenContext.getProperty(property) == null) {
       value = defaultValue;
     } else {
-      value = Double.parseDouble(ProGenContext.getProperty(property).split(parametersDelim)[0]);
+      value = Double.parseDouble(ProGenContext.getProperty(property).split(PARAMETERS_DELIMITER)[0]);
     }
     return value;
   }
@@ -193,7 +175,7 @@ public final class ProGenContext {
     if (ProGenContext.getProperty(property) == null) {
       value = defaultValue;
     } else {
-      value = Boolean.parseBoolean(ProGenContext.getProperty(property).split(parametersDelim)[0]);
+      value = Boolean.parseBoolean(ProGenContext.getProperty(property).split(PARAMETERS_DELIMITER)[0]);
     }
     return value;
   }
@@ -213,7 +195,7 @@ public final class ProGenContext {
     final String property = getProperty(key);
     if (property == null)
       throw new UndefinedMandatoryPropertyException(key);
-    return property.split(parametersDelim)[0];
+    return property.split(PARAMETERS_DELIMITER)[0];
   }
 
   /**
@@ -392,12 +374,12 @@ public final class ProGenContext {
   }
 
   private static String normalizeParameters(String parametersContext) {
-    final String parameterContextNormalized = parametersContext.split(parametersDelim)[1];
+    final String parameterContextNormalized = parametersContext.split(PARAMETERS_DELIMITER)[1];
     return parameterContextNormalized.replace(")", "");
   }
 
   private static boolean checkAtLeastOneParameter(String parametersContext) {
-    return parametersContext != null && parametersContext.split(parametersDelim).length > 1;
+    return parametersContext != null && parametersContext.split(PARAMETERS_DELIMITER).length > 1;
   }
 
   private static Map<String, String> splitParameters(String option, String parametersContext) {
@@ -523,8 +505,7 @@ public final class ProGenContext {
   }
 
   private void lookForInAbsolutePath(Properties otherProperties, String otherFile) throws IOException {
-    InputStream inputStream;
-    inputStream = getResource(otherFile);
+    final InputStream inputStream = getResource(otherFile);
     try {
       otherProperties.load(inputStream);
     } finally {
@@ -567,24 +548,36 @@ public final class ProGenContext {
    * </ul>
    */
   private void calculateProperties() {
-    final String userHome = ProGenContext.getProperty(PROGEN_EXPERIMENT_FILE_PROPERTY);
-    if (userHome != null) {
-      setUserHome(userHome);
+    final String experimentFile = ProGenContext.getProperty(PROGEN_EXPERIMENT_FILE_PROPERTY);
+    if (experimentFile != null) {
+      setUserHome(experimentFile);
+    }
+    updateExperimentFileProperty();
+  }
+
+  private void updateExperimentFileProperty() {
+    String experimentFile = ProGenContext.getOptionalProperty(PROGEN_EXPERIMENT_FILE_PROPERTY, "");
+    final int lastDotPosition = experimentFile.lastIndexOf('.');
+    if (lastDotPosition >= 0) {
+      experimentFile = experimentFile.replaceAll("\\.", File.separator);
+      final StringBuilder builder = new StringBuilder(experimentFile);
+      builder.setCharAt(lastDotPosition, '.');
+      experimentFile = builder.toString();
+      experimentFile = ProGenContext.class.getClassLoader().getResource(experimentFile).getFile();
+      proGenProps.properties.setProperty(PROGEN_EXPERIMENT_ABSOLUTE_FILE_PROPERTY, experimentFile);
     }
   }
 
-  private void setUserHome(String userHome) {
-    String userHomeNormalized = userHome.substring(0, userHome.lastIndexOf(DOT_SYMBOL));
-    setExperimentName(userHomeNormalized);
-    userHomeNormalized = userHomeNormalized.substring(0, userHomeNormalized.lastIndexOf(DOT_SYMBOL) + 1);
-
+  private void setUserHome(String experimentFile) {
+    final String experimentName = experimentFile.substring(0, experimentFile.lastIndexOf(DOT_SYMBOL));
+    final String userHomeNormalized = experimentName.substring(0, experimentName.lastIndexOf(DOT_SYMBOL) + 1);
     proGenProps.properties.setProperty(PROGEN_USER_HOME_PROPERTY, userHomeNormalized);
+    setExperimentName(experimentName);
   }
 
-  private void setExperimentName(String userHome) {
-    String experimentName;
-    experimentName = userHome.substring(userHome.lastIndexOf(DOT_SYMBOL) + 1, userHome.length());
-    proGenProps.properties.setProperty("progen.experiment.name", experimentName);
+  private void setExperimentName(String experimentName) {
+    final String experimentNameNormalized = experimentName.substring(experimentName.lastIndexOf(DOT_SYMBOL) + 1, experimentName.length());
+    proGenProps.properties.setProperty("progen.experiment.name", experimentNameNormalized);
   }
 
   /**
@@ -604,7 +597,7 @@ public final class ProGenContext {
 
   }
 
-  private void closeSilently(FileInputStream fis) {
+  private void closeSilently(InputStream fis) {
     try {
       if (fis != null) {
         fis.close();
@@ -617,14 +610,20 @@ public final class ProGenContext {
   private String normalizeOptionalFileName(String sufixFile, final StringBuilder optionalFilesLoaded) {
     String optionalFile = ProGenContext.getMandatoryProperty(PROGEN_EXPERIMENT_FILE_PROPERTY);
     optionalFile = optionalFile.replaceAll("\\.txt$", sufixFile).replace('.', File.separatorChar) + ".txt";
+    final URL optionalFileResource = ProGenContext.class.getClassLoader().getResource(optionalFile); 
+    if( optionalFileResource == null){
+      optionalFile = "";
+    }else{
+      optionalFile = optionalFileResource.getFile();
+    }
     optionalFilesLoaded.append(ProGenContext.getOptionalProperty(PROGEN_OPTIONAL_FILES_PROPERTY, ""));
     return optionalFile;
   }
 
   private void loadOptionalsProperties(String optionalFile) {
-    FileInputStream fis = null;
+    InputStream fis = null;
     try {
-      fis = new FileInputStream(optionalFile);
+      fis = new FileInputStream(new File(optionalFile));
       mixProperties(fis);
     } catch (IOException e) {
       // do nothing, ignore
@@ -633,7 +632,7 @@ public final class ProGenContext {
     }
   }
 
-  private void mixProperties(FileInputStream fis) throws IOException {
+  private void mixProperties(InputStream fis) throws IOException {
     Properties otherProperties;
     Enumeration<Object> keys;
     String key;
@@ -647,5 +646,4 @@ public final class ProGenContext {
       proGenProps.properties.put(key, value);
     }
   }
-
 }

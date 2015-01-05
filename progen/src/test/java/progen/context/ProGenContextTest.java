@@ -233,7 +233,6 @@ public class ProGenContextTest {
 
   }
 
-  @Ignore
   @Test
   public void testSetProperty() {
     String defaultValue = "default";
@@ -245,19 +244,16 @@ public class ProGenContextTest {
     assertEquals(newProperty, value);
   }
 
-  @Ignore
   @Test(expected = MissingContextFileException.class)
   public void testThrowMissingContextFile() {
     ProGenContext.makeInstance("missing.context.file");
   }
 
-  @Ignore
   @Test(expected = UndefinedMandatoryPropertyException.class)
   public void testThrowUndefindedMandatoryProperty() {
     ProGenContext.getMandatoryProperty("undefined.mandatory.option");
   }
 
-  @Ignore
   @Test(expected = MalformedParameterException.class)
   public void testMalformedSuboptions() {
     String defaultValue = "value";
@@ -288,5 +284,36 @@ public class ProGenContextTest {
     ProGenContext.loadExtraConfiguration();
     assertEquals("success", ProGenContext.getMandatoryProperty("property"));
     assertEquals("userexperiment-test", ProGenContext.getMandatoryProperty("progen.experiment.name"));
+  }
+  
+  @Test(expected=MissingContextFileException.class)
+  public void masterFileNullTest(){
+    ProGenContext.makeInstance(null);
+    fail("Exception must be thrown before");
+  }
+  
+  @Test
+  public void masterFileRelativePathTest(){
+    ProGenContext.makeInstance("userexperiment-test.txt");
+    String value = ProGenContext.getMandatoryProperty("property");
+    assertEquals("success", value);
+    assertAllMandatoryProperties();
+    
+  }
+
+  private void assertAllMandatoryProperties() {
+    assertProGenConfProperties();
+    assertAllCalculatedProperties();
+    
+  }
+
+  private void assertProGenConfProperties() {
+    assertEquals("2.0", ProGenContext.getMandatoryProperty("progen.version"));
+    assertEquals("es_ES", ProGenContext.getMandatoryProperty("progen.language"));
+  }
+
+  private void assertAllCalculatedProperties() {
+//    assertEquals("2.0", ProGenContext.getMandatoryProperty("progen.masterfile"));
+//    fail("Need to check");
   }
 }

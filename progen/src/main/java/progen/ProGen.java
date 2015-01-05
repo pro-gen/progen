@@ -22,13 +22,13 @@ import progen.roles.ProGenFactory;
  * @since 2.0
  */
 public class ProGen {
-  
+
   private String[] args;
 
-  public ProGen(final String [] args) {
+  public ProGen(final String[] args) {
     this.args = Arrays.copyOf(args, args.length);
   }
-  
+
   public final void runProGen() {
     ProGenContext.makeInstance(args[0]);
     Error.makeInstance();
@@ -39,7 +39,7 @@ public class ProGen {
     System.out.println(ProGenContext.getMandatoryProperty("progen.welcome"));
     progen.start();
   }
-  
+
   /**
    * Método principal de la aplicación en la que se inicializan los elementos
    * estáticos de la aplicación y se ejecuta el rol que corresponde según esté
@@ -52,10 +52,7 @@ public class ProGen {
    */
   public static void main(final String[] args) {
     final Calendar begin = GregorianCalendar.getInstance();
-    if (args.length != 1) {
-      System.err.println(Error.get(0));
-      throw new ProGenException(Error.get(0));
-    } else {
+    if (args.length == 1) {
       try {
         new ProGen(args).runProGen();
       } catch (MissingContextFileException e) {
@@ -67,6 +64,9 @@ public class ProGen {
       }
       final Calendar end = GregorianCalendar.getInstance();
       System.out.println("\nEXECUTION TIME: " + (end.getTimeInMillis() - begin.getTimeInMillis()) + " ms.");
+    } else {
+      System.err.println(Error.get(0));
+      throw new ProGenException(Error.get(0));
     }
   }
 

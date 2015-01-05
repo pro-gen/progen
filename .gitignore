@@ -13,3 +13,4 @@ progen/src/main/**/app/*
 **/reports/*
 .checkstyle
 .pmd
+progen/outputs/**

@@ -25,6 +25,7 @@ public abstract class Experimenter {
   private static final String PROGEN_OUTPUT_DIR_PROPERTY = "progen.output.dir";
   private static final String PROGEN_OPTIONAL_FILES_PROPERTY = "progen.optional.files";
   private static final String PROGEN_EXPERIMENT_FILE_PROPERTY = "progen.experiment.file";
+  private static final String PROGEN_EXPERIMENT_ABSOLUTE_FILE_PROPERTY = "progen.experiment.file.absolute";
   private static final String SPACE_SYMBOL = " ";
   private static final String SQUARE_RIGHT_BRACKET_SYMBOL = "[";
   private static final String SQUARE_LEFT_BRACKET_SYMBOL = "]";
@@ -45,7 +46,7 @@ public abstract class Experimenter {
    */
   private void dumpContext() {
     final String masterFile = ProGenContext.getMandatoryProperty("progen.masterfile");
-    final String experimentFile = ProGenContext.getMandatoryProperty(PROGEN_EXPERIMENT_FILE_PROPERTY).replace('.', File.separatorChar).replace(File.separatorChar + "txt", ".txt");
+    final String experimentFile = ProGenContext.getMandatoryProperty(PROGEN_EXPERIMENT_ABSOLUTE_FILE_PROPERTY);
     final String optionalFiles = ProGenContext.getOptionalProperty(PROGEN_OPTIONAL_FILES_PROPERTY, "");
     final String currentDir = System.getProperty("user.dir");
 
@@ -53,7 +54,7 @@ public abstract class Experimenter {
     copyFile(experimentFile, ProGenContext.getMandatoryProperty(PROGEN_OUTPUT_DIR_PROPERTY));
     for (String file : optionalFiles.trim().split(",[ ]*")) {
       if (file.length() > 0) {
-        copyFile(currentDir + File.separatorChar + file, ProGenContext.getMandatoryProperty(PROGEN_OUTPUT_DIR_PROPERTY));
+        copyFile(file, ProGenContext.getMandatoryProperty(PROGEN_OUTPUT_DIR_PROPERTY));
       }
     }
   }
