@@ -31,7 +31,8 @@ public class Bit32ERC extends ERC {
 
   @Override
   protected String printERC() {
-    return "0x" + Integer.toHexString((Integer) getValue());
+    final String value = Integer.toHexString((Integer) getValue());
+    return String.format("0x%8s", value).replace(" ", "0");
   }
 
   @Override
