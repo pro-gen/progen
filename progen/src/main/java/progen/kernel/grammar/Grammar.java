@@ -69,7 +69,7 @@ public class Grammar implements Serializable {
    *          recibir algo del estilo "RPBx" o "ADFx", donde x es un entero
    *          &gt;= 0.
    */
-  protected Grammar(String idTree) {
+  public Grammar(String idTree) {
     String returnValue;
 
     functionSetId = ProGenContext.getMandatoryProperty(PROGEN_PROPERTY + idTree + ".functionSet");
