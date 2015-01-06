@@ -12,7 +12,6 @@ import progen.kernel.grammar.GrammarNotValidException;
  */
 public class GrammarNonTerminalSymbolProduction implements Validation {
 
-  private static final int ID_ERROR = 33;
 
   public void validate(Grammar gram) {
     boolean grammarOK = true;
@@ -22,7 +21,7 @@ public class GrammarNonTerminalSymbolProduction implements Validation {
     }
 
     if (!grammarOK) {
-      throw new GrammarNotValidException(ID_ERROR);
+      throw new GrammarNotValidException(GrammarNotValidExceptionEnum.NON_TERMINAL_SYMBOLS_IN_PRODUCTIONS_ERROR);
     }
   }
 

@@ -14,17 +14,10 @@ import progen.kernel.grammar.Production;
  */
 public class SuperfluousProductions implements Validation {
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * progen.kernel.grammar.validations.Validation#validate(progen.kernel.grammar
-   * .Grammar, progen.kernel.grammar.validations.Validation)
-   */
+  @Override
   public void validate(Grammar gram) {
-    boolean grammarOK = false;
-    List<GrammarNonTerminalSymbol> symbolsChecked = new ArrayList<GrammarNonTerminalSymbol>();
-    List<GrammarNonTerminalSymbol> symbolsToCheck = new ArrayList<GrammarNonTerminalSymbol>(gram.getGrammarNonTerminalSymbols());
+    final List<GrammarNonTerminalSymbol> symbolsChecked = new ArrayList<GrammarNonTerminalSymbol>();
+    final List<GrammarNonTerminalSymbol> symbolsToCheck = new ArrayList<GrammarNonTerminalSymbol>(gram.getGrammarNonTerminalSymbols());
     GrammarNonTerminalSymbol symbol;
     int symbolsToCheckBefore = symbolsToCheck.size();
     int symbolsToCheckAfter = 0;
@@ -36,26 +29,32 @@ public class SuperfluousProductions implements Validation {
       for (int i = 0; i < symbolsToCheckBefore; i++) {
         symbol = symbolsToCheck.get(index);
 
-        if (checkSymbol(symbol, symbolsChecked, gram.getProductions(symbol))) {
-          symbolsChecked.add(symbol);
-          symbolsToCheck.remove(symbol);
-        } else {
-          index++;
-        }
+        index=checkSymbolUsedByAnyProduction(gram, symbolsChecked, symbolsToCheck, symbol, index);
       }
       symbolsToCheckAfter = symbolsToCheck.size();
     }
+    isGrammarOk(symbolsToCheck);
+  }
 
-    if (symbolsToCheck.size() == 0) {
-      grammarOK = true;
+  private int checkSymbolUsedByAnyProduction(Grammar gram, final List<GrammarNonTerminalSymbol> symbolsChecked, final List<GrammarNonTerminalSymbol> symbolsToCheck, GrammarNonTerminalSymbol symbol, int index) {
+    int indexUsed=0;
+    if (checkSymbol(symbolsChecked, gram.getProductions(symbol))) {
+      symbolsChecked.add(symbol);
+      symbolsToCheck.remove(symbol);
+    } else {
+      indexUsed=index+1;
     }
+    return indexUsed;
+  }
 
+  private void isGrammarOk(final List<GrammarNonTerminalSymbol> symbolsToCheck) {
+    final boolean grammarOK=symbolsToCheck.size() == 0;
     if (!grammarOK) {
-      throw new GrammarNotValidException(35);
+      throw new GrammarNotValidException(GrammarNotValidExceptionEnum.SUPERFLUOUS_PRODUCTION_ERROR);
     }
   }
 
-  private boolean checkSymbol(GrammarNonTerminalSymbol symbol, List<GrammarNonTerminalSymbol> symbolsChecked, List<Production> productions) {
+  private boolean checkSymbol(List<GrammarNonTerminalSymbol> symbolsChecked, List<Production> productions) {
     boolean isOK = false;
 
     for (Production p : productions) {
@@ -64,7 +63,7 @@ public class SuperfluousProductions implements Validation {
       } else {
         for (GrammarNonTerminalSymbol arg : p.getArgs()) {
           if (symbolsChecked.contains(arg)) {
-            isOK = isOK || true;
+            isOK |= true;
           }
         }
       }

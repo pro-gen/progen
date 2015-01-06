@@ -13,8 +13,6 @@ import progen.kernel.grammar.Production;
  */
 public class InaccesibleProductions implements Validation {
 
-  private static final int ID_ERROR = 34;
-
   public void validate(Grammar gram) {
     boolean grammarOK = false;
     final List<Production> productionsToCheck = new ArrayList<Production>(gram.getProductions());
@@ -42,7 +40,7 @@ public class InaccesibleProductions implements Validation {
       grammarOK = true;
     }
     if (!grammarOK) {
-      throw new GrammarNotValidException(ID_ERROR);
+      throw new GrammarNotValidException(GrammarNotValidExceptionEnum.INACCESIBLE_PRODUCTIONS_ERROR);
     }
   }
 
