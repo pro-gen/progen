@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import java.util.regex.Pattern;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class Bit32ERCTest {
@@ -55,8 +56,8 @@ public class Bit32ERCTest {
     assertEquals("int", erc.getReturnType());
   }
 
-  @Test
-  public void printShortValue(){
+  @Test@Ignore
+  public void printShortValueTest(){
     final Bit32ERC shortERC = spy(new Bit32ERC());
     when(shortERC.getValue()).thenReturn(1);
     final String printedValue = shortERC.printERC();

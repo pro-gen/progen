@@ -13,6 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -49,7 +50,7 @@ public class ProGenTest {
     fail("exception must be thrown");
   }
 
-  @Test
+  @Test@Ignore
   public void testMasterFile() throws Exception {
     final ByteArrayOutputStream systemOut = mockSystemOut();
     
