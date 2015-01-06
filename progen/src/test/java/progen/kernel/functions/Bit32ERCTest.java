@@ -13,6 +13,7 @@ import org.junit.Test;
 
 public class Bit32ERCTest {
   
+  private static final String BIT32_ERC_PATTERN = "0x[\\da-f]{8}";
   private Bit32ERC erc;
   
   @Before
@@ -34,8 +35,8 @@ public class Bit32ERCTest {
     assertEquals(firstPrinted, secondPrinted);
     assertTrue(firstPrinted, firstPrinted.startsWith("0x"));
     assertEquals(firstPrinted, 10, firstPrinted.length());
-    assertTrue(firstPrinted, Pattern.matches("0x[\\da-f]{8}", firstPrinted));
-    assertTrue(secondPrinted, Pattern.matches("0x[\\da-f]{8}", secondPrinted));
+    assertTrue(firstPrinted, Pattern.matches(BIT32_ERC_PATTERN, firstPrinted));
+    assertTrue(secondPrinted, Pattern.matches(BIT32_ERC_PATTERN, secondPrinted));
   }
 
   @Test
@@ -56,10 +57,10 @@ public class Bit32ERCTest {
 
   @Test
   public void printShortValue(){
-    Bit32ERC shortERC = spy(new Bit32ERC());
+    final Bit32ERC shortERC = spy(new Bit32ERC());
     when(shortERC.getValue()).thenReturn(1);
     final String printedValue = shortERC.printERC();
-    assertTrue(printedValue, Pattern.matches("0x[\\da-f]{8}", printedValue));
+    assertTrue(printedValue, Pattern.matches(BIT32_ERC_PATTERN, printedValue));
     
   }
 }

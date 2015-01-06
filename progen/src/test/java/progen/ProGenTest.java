@@ -34,13 +34,15 @@ import progen.userprogram.UserProgram;
 @PrepareForTest({ ProGenContext.class, UserProgram.class, ProGenFactory.class, OutputStore.class })
 public class ProGenTest {
 
+  private static final String UTF_8_ENCODING = "UTF-8";
+  private static final String MASTER_FILE_FILENAME = "master-file.txt";
   @Rule
   public ExpectedException exception = ExpectedException.none();
   
 
   @Test
   public void testNoMasterFile() {
-    String args[] = new String[0];
+    final String [] args = new String[0];
     exception.expect(ProGenException.class);
     exception.expectMessage("'master-file' is mandatory to execute.");
     ProGen.main(args);
@@ -49,15 +51,15 @@ public class ProGenTest {
 
   @Test
   public void testMasterFile() throws Exception {
-    ByteArrayOutputStream systemOut = mockSystemOut();
+    final ByteArrayOutputStream systemOut = mockSystemOut();
     
-    String args[] = { "master-file.txt" };
+    final String [] args = { MASTER_FILE_FILENAME };
     mockStatic(ProGenContext.class, UserProgram.class, ProGenFactory.class, OutputStore.class);
     
-    ProGenContext context = mock(ProGenContext.class);
-    OutputStore outputStore = mock(OutputStore.class);
-    StandaloneFactory factory = mock(StandaloneFactory.class);
-    ClientLocal clientLocal = mock(ClientLocal.class);
+    final ProGenContext context = mock(ProGenContext.class);
+    final OutputStore outputStore = mock(OutputStore.class);
+    final StandaloneFactory factory = mock(StandaloneFactory.class);
+    final ClientLocal clientLocal = mock(ClientLocal.class);
 
     when(ProGenContext.makeInstance(any(String.class))).thenReturn(context);
     when(ProGenContext.getMandatoryProperty("progen.welcome")).thenReturn("ProGen exec TEST");
@@ -68,49 +70,49 @@ public class ProGenTest {
     when(UserProgram.getUserProgram()).thenReturn(new UserProgramExample());
 
     ProGen.main(args);
-    String output = systemOut.toString("UTF-8");
+    final String output = systemOut.toString(UTF_8_ENCODING);
     assertTrue(output.startsWith("ProGen exec TEST\n\nEXECUTION TIME: "));
     
   }
 
   @Test
   public void testMissingContextFileException() throws UnsupportedEncodingException{
-    ByteArrayOutputStream systemErr = mockProGenContextException(new MissingContextFileException());
-    ProGen.main(new String []{"master-file.txt"});
-    assertEquals("File not found in the configuration files.(File not found.)\n", systemErr.toString("UTF-8"));
+    final ByteArrayOutputStream systemErr = mockProGenContextException(new MissingContextFileException());
+    ProGen.main(new String []{MASTER_FILE_FILENAME});
+    assertEquals("File not found in the configuration files.(File not found.)\n", systemErr.toString(UTF_8_ENCODING));
   }
   
   @Test
   public void testUndefinedFunctionSetException() throws UnsupportedEncodingException{
-    ByteArrayOutputStream systemErr = mockProGenContextException(new UndefinedFunctionSetException("message"));
-    ProGen.main(new String []{"master-file.txt"});
-    assertEquals("message\n", systemErr.toString("UTF-8"));
+    final ByteArrayOutputStream systemErr = mockProGenContextException(new UndefinedFunctionSetException("message"));
+    ProGen.main(new String []{MASTER_FILE_FILENAME});
+    assertEquals("message\n", systemErr.toString(UTF_8_ENCODING));
   }
   
   @Test
   public void testNumberFormatException() throws UnsupportedEncodingException{
-    ByteArrayOutputStream systemErr = mockProGenContextException(new NumberFormatException());
-    ProGen.main(new String []{"master-file.txt"});
-    assertEquals("null\n", systemErr.toString("UTF-8"));
+    final ByteArrayOutputStream systemErr = mockProGenContextException(new NumberFormatException());
+    ProGen.main(new String []{MASTER_FILE_FILENAME});
+    assertEquals("null\n", systemErr.toString(UTF_8_ENCODING));
   }
   
   private ByteArrayOutputStream mockProGenContextException(Exception e) {
     mockStatic(ProGenContext.class);
-    ByteArrayOutputStream systemErr = mockSystemErr();
+    final ByteArrayOutputStream systemErr = mockSystemErr();
     when(ProGenContext.makeInstance(any(String.class))).thenThrow(e).thenReturn(null);
     return systemErr;
   }
 
   private ByteArrayOutputStream mockSystemOut() {
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    PrintStream printStream = new PrintStream(outputStream);
+    final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    final PrintStream printStream = new PrintStream(outputStream);
     System.setOut(printStream);
     return outputStream;
   }
   
   private ByteArrayOutputStream mockSystemErr() {
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    PrintStream printStream = new PrintStream(outputStream);
+    final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    final PrintStream printStream = new PrintStream(outputStream);
     System.setErr(printStream);
     return outputStream;
   }
