@@ -24,11 +24,8 @@ public abstract class Experimenter {
 
   private static final String PROGEN_OUTPUT_DIR_PROPERTY = "progen.output.dir";
   private static final String PROGEN_OPTIONAL_FILES_PROPERTY = "progen.optional.files";
-  private static final String PROGEN_EXPERIMENT_FILE_PROPERTY = "progen.experiment.file";
   private static final String PROGEN_EXPERIMENT_ABSOLUTE_FILE_PROPERTY = "progen.experiment.file.absolute";
   private static final String SPACE_SYMBOL = " ";
-  private static final String SQUARE_RIGHT_BRACKET_SYMBOL = "[";
-  private static final String SQUARE_LEFT_BRACKET_SYMBOL = "]";
   private static final int PROGEN_ID_ERROR = 31;
 
   /**
@@ -48,7 +45,6 @@ public abstract class Experimenter {
     final String masterFile = ProGenContext.getMandatoryProperty("progen.masterfile");
     final String experimentFile = ProGenContext.getMandatoryProperty(PROGEN_EXPERIMENT_ABSOLUTE_FILE_PROPERTY);
     final String optionalFiles = ProGenContext.getOptionalProperty(PROGEN_OPTIONAL_FILES_PROPERTY, "");
-    final String currentDir = System.getProperty("user.dir");
 
     copyFile(masterFile, ProGenContext.getMandatoryProperty(PROGEN_OUTPUT_DIR_PROPERTY));
     copyFile(experimentFile, ProGenContext.getMandatoryProperty(PROGEN_OUTPUT_DIR_PROPERTY));
@@ -79,9 +75,7 @@ public abstract class Experimenter {
   private void copyFileSecure(String original, String copyPath) {
     final File originalFile = new File(original);
     final File destinationFile = new File(String.format("%s%s%s", copyPath, File.separator, originalFile.getName()));
-    if (!originalFile.exists()) {
-      throw new ProGenException(String.format("%s%s%s%s%s", Error.get(PROGEN_ID_ERROR), SPACE_SYMBOL, SQUARE_RIGHT_BRACKET_SYMBOL, original, SQUARE_LEFT_BRACKET_SYMBOL));
-    }
+    checkOriginalFileExists(original, originalFile);
     InputStream inputStream = null;
     OutputStream outputStream = null;
     try {
@@ -89,12 +83,18 @@ public abstract class Experimenter {
       outputStream = new FileOutputStream(destinationFile);
       copyFile(inputStream, outputStream);
     } catch (FileNotFoundException e) {
-      throw new ProGenException(Error.get(PROGEN_ID_ERROR) + SQUARE_RIGHT_BRACKET_SYMBOL + original + SQUARE_LEFT_BRACKET_SYMBOL, e);
+      throw new ProGenException(String.format("%s[%s]", Error.get(PROGEN_ID_ERROR), original), e);
     } catch (IOException e) {
       throw new ProGenException(e.getLocalizedMessage(), e);
     } finally {
       closeSilentlyStream(inputStream);
       closeSilentlyStream(outputStream);
+    }
+  }
+
+  private void checkOriginalFileExists(String original, final File originalFile) {
+    if (!originalFile.exists()) {
+      throw new ProGenException(String.format("%s%s[%s]", Error.get(PROGEN_ID_ERROR), SPACE_SYMBOL, original));
     }
   }
 
