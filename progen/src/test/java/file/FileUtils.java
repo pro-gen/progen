@@ -40,18 +40,16 @@ public class FileUtils {
   }
 
   private static MessageDigest calculateSHA1(InputStream inputStream) {
+    if(inputStream == null){
+      fail("File not found"); 
+    }
     MessageDigest digest = getSHA1();
     byte[] dataBytes = new byte[1024];
-    StringBuilder output = new StringBuilder();
     try {
       int nread = 0;
       while ((nread = inputStream.read(dataBytes)) != -1) {
-        output.append(new String(dataBytes));
         digest.update(dataBytes, 0, nread);
       }
-      System.out.println("\n------ example ----\n"+output.toString()+"\n---- end of example ----");
-    } catch (NullPointerException e) {
-      fail("File not found");
     } catch (IOException e) {
       fail(e.getMessage());
     }
