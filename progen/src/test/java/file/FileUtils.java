@@ -42,6 +42,8 @@ public class FileUtils {
       while ((nread = inputStream.read(dataBytes)) != -1) {
         digest.update(dataBytes, 0, nread);
       }
+    } catch(NullPointerException e){
+     fail("File not found");
     } catch (IOException e) {
       fail(e.getMessage());
     }
