@@ -57,22 +57,21 @@ public class StandardFile extends FileOutput {
     super("standardOutput.txt", true);
     historical = HistoricalData.makeInstance();
     experimentData = historical.getDataCollectorExperiment(EXPERIMENT_INDIVIDUAL_DATA);
+    totalRPB = Integer.parseInt(ProGenContext.getMandatoryProperty("progen.total.RPB"));
+    totalADF = ProGenContext.getOptionalProperty("progen.total.ADF", 0);
+    hline = String.format("%s%n", calculateHline());
+  }
+
+  private String calculateHline() {
     final int maxLineLength = getMaxLine().length();
     final StringBuilder stb = new StringBuilder(SINGLE_BLANK_SPACE);
     for (int i = 2; i < maxLineLength - 1; i++) {
       stb.append("-");
     }
-
-    hline = String.format("%s%n", stb.toString());
-    totalRPB = Integer.parseInt(ProGenContext.getMandatoryProperty("progen.total.RPB"));
-    totalADF = ProGenContext.getOptionalProperty("progen.total.ADF", 0);
+    return stb.toString();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see progen.output.outputers.Outputer#print()
-   */
+  @Override
   public void print() {
     this.init();
     final int currentGeneration = historical.getCurrentGeneration();
@@ -80,7 +79,6 @@ public class StandardFile extends FileOutput {
     if (currentGeneration < maxGenerations) {
       printHeader(maxGenerations);
       printBody();
-      printTail();
     }
     this.close();
   }
@@ -96,9 +94,6 @@ public class StandardFile extends FileOutput {
     getWriter().printf("%s", hline);
   }
 
-  /**
-   * Imprime el grueso de la tabla.
-   */
   private void printBody() {
     final Individual bestTotal = (Individual) (historical.getDataCollectorExperiment(EXPERIMENT_INDIVIDUAL_DATA).getPlugin("best").getValue());
     final Individual bestGeneration = (Individual) (historical.getCurrentDataCollector(EXPERIMENT_INDIVIDUAL_DATA).getPlugin("best").getValue());
@@ -337,9 +332,9 @@ public class StandardFile extends FileOutput {
   private void printIndividualBestRunData() {
     StringBuilder line;
     String ceilData;
-    Individual best = (Individual) (experimentData.getPlugin("best").getValue());
+    final Individual best = (Individual) (experimentData.getPlugin("best").getValue());
 
-    int padding = Formatter.center(getLiterals().getString("individual"), WIDTH_COLUMN).length();
+    final int padding = Formatter.center(getLiterals().getString("individual"), WIDTH_COLUMN).length();
     line = new StringBuilder(LEFT_SEP);
     line.append(String.format("%s", Formatter.center(SINGLE_BLANK_SPACE, padding + CENTER_SEP.length())));
     line.append(String.format("%s%s", Formatter.left(getLiterals().getString("bestRun"), secondColumnWidth), CENTER_SEP));
@@ -432,12 +427,6 @@ public class StandardFile extends FileOutput {
     getWriter().printf("%s%n%s", line.toString(), hline);
   }
 
-  /**
-   * Imprime los resumenes de las tablas.
-   */
-  private void printTail() {
-    // do nothing
-  }
 
   /**
    * Devuelve la línea más larga que contendrá una tabla.

@@ -37,10 +37,14 @@ public class FileOutputTest {
   
   @Before
   public void setUp() throws Exception {
-    fileOutput = new FileOutputDefault("default");
-    mockStatic(ProGenContext.class);
     String outputDirTest = FileOutputTest.class.getClassLoader().getResource("progen/output/outputers/FileOutputTest.class").getFile();
     outputDir = new File(outputDirTest);
+    mockProGenContext();
+    fileOutput = new FileOutputDefault("default");
+  }
+
+  private void mockProGenContext() {
+    mockStatic(ProGenContext.class);
     when(ProGenContext.getMandatoryProperty("progen.output.dir")).thenReturn(outputDir.getAbsolutePath());
     when(ProGenContext.getMandatoryProperty("progen.output.experiment")).thenReturn("");
   }
