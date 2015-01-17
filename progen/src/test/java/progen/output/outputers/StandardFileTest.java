@@ -12,6 +12,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import java.io.File;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.Locale;
 import java.util.Map;
 
 import org.junit.After;
@@ -41,6 +42,7 @@ public class StandardFileTest {
   
   @Before
   public void setUp() throws Exception {
+    Locale.setDefault(new Locale("es_ES"));
     final String outputDirTest = FileOutputTest.class.getClassLoader().getResource("progen/output/outputers/StandardFileTest.class").getFile();
     outputDir = new File(outputDirTest);
     mockContext();
@@ -60,6 +62,7 @@ public class StandardFileTest {
 
   @Test
   public void testStatusWriter() {
+    FileUtils.setSuffixTest("status.test");
     StandardFile output = new StandardFile();
     output.print();
     PrintWriter writer = output.getWriter();
@@ -70,12 +73,14 @@ public class StandardFileTest {
   
   @Test
   public void testContentRegularPrint() {
+    FileUtils.setSuffixTest("regular.test");
     new StandardFile().print();
     assertOutputEquals("StandardFileTest-regular.example", "StandardFileTest.class-standardOutput.txt");
   }
   
   @Test
   public void testContentWithADFs() {
+    FileUtils.setSuffixTest("adfs.test");
     when(ProGenContext.getOptionalProperty("progen.total.ADF", 0)).thenReturn(2);
     new StandardFile().print();
     assertOutputEquals("StandardFileTest-adfs.example", "StandardFileTest.class-standardOutput.txt");
@@ -83,6 +88,7 @@ public class StandardFileTest {
   
   @Test
   public void testContentOverMaxGenerations() {
+    FileUtils.setSuffixTest("over-max-generations.test");
     when(ProGenContext.getOptionalProperty("progen.max-generation", Integer.MAX_VALUE)).thenReturn(-1);
     new StandardFile().print();
     assertOutputEquals("StandardFileTest-empty.example", "StandardFileTest.class-standardOutput.txt");
@@ -90,6 +96,7 @@ public class StandardFileTest {
   
   @Test
   public void testNoBestGeneration(){
+    FileUtils.setSuffixTest("only-table.test");
     when(historicalData.getCurrentDataCollector(any(String.class)).getPlugin("best")).thenReturn(mock(Plugin.class));
     new StandardFile().print();
     assertOutputEquals("StandardFileTest-only-table.example", "StandardFileTest.class-standardOutput.txt");
