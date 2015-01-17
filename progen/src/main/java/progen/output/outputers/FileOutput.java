@@ -42,7 +42,6 @@ public abstract class FileOutput implements Outputer {
   public FileOutput(String fileName, boolean append) {
     this.fileName = fileName;
     this.append = append;
-    System.out.println("--------: "+Locale.getDefault());
     this.literals = ResourceBundle.getBundle("progen.output.outputers.literals", Locale.getDefault());
   }
 

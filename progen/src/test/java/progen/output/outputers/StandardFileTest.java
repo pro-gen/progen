@@ -12,7 +12,6 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import java.io.File;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.Locale;
 import java.util.Map;
 
 import org.junit.After;
@@ -42,7 +41,6 @@ public class StandardFileTest {
   
   @Before
   public void setUp() throws Exception {
-    Locale.setDefault(new Locale("es_ES"));
     final String outputDirTest = FileOutputTest.class.getClassLoader().getResource("progen/output/outputers/StandardFileTest.class").getFile();
     outputDir = new File(outputDirTest);
     mockContext();
@@ -236,6 +234,7 @@ public class StandardFileTest {
 
   private void mockProGenContext() {
     mockStatic(ProGenContext.class, HistoricalData.class);
+    
     when(ProGenContext.getMandatoryProperty("progen.output.dir")).thenReturn(String.format("%s-",outputDir.getAbsolutePath()));
     when(ProGenContext.getMandatoryProperty("progen.output.experiment")).thenReturn("");
     when(ProGenContext.getMandatoryProperty("progen.total.RPB")).thenReturn("1");
