@@ -10,11 +10,17 @@ import java.security.NoSuchAlgorithmException;
 
 public class FileUtils {
   
+  private static String suffixTest = ".test";
+  
+  public static void setSuffixTest(String suffixTest){
+    FileUtils.suffixTest = suffixTest; 
+  }
+
   public static void cleanDir(File dir, String endPattern){
     for(String fileName: dir.getParentFile().list()){
       if(fileName.endsWith(endPattern)){
         File fileToDelete = new File(dir.getParentFile()+File.separator+fileName);
-        fileToDelete.delete();
+        fileToDelete.renameTo(new File(fileToDelete.getAbsolutePath().replaceAll(endPattern, "-"+suffixTest)));
       }
     }
   }
