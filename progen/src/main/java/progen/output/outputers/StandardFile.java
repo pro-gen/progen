@@ -1,6 +1,3 @@
-/**
- *
- */
 package progen.output.outputers;
 
 import java.util.Map;
@@ -22,33 +19,62 @@ import progen.output.plugins.Plugin;
  */
 public class StandardFile extends FileOutput {
 
-  private static final String SINGLE_BLANK_SPACE = " ";
-  private static final String EXPERIMENT_INDIVIDUAL_DATA = "ExperimentIndividualData";
+  private static final String FORMAT_3G = "%.3G";
+  private static final String FORMAT_S_D_N = "%s%d:%n";
+  private static final String FORMAT_N = "%n";
+  private static final String FORMAT_S_N_S = "%s%n%s";
+  private static final String FORMAT_5F = "%.5f";
+  private static final String FORMAT_3F = "%.3f";
+  private static final String FORMAT_S = "%s";
+  private static final String FORMAT_S_S = "%s%s";
+  private static final String FORMAT_S_N = "%s%n";
+  private static final String LITERAL_WORST_RUN = "worstRun";
+  private static final String LITERAL_BEST_RUN = "bestRun";
+  private static final String LITERAL_GENERATION_MEAN = "generationMean";
   /** Separador central de la tabla que imprime por pantalla. */
   private static final String CENTER_SEP = " | ";
+  private static final String DATACOLLECTOR_POPULATION_TIME_DATA = "PopulationTimeData";
+  private static final String EXPERIMENT_INDIVIDUAL_DATA = "ExperimentIndividualData";
+  private static final int EXTRA_PADDING = 3;
   /** Separador izquierdo de la tabla que imprime por pantalla. */
   private static final String LEFT_SEP = CENTER_SEP.substring(1, 3);
+  private static final String LITERAL_ADF = "ADF";
+  private static final String LITERAL_ADJUSTED = "adjusted";
+  private static final String LITERAL_BREEDING = "breeding";
+  private static final String LITERAL_DEPTH = "depth";
+  private static final String LITERAL_EVALUATION = "evaluation";
+  private static final String LITERAL_FITNESS = "fitness";
+  private static final String LITERAL_INDIVIDUAL = "individual";
+  private static final String LITERAL_NODES = "nodes";
+  private static final String LITERAL_RAW = "raw";
+  private static final String LITERAL_RBP = "RBP";
+  private static final String PLUGIN_NAME_BEST = "best";
+  private static final String PLUGIN_NAME_BREEDING = "breeding";
+  private static final String PLUGIN_NAME_EVALUATION = LITERAL_EVALUATION;
+  private static final String PLUGIN_NAME_MEAN = "mean";
+  private static final String PLUGIN_NAME_TOTAL = "total";
   /** Separador derecho de la tabla que imprime por pantalla. */
   private static final String RIGHT_SEP = CENTER_SEP.substring(1);
+  private static final String SINGLE_BLANK_SPACE = " ";
   /** Ancho de cada columna de la tabla. */
   private static final int WIDTH_COLUMN = 10;
 
+  /** Datos de un experimento concreto. */
+  private DataCollector experimentData;
   /** Ancho de la primera columna. */
   private int firstColumnWidth;
-  /** Ancho de la segunda columna. */
-  private int secondColumnWidth;
 
   /** Almacén de datos para recuperar. */
   private HistoricalData historical;
 
-  /** Datos de un experimento concreto. */
-  private DataCollector experimentData;
-
   /** Separador horizontal de filas. */
   private String hline;
 
-  private int totalRPB;
+  /** Ancho de la segunda columna. */
+  private int secondColumnWidth;
+
   private int totalADF;
+  private int totalRPB;
 
   /**
    * Constructor por defecto.
@@ -59,7 +85,13 @@ public class StandardFile extends FileOutput {
     experimentData = historical.getDataCollectorExperiment(EXPERIMENT_INDIVIDUAL_DATA);
     totalRPB = Integer.parseInt(ProGenContext.getMandatoryProperty("progen.total.RPB"));
     totalADF = ProGenContext.getOptionalProperty("progen.total.ADF", 0);
-    hline = String.format("%s%n", calculateHline());
+    hline = String.format(FORMAT_S_N, calculateHline());
+  }
+
+  private void appendHeaders(StringBuilder line, int padding, int totalTrees, String type) {
+    for (int i = 0; i < totalTrees; i++) {
+      line.append(String.format(FORMAT_S_S, Formatter.center(String.format("%s%d", type, i), padding), CENTER_SEP));
+    }
   }
 
   private String calculateHline() {
@@ -69,6 +101,36 @@ public class StandardFile extends FileOutput {
       stb.append("-");
     }
     return stb.toString();
+  }
+
+  private void defineSecondColumnWidth() {
+    secondColumnWidth = Math.max(WIDTH_COLUMN, getLiterals().getString(LITERAL_GENERATION_MEAN).length());
+    secondColumnWidth = Math.max(secondColumnWidth, getLiterals().getString(LITERAL_BEST_RUN).length());
+    secondColumnWidth = Math.max(secondColumnWidth, getLiterals().getString(LITERAL_WORST_RUN).length());
+  }
+
+  /**
+   * Devuelve la línea más larga que contendrá una tabla.
+   * 
+   * @return La línea más larga.
+   */
+  private String getMaxLine() {
+    final StringBuilder line = new StringBuilder(LEFT_SEP);
+    line.append(String.format(FORMAT_S_S, Formatter.center(getLiterals().getString(LITERAL_INDIVIDUAL), WIDTH_COLUMN), CENTER_SEP));
+    line.append(String.format(FORMAT_S_S, Formatter.center(getLiterals().getString(LITERAL_GENERATION_MEAN), WIDTH_COLUMN), CENTER_SEP));
+    line.append(String.format(FORMAT_S_S, Formatter.center(getLiterals().getString(LITERAL_RAW), WIDTH_COLUMN), CENTER_SEP));
+    line.append(String.format(FORMAT_S_S, Formatter.center(getLiterals().getString(LITERAL_ADJUSTED), WIDTH_COLUMN), CENTER_SEP));
+
+    int totalTrees = 0;
+    totalTrees += totalRPB;
+    totalTrees += totalADF;
+
+    for (int i = 0; i < totalTrees; i++) {
+      line.append(String.format(FORMAT_S_S, Formatter.center(getLiterals().getString(LITERAL_NODES), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format(FORMAT_S_S, Formatter.center(getLiterals().getString(LITERAL_DEPTH), WIDTH_COLUMN), CENTER_SEP));
+    }
+    return line.toString();
+
   }
 
   @Override
@@ -84,28 +146,6 @@ public class StandardFile extends FileOutput {
   }
 
   /**
-   * Imprime la cabecera de la tabla de resultados.
-   */
-  private void printHeader(int maxGenerations) {
-    final String generation = String.format("%s%s",getLiterals().getString("generation"), Formatter.right(historical.getCurrentGeneration(), maxGenerations)); 
-    getWriter().printf("%n%n%s", hline);
-    getWriter().printf("%s%s%s%n", LEFT_SEP, Formatter.center(generation, getMaxLine().length() - LEFT_SEP.length() - RIGHT_SEP.length()), RIGHT_SEP);
-
-    getWriter().printf("%s", hline);
-  }
-
-  private void printBody() {
-    final Individual bestTotal = (Individual) (historical.getDataCollectorExperiment(EXPERIMENT_INDIVIDUAL_DATA).getPlugin("best").getValue());
-    final Individual bestGeneration = (Individual) (historical.getCurrentDataCollector(EXPERIMENT_INDIVIDUAL_DATA).getPlugin("best").getValue());
-
-    printIndividual();
-    printTime();
-    if (bestTotal.equals(bestGeneration)) {
-      printBest();
-    }
-  }
-
-  /**
    * Imprime la tabla del mejor individuo.
    */
   private void printBest() {
@@ -116,27 +156,46 @@ public class StandardFile extends FileOutput {
   }
 
   /**
+   * Imprime los datos del mejor individuo.
+   */
+  private void printBestData() {
+    StringBuilder line;
+    String ceilData;
+    final Individual best = (Individual) (experimentData.getPlugin(PLUGIN_NAME_BEST).getValue());
+
+    final int padding = Formatter.center(getLiterals().getString(LITERAL_INDIVIDUAL), WIDTH_COLUMN).length();
+    line = new StringBuilder(LEFT_SEP);
+    line.append(String.format(FORMAT_S, Formatter.center(SINGLE_BLANK_SPACE, padding + CENTER_SEP.length())));
+    line.append(String.format(FORMAT_S_S, Formatter.left(getLiterals().getString(LITERAL_INDIVIDUAL), secondColumnWidth), CENTER_SEP));
+
+    ceilData = String.format(FORMAT_3F, best.getRawFitness());
+    line.append(String.format(FORMAT_S_S, Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
+    ceilData = String.format(FORMAT_5F, best.getAdjustedFitness());
+    line.append(String.format(FORMAT_S_S, Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
+
+    printDataRPB(line, best);
+    printDataADF(line, best);
+    getWriter().printf(FORMAT_S_N_S, line.toString(), hline);
+  }
+
+  /**
    * Imprime la cabecera de la tabla del mejor individuo.
    */
   private void printBestHeaderTable() {
     final StringBuilder line = new StringBuilder(LEFT_SEP);
     int padding;
 
-    line.append(String.format("%s%s", Formatter.left(getLiterals().getString("newBestIndividual"), firstColumnWidth + secondColumnWidth), CENTER_SEP));
+    line.append(String.format(FORMAT_S_S, Formatter.left(getLiterals().getString("newBestIndividual"), firstColumnWidth + secondColumnWidth), CENTER_SEP));
 
-    padding = Formatter.center(getLiterals().getString("raw"), WIDTH_COLUMN).length();
-    padding += Formatter.center(getLiterals().getString("adjusted"), WIDTH_COLUMN).length() + 3;
-    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("fitness"), padding), CENTER_SEP));
+    padding = Formatter.center(getLiterals().getString(LITERAL_RAW), WIDTH_COLUMN).length();
+    padding += Formatter.center(getLiterals().getString(LITERAL_ADJUSTED), WIDTH_COLUMN).length() + EXTRA_PADDING;
+    line.append(String.format(FORMAT_S_S, Formatter.center(getLiterals().getString(LITERAL_FITNESS), padding), CENTER_SEP));
 
-    padding = Formatter.center(getLiterals().getString("nodes"), WIDTH_COLUMN).length();
-    padding += Formatter.center(getLiterals().getString("depth"), WIDTH_COLUMN).length() + 3;
-    for (int i = 0; i < totalRPB; i++) {
-      line.append(String.format("%s%s", Formatter.center("RBP" + i, padding), CENTER_SEP));
-    }
-    for (int i = 0; i < totalADF; i++) {
-      line.append(String.format("%s%s", Formatter.center("ADF" + i, padding), CENTER_SEP));
-    }
-    getWriter().printf("%s%n%s", line.toString(), hline);
+    padding = Formatter.center(getLiterals().getString(LITERAL_NODES), WIDTH_COLUMN).length();
+    padding += Formatter.center(getLiterals().getString(LITERAL_DEPTH), WIDTH_COLUMN).length() + EXTRA_PADDING;
+    appendHeaders(line, padding, totalRPB, LITERAL_RBP);
+    appendHeaders(line, padding, totalADF, LITERAL_ADF);
+    getWriter().printf(FORMAT_S_N_S, line.toString(), hline);
   }
 
   /**
@@ -147,134 +206,60 @@ public class StandardFile extends FileOutput {
   }
 
   /**
-   * Imprime los datos del mejor individuo.
-   */
-  private void printBestData() {
-    StringBuilder line;
-    String ceilData;
-    Individual best = (Individual) (experimentData.getPlugin("best").getValue());
-
-    int padding = Formatter.center(getLiterals().getString("individual"), WIDTH_COLUMN).length();
-    line = new StringBuilder(LEFT_SEP);
-    line.append(String.format("%s", Formatter.center(SINGLE_BLANK_SPACE, padding + CENTER_SEP.length())));
-    line.append(String.format("%s%s", Formatter.left(getLiterals().getString("individual"), secondColumnWidth), CENTER_SEP));
-
-    ceilData = String.format("%.3f", best.getRawFitness());
-    line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
-    ceilData = String.format("%.5f", best.getAdjustedFitness());
-    line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
-
-    printDataRPB(line, best);
-    printDataADF(line, best);
-    getWriter().printf("%s%n%s", line.toString(), hline);
-  }
-
-  private void printDataADF(StringBuilder line, Individual individual) {
-    for (int i = 0; i < totalADF; i++) {
-      line.append(String.format("%s%s", Formatter.center(individual.getTrees().get("ADF" + i).getRoot().getTotalNodes() + "", WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(individual.getTrees().get("ADF" + i).getRoot().getMaximunDepth() + "", WIDTH_COLUMN), CENTER_SEP));
-    }
-  }
-
-  private void printDataRPB(StringBuilder line, Individual individual) {
-    for (int i = 0; i < totalRPB; i++) {
-      line.append(String.format("%s%s", Formatter.center(individual.getTrees().get("RPB" + i).getRoot().getTotalNodes() + "", WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(individual.getTrees().get("RPB" + i).getRoot().getMaximunDepth() + "", WIDTH_COLUMN), CENTER_SEP));
-    }
-  }
-
-  /**
    * Imprime los datos resumen del mejor individuo.
    */
   private void printBestTail() {
-    StringBuilder stb = new StringBuilder();
-    Individual best = (Individual) (experimentData.getPlugin("best").getValue());
+    final StringBuilder stb = new StringBuilder();
+    final Individual best = (Individual) (experimentData.getPlugin(PLUGIN_NAME_BEST).getValue());
     for (int i = 0; i < best.getTotalRPB(); i++) {
-      stb.append(String.format("RPB%d:%n", i));
-      stb.append(Formatter.tree(best.getTrees().get("RPB" + i)));
-      stb.append(String.format("%n"));
+      stb.append(String.format(FORMAT_S_D_N, LITERAL_RBP, i));
+      stb.append(Formatter.tree(best.getTrees().get(LITERAL_RBP + i)));
+      stb.append(String.format(FORMAT_N));
     }
 
     for (int i = 0; i < best.getTotalADF(); i++) {
-      stb.append(String.format("ADF%d:%n", i));
-      stb.append(Formatter.tree(best.getTrees().get("ADF" + i)));
-      stb.append(String.format("%n"));
+      stb.append(String.format(FORMAT_S_D_N, LITERAL_ADF, i));
+      stb.append(Formatter.tree(best.getTrees().get(LITERAL_ADF + i)));
+      stb.append(String.format(FORMAT_N));
     }
 
     getWriter().println(stb.toString());
   }
 
-  /**
-   * Imprime la tabla de tiempos.
-   */
-  private void printTime() {
-    printTimeHeaderTable();
-    printTimeData();
+  private void printBody() {
+    final Individual bestTotal = (Individual) (historical.getDataCollectorExperiment(EXPERIMENT_INDIVIDUAL_DATA).getPlugin(PLUGIN_NAME_BEST).getValue());
+    final Individual bestGeneration = (Individual) (historical.getCurrentDataCollector(EXPERIMENT_INDIVIDUAL_DATA).getPlugin(PLUGIN_NAME_BEST).getValue());
 
+    printIndividual();
+    printTime();
+    if (bestTotal.equals(bestGeneration)) {
+      printBest();
+    }
+  }
+
+  private void printDataADF(StringBuilder line, Individual individual) {
+    for (int i = 0; i < totalADF; i++) {
+      line.append(String.format(FORMAT_S_S, Formatter.center(Integer.valueOf(individual.getTrees().get(LITERAL_ADF + i).getRoot().getTotalNodes()), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format(FORMAT_S_S, Formatter.center(Integer.valueOf(individual.getTrees().get(LITERAL_ADF + i).getRoot().getMaximunDepth()), WIDTH_COLUMN), CENTER_SEP));
+    }
+  }
+
+  private void printDataRPB(StringBuilder line, Individual individual) {
+    for (int i = 0; i < totalRPB; i++) {
+      line.append(String.format(FORMAT_S_S, Formatter.center(Integer.valueOf(individual.getTrees().get(LITERAL_RBP + i).getRoot().getTotalNodes()), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format(FORMAT_S_S, Formatter.center(Integer.valueOf(individual.getTrees().get(LITERAL_RBP + i).getRoot().getMaximunDepth()), WIDTH_COLUMN), CENTER_SEP));
+    }
   }
 
   /**
-   * Imprime los datos de la tabla de tiempos.
+   * Imprime la cabecera de la tabla de resultados.
    */
-  private void printTimeData() {
-    printTimeBreeding();
-    printTimeEvaluation();
-  }
+  private void printHeader(int maxGenerations) {
+    final String generation = String.format(FORMAT_S_S,getLiterals().getString("generation"), Formatter.right(historical.getCurrentGeneration(), maxGenerations)); 
+    getWriter().printf("%n%n%s", hline);
+    getWriter().printf("%s%s%s%n", LEFT_SEP, Formatter.center(generation, getMaxLine().length() - LEFT_SEP.length() - RIGHT_SEP.length()), RIGHT_SEP);
 
-  /**
-   * Imprime los tiempos de evaluación de individuos.
-   */
-  private void printTimeEvaluation() {
-    final StringBuilder line = new StringBuilder(LEFT_SEP);
-    int padding = hline.length() - (firstColumnWidth + secondColumnWidth) - 2 * CENTER_SEP.length() - 3;
-    padding = padding / 2;
-    Plugin evaluation = historical.getCurrentDataCollector("PopulationTimeData").getPlugin("evaluation");
-    String ceilData;
-
-    line.append(String.format("%s", Formatter.center(SINGLE_BLANK_SPACE, firstColumnWidth)));
-    line.append(String.format("%s%s", Formatter.left(getLiterals().getString("evaluation"), secondColumnWidth), CENTER_SEP));
-    ceilData = String.format("%s", evaluation.getPlugin("mean").getValue().toString());
-    line.append(String.format("%s%s", Formatter.center(ceilData, padding), CENTER_SEP));
-    ceilData = String.format("%s", evaluation.getPlugin("total").getValue().toString());
-    line.append(String.format("%s%s", Formatter.center(ceilData, padding), CENTER_SEP));
-    getWriter().printf("%s%n%s", line.toString(), hline);
-  }
-
-  /**
-   * Imprime los tiempos de ejecución de individuos.
-   */
-  private void printTimeBreeding() {
-    StringBuilder line = new StringBuilder(LEFT_SEP);
-    int padding = hline.length() - (firstColumnWidth + secondColumnWidth) - 2 * CENTER_SEP.length() - 3;
-    padding = padding / 2;
-    Plugin breeding = historical.getCurrentDataCollector("PopulationTimeData").getPlugin("breeding");
-    String ceilData;
-
-    line.append(String.format("%s", Formatter.center(SINGLE_BLANK_SPACE, firstColumnWidth)));
-    line.append(String.format("%s%s", Formatter.left(getLiterals().getString("breeding"), secondColumnWidth), CENTER_SEP));
-    ceilData = String.format("%s", breeding.getPlugin("mean").getValue().toString());
-    line.append(String.format("%s%s", Formatter.center(ceilData, padding), CENTER_SEP));
-    ceilData = String.format("%s", breeding.getPlugin("total").getValue().toString());
-    line.append(String.format("%s%s", Formatter.center(ceilData, padding), CENTER_SEP));
-    getWriter().printf("%s%n", line.toString());
-  }
-
-  /**
-   * Imprime la cabecera de la tabla de tiempos.
-   */
-  private void printTimeHeaderTable() {
-    StringBuilder line = new StringBuilder(LEFT_SEP);
-    int padding;
-
-    line.append(String.format("%s%s", Formatter.left(getLiterals().getString("time"), firstColumnWidth + secondColumnWidth), CENTER_SEP));
-
-    padding = hline.length() - (firstColumnWidth + secondColumnWidth) - 2 * CENTER_SEP.length() - 3;
-    padding = padding / 2;
-
-    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("populationMean"), padding), CENTER_SEP));
-    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("totalPopulation"), padding), CENTER_SEP));
-
-    getWriter().printf("%s%n%s", line.toString(), hline);
+    getWriter().printf(FORMAT_S, hline);
   }
 
   /**
@@ -284,6 +269,30 @@ public class StandardFile extends FileOutput {
     printIndividualHeaderTable();
     printIndividualSubHeaderTable();
     printIndividualData();
+  }
+
+  /**
+   * Imprime los datos de la mejor ejecución de un individuo.
+   */
+  private void printIndividualBestRunData() {
+    StringBuilder line;
+    String ceilData;
+    final Individual best = (Individual) (experimentData.getPlugin(PLUGIN_NAME_BEST).getValue());
+
+    final int padding = Formatter.center(getLiterals().getString(LITERAL_INDIVIDUAL), WIDTH_COLUMN).length();
+    line = new StringBuilder(LEFT_SEP);
+    line.append(String.format(FORMAT_S, Formatter.center(SINGLE_BLANK_SPACE, padding + CENTER_SEP.length())));
+    line.append(String.format(FORMAT_S_S, Formatter.left(getLiterals().getString(LITERAL_BEST_RUN), secondColumnWidth), CENTER_SEP));
+
+    ceilData = String.format(FORMAT_3F, best.getRawFitness());
+    line.append(String.format(FORMAT_S_S, Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
+    ceilData = String.format(FORMAT_5F, best.getAdjustedFitness());
+    line.append(String.format(FORMAT_S_S, Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
+
+    printDataRPB(line, best);
+    printDataADF(line, best);
+    getWriter().println(line.toString());
+
   }
 
   /**
@@ -302,51 +311,77 @@ public class StandardFile extends FileOutput {
   private void printIndividualGenerationMeanData() {
     StringBuilder line;
     String ceilData;
-    DataCollector populationData = historical.getCurrentDataCollector("PopulationData");
-    Map<String, Mean> mean = (Map<String, Mean>) (populationData.getPlugin("individualMean").getValue());
+    final DataCollector populationData = historical.getCurrentDataCollector("PopulationData");
+    final Map<String, Mean> mean = (Map<String, Mean>) (populationData.getPlugin("individualMean").getValue());
 
-    int padding = Formatter.center(getLiterals().getString("individual"), WIDTH_COLUMN).length();
+    final int padding = Formatter.center(getLiterals().getString(LITERAL_INDIVIDUAL), WIDTH_COLUMN).length();
     line = new StringBuilder(LEFT_SEP);
-    line.append(String.format("%s", Formatter.center(SINGLE_BLANK_SPACE, padding + CENTER_SEP.length())));
-    line.append(String.format("%s%s", Formatter.left(getLiterals().getString("generationMean"), secondColumnWidth), CENTER_SEP));
+    line.append(String.format(FORMAT_S, Formatter.center(SINGLE_BLANK_SPACE, padding + CENTER_SEP.length())));
+    line.append(String.format(FORMAT_S_S, Formatter.left(getLiterals().getString(LITERAL_GENERATION_MEAN), secondColumnWidth), CENTER_SEP));
 
-    ceilData = String.format("%.3G", mean.get("raw").getValue());
-    line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
-    ceilData = String.format("%.5f", mean.get("adjusted").getValue());
-    line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
+    ceilData = String.format(FORMAT_3G, mean.get(LITERAL_RAW).getValue());
+    line.append(String.format(FORMAT_S_S, Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
+    ceilData = String.format(FORMAT_5F, mean.get(LITERAL_ADJUSTED).getValue());
+    line.append(String.format(FORMAT_S_S, Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
 
-    for (int i = 0; i < totalRPB; i++) {
-      line.append(String.format("%s%s", Formatter.center(mean.get("RPB" + i + "-nodes").getValue().toString(), WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(mean.get("RPB" + i + "-depth").getValue().toString(), WIDTH_COLUMN), CENTER_SEP));
-    }
-    for (int i = 0; i < totalADF; i++) {
-      line.append(String.format("%s%s", Formatter.center(mean.get("ADF" + i + "-nodes").getValue().toString(), WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(mean.get("ADF" + i + "-depth").getValue().toString(), WIDTH_COLUMN), CENTER_SEP));
-    }
+    printIndividualGenerationMeanDataTree(line, mean, totalRPB, "RPB");
+    printIndividualGenerationMeanDataTree(line, mean, totalADF, LITERAL_ADF);
     getWriter().println(line.toString());
+  }
+  
+  
+
+  private void printIndividualGenerationMeanDataTree(StringBuilder line, final Map<String, Mean> mean, int totalTrees, String treeType) {
+    for (int i = 0; i < totalTrees; i++) {
+      line.append(String.format(FORMAT_S_S, Formatter.center(mean.get(treeType + i + "-nodes").getValue().toString(), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format(FORMAT_S_S, Formatter.center(mean.get(treeType + i + "-depth").getValue().toString(), WIDTH_COLUMN), CENTER_SEP));
+    }
   }
 
   /**
-   * Imprime los datos de la mejor ejecución de un individuo.
+   * Imprime la cabecera de la tabla de individuos.
    */
-  private void printIndividualBestRunData() {
-    StringBuilder line;
-    String ceilData;
-    final Individual best = (Individual) (experimentData.getPlugin("best").getValue());
+  private void printIndividualHeaderTable() {
+    // Print head table
+    final StringBuilder line = new StringBuilder(LEFT_SEP);
+    int padding;
+    firstColumnWidth = WIDTH_COLUMN + CENTER_SEP.length();
 
-    final int padding = Formatter.center(getLiterals().getString("individual"), WIDTH_COLUMN).length();
-    line = new StringBuilder(LEFT_SEP);
-    line.append(String.format("%s", Formatter.center(SINGLE_BLANK_SPACE, padding + CENTER_SEP.length())));
-    line.append(String.format("%s%s", Formatter.left(getLiterals().getString("bestRun"), secondColumnWidth), CENTER_SEP));
+    defineSecondColumnWidth();
 
-    ceilData = String.format("%.3f", best.getRawFitness());
-    line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
-    ceilData = String.format("%.5f", best.getAdjustedFitness());
-    line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
+    line.append(String.format(FORMAT_S_S, Formatter.left(getLiterals().getString(LITERAL_INDIVIDUAL), firstColumnWidth + secondColumnWidth), CENTER_SEP));
 
-    printDataRPB(line, best);
-    printDataADF(line, best);
-    getWriter().println(line.toString());
+    padding = Formatter.center(getLiterals().getString(LITERAL_RAW), WIDTH_COLUMN).length();
+    padding += Formatter.center(getLiterals().getString(LITERAL_ADJUSTED), WIDTH_COLUMN).length() + EXTRA_PADDING;
+    line.append(String.format(FORMAT_S_S, Formatter.center(getLiterals().getString(LITERAL_FITNESS), padding), CENTER_SEP));
+
+    padding = Formatter.center(getLiterals().getString(LITERAL_NODES), WIDTH_COLUMN).length();
+    padding += Formatter.center(getLiterals().getString(LITERAL_DEPTH), WIDTH_COLUMN).length() + EXTRA_PADDING;
+    appendHeaders(line, padding, totalRPB, LITERAL_RBP);
+    appendHeaders(line, padding, totalADF, LITERAL_ADF);
+    getWriter().printf(FORMAT_S_N_S, line.toString(), hline);
+  }
+
+  /**
+   * Imprime la cabecera de la subtabla de individuos.
+   */
+  private void printIndividualSubHeaderTable() {
+    // Print sub-head table
+    final StringBuilder line = new StringBuilder(LEFT_SEP);
+
+    final int padding = Formatter.center(getLiterals().getString(LITERAL_INDIVIDUAL), WIDTH_COLUMN).length();
+    line.append(String.format("%s   %s", Formatter.center(SINGLE_BLANK_SPACE, padding + secondColumnWidth), CENTER_SEP));
+    line.append(String.format(FORMAT_S_S, Formatter.center(getLiterals().getString(LITERAL_RAW), WIDTH_COLUMN), CENTER_SEP));
+    line.append(String.format(FORMAT_S_S, Formatter.center(getLiterals().getString(LITERAL_ADJUSTED), WIDTH_COLUMN), CENTER_SEP));
+    for (int i = 0; i < totalRPB; i++) {
+      line.append(String.format(FORMAT_S_S, Formatter.center(getLiterals().getString(LITERAL_NODES), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format(FORMAT_S_S, Formatter.center(getLiterals().getString(LITERAL_DEPTH), WIDTH_COLUMN), CENTER_SEP));
+    }
+    for (int i = 0; i < totalADF; i++) {
+      line.append(String.format(FORMAT_S_S, Formatter.center(getLiterals().getString(LITERAL_NODES), WIDTH_COLUMN), CENTER_SEP));
+      line.append(String.format(FORMAT_S_S, Formatter.center(getLiterals().getString(LITERAL_DEPTH), WIDTH_COLUMN), CENTER_SEP));
+    }
+    getWriter().printf(FORMAT_S_N, line.toString());
 
   }
 
@@ -356,99 +391,95 @@ public class StandardFile extends FileOutput {
   private void printIndividualWorstData() {
     StringBuilder line;
     String ceilData;
-    Individual worst = (Individual) (historical.getCurrentDataCollector(EXPERIMENT_INDIVIDUAL_DATA).getPlugin("worst").getValue());
+    final Individual worst = (Individual) (historical.getCurrentDataCollector(EXPERIMENT_INDIVIDUAL_DATA).getPlugin("worst").getValue());
 
-    int padding = Formatter.center(getLiterals().getString("individual"), WIDTH_COLUMN).length();
+    final int padding = Formatter.center(getLiterals().getString(LITERAL_INDIVIDUAL), WIDTH_COLUMN).length();
     line = new StringBuilder(LEFT_SEP);
-    line.append(String.format("%s", Formatter.center(SINGLE_BLANK_SPACE, padding + CENTER_SEP.length())));
-    line.append(String.format("%s%s", Formatter.left(getLiterals().getString("worstRun"), secondColumnWidth), CENTER_SEP));
+    line.append(String.format(FORMAT_S, Formatter.center(SINGLE_BLANK_SPACE, padding + CENTER_SEP.length())));
+    line.append(String.format(FORMAT_S_S, Formatter.left(getLiterals().getString(LITERAL_WORST_RUN), secondColumnWidth), CENTER_SEP));
 
-    ceilData = String.format("%.3G", worst.getRawFitness());
-    line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
-    ceilData = String.format("%.5f", worst.getAdjustedFitness());
-    line.append(String.format("%s%s", Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
+    ceilData = String.format(FORMAT_3G, worst.getRawFitness());
+    line.append(String.format(FORMAT_S_S, Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
+    ceilData = String.format(FORMAT_5F, worst.getAdjustedFitness());
+    line.append(String.format(FORMAT_S_S, Formatter.right(ceilData, WIDTH_COLUMN), CENTER_SEP));
 
     printDataRPB(line, worst);
     printDataADF(line, worst);
-    getWriter().printf("%s%n%s", line.toString(), hline);
+    getWriter().printf(FORMAT_S_N_S, line.toString(), hline);
 
   }
 
   /**
-   * Imprime la cabecera de la subtabla de individuos.
+   * Imprime la tabla de tiempos.
    */
-  private void printIndividualSubHeaderTable() {
-    // Print sub-head table
-    StringBuilder line = new StringBuilder(LEFT_SEP);
-
-    int padding = Formatter.center(getLiterals().getString("individual"), WIDTH_COLUMN).length();
-    line.append(String.format("%s   %s", Formatter.center(SINGLE_BLANK_SPACE, padding + secondColumnWidth), CENTER_SEP));
-    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("raw"), WIDTH_COLUMN), CENTER_SEP));
-    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("adjusted"), WIDTH_COLUMN), CENTER_SEP));
-    for (int i = 0; i < totalRPB; i++) {
-      line.append(String.format("%s%s", Formatter.center(getLiterals().getString("nodes"), WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(getLiterals().getString("depth"), WIDTH_COLUMN), CENTER_SEP));
-    }
-    for (int i = 0; i < totalADF; i++) {
-      line.append(String.format("%s%s", Formatter.center(getLiterals().getString("nodes"), WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(getLiterals().getString("depth"), WIDTH_COLUMN), CENTER_SEP));
-    }
-    getWriter().printf("%s%n", line.toString());
+  private void printTime() {
+    printTimeHeaderTable();
+    printTimeData();
 
   }
 
   /**
-   * Imprime la cabecera de la tabla de individuos.
+   * Imprime los tiempos de ejecución de individuos.
    */
-  private void printIndividualHeaderTable() {
-    // Print head table
-    StringBuilder line = new StringBuilder(LEFT_SEP);
+  private void printTimeBreeding() {
+    final StringBuilder line = new StringBuilder(LEFT_SEP);
+    int padding = hline.length() - (firstColumnWidth + secondColumnWidth) - 2 * CENTER_SEP.length() - EXTRA_PADDING;
+    padding = padding / 2;
+    final Plugin breeding = historical.getCurrentDataCollector(DATACOLLECTOR_POPULATION_TIME_DATA).getPlugin(PLUGIN_NAME_BREEDING);
+    String ceilData;
+
+    line.append(String.format(FORMAT_S, Formatter.center(SINGLE_BLANK_SPACE, firstColumnWidth)));
+    line.append(String.format(FORMAT_S_S, Formatter.left(getLiterals().getString(LITERAL_BREEDING), secondColumnWidth), CENTER_SEP));
+    ceilData = String.format(FORMAT_S, breeding.getPlugin(PLUGIN_NAME_MEAN).getValue().toString());
+    line.append(String.format(FORMAT_S_S, Formatter.center(ceilData, padding), CENTER_SEP));
+    ceilData = String.format(FORMAT_S, breeding.getPlugin(PLUGIN_NAME_TOTAL).getValue().toString());
+    line.append(String.format(FORMAT_S_S, Formatter.center(ceilData, padding), CENTER_SEP));
+    getWriter().printf(FORMAT_S_N, line.toString());
+  }
+
+  /**
+   * Imprime los datos de la tabla de tiempos.
+   */
+  private void printTimeData() {
+    printTimeBreeding();
+    printTimeEvaluation();
+  }
+  
+  /**
+   * Imprime los tiempos de evaluación de individuos.
+   */
+  private void printTimeEvaluation() {
+    final StringBuilder line = new StringBuilder(LEFT_SEP);
+    int padding = hline.length() - (firstColumnWidth + secondColumnWidth) - 2 * CENTER_SEP.length() - EXTRA_PADDING;
+    padding = padding / 2;
+    final Plugin evaluation = historical.getCurrentDataCollector(DATACOLLECTOR_POPULATION_TIME_DATA).getPlugin(PLUGIN_NAME_EVALUATION);
+    String ceilData;
+
+    line.append(String.format(FORMAT_S, Formatter.center(SINGLE_BLANK_SPACE, firstColumnWidth)));
+    line.append(String.format(FORMAT_S_S, Formatter.left(getLiterals().getString(LITERAL_EVALUATION), secondColumnWidth), CENTER_SEP));
+    ceilData = String.format(FORMAT_S, evaluation.getPlugin(PLUGIN_NAME_MEAN).getValue().toString());
+    line.append(String.format(FORMAT_S_S, Formatter.center(ceilData, padding), CENTER_SEP));
+    ceilData = String.format(FORMAT_S, evaluation.getPlugin(PLUGIN_NAME_TOTAL).getValue().toString());
+    line.append(String.format(FORMAT_S_S, Formatter.center(ceilData, padding), CENTER_SEP));
+    getWriter().printf(FORMAT_S_N_S, line.toString(), hline);
+  }
+
+
+  /**
+   * Imprime la cabecera de la tabla de tiempos.
+   */
+  private void printTimeHeaderTable() {
+    final StringBuilder line = new StringBuilder(LEFT_SEP);
     int padding;
-    firstColumnWidth = WIDTH_COLUMN + CENTER_SEP.length();
 
-    secondColumnWidth = Math.max(WIDTH_COLUMN, getLiterals().getString("generationMean").length());
-    secondColumnWidth = Math.max(secondColumnWidth, getLiterals().getString("bestRun").length());
-    secondColumnWidth = Math.max(secondColumnWidth, getLiterals().getString("worstRun").length());
+    line.append(String.format(FORMAT_S_S, Formatter.left(getLiterals().getString("time"), firstColumnWidth + secondColumnWidth), CENTER_SEP));
 
-    line.append(String.format("%s%s", Formatter.left(getLiterals().getString("individual"), firstColumnWidth + secondColumnWidth), CENTER_SEP));
+    padding = hline.length() - (firstColumnWidth + secondColumnWidth) - 2 * CENTER_SEP.length() - EXTRA_PADDING;
+    padding = padding / 2;
 
-    padding = Formatter.center(getLiterals().getString("raw"), WIDTH_COLUMN).length();
-    padding += Formatter.center(getLiterals().getString("adjusted"), WIDTH_COLUMN).length() + 3;
-    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("fitness"), padding), CENTER_SEP));
+    line.append(String.format(FORMAT_S_S, Formatter.center(getLiterals().getString("populationMean"), padding), CENTER_SEP));
+    line.append(String.format(FORMAT_S_S, Formatter.center(getLiterals().getString("totalPopulation"), padding), CENTER_SEP));
 
-    padding = Formatter.center(getLiterals().getString("nodes"), WIDTH_COLUMN).length();
-    padding += Formatter.center(getLiterals().getString("depth"), WIDTH_COLUMN).length() + 3;
-    for (int i = 0; i < totalRPB; i++) {
-      line.append(String.format("%s%s", Formatter.center("RBP" + i, padding), CENTER_SEP));
-    }
-    for (int i = 0; i < totalADF; i++) {
-      line.append(String.format("%s%s", Formatter.center("ADF" + i, padding), CENTER_SEP));
-    }
-    getWriter().printf("%s%n%s", line.toString(), hline);
-  }
-
-
-  /**
-   * Devuelve la línea más larga que contendrá una tabla.
-   * 
-   * @return La línea más larga.
-   */
-  private String getMaxLine() {
-    StringBuilder line = new StringBuilder(LEFT_SEP);
-    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("individual"), WIDTH_COLUMN), CENTER_SEP));
-    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("generationMean"), WIDTH_COLUMN), CENTER_SEP));
-    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("raw"), WIDTH_COLUMN), CENTER_SEP));
-    line.append(String.format("%s%s", Formatter.center(getLiterals().getString("adjusted"), WIDTH_COLUMN), CENTER_SEP));
-
-    int totalTrees = 0;
-    totalTrees += totalRPB;
-    totalTrees += totalADF;
-
-    for (int i = 0; i < totalTrees; i++) {
-      line.append(String.format("%s%s", Formatter.center(getLiterals().getString("nodes"), WIDTH_COLUMN), CENTER_SEP));
-      line.append(String.format("%s%s", Formatter.center(getLiterals().getString("depth"), WIDTH_COLUMN), CENTER_SEP));
-    }
-    return line.toString();
-
+    getWriter().printf(FORMAT_S_N_S, line.toString(), hline);
   }
 }

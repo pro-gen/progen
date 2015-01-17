@@ -12,6 +12,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import java.io.File;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.Locale;
 import java.util.Map;
 
 import org.junit.After;
@@ -39,8 +40,12 @@ public class StandardFileTest {
   
   private File outputDir;
   
+  private Locale defaultLocale;
+  
   @Before
   public void setUp() throws Exception {
+    defaultLocale = Locale.getDefault();
+    Locale.setDefault(Locale.US);
     final String outputDirTest = FileOutputTest.class.getClassLoader().getResource("progen/output/outputers/StandardFileTest.class").getFile();
     outputDir = new File(outputDirTest);
     mockContext();
@@ -49,6 +54,7 @@ public class StandardFileTest {
   @After
   public void tearDown(){
     FileUtils.cleanDir(outputDir, ".txt");
+    Locale.setDefault(defaultLocale);
   }
 
   @Test
