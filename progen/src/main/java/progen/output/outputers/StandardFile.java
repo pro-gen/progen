@@ -31,12 +31,10 @@ public class StandardFile extends FileOutput {
   private static final String LITERAL_WORST_RUN = "worstRun";
   private static final String LITERAL_BEST_RUN = "bestRun";
   private static final String LITERAL_GENERATION_MEAN = "generationMean";
-  /** Separador central de la tabla que imprime por pantalla. */
   private static final String CENTER_SEP = " | ";
   private static final String DATACOLLECTOR_POPULATION_TIME_DATA = "PopulationTimeData";
   private static final String EXPERIMENT_INDIVIDUAL_DATA = "ExperimentIndividualData";
   private static final int EXTRA_PADDING = 3;
-  /** Separador izquierdo de la tabla que imprime por pantalla. */
   private static final String LEFT_SEP = CENTER_SEP.substring(1, 3);
   private static final String LITERAL_ADF = "ADF";
   private static final String LITERAL_ADJUSTED = "adjusted";
@@ -49,14 +47,12 @@ public class StandardFile extends FileOutput {
   private static final String LITERAL_RAW = "raw";
   private static final String LITERAL_RBP = "RBP";
   private static final String PLUGIN_NAME_BEST = "best";
-  private static final String PLUGIN_NAME_BREEDING = "breeding";
+  private static final String PLUGIN_NAME_BREEDING = LITERAL_BREEDING;
   private static final String PLUGIN_NAME_EVALUATION = LITERAL_EVALUATION;
   private static final String PLUGIN_NAME_MEAN = "mean";
   private static final String PLUGIN_NAME_TOTAL = "total";
-  /** Separador derecho de la tabla que imprime por pantalla. */
   private static final String RIGHT_SEP = CENTER_SEP.substring(1);
   private static final String SINGLE_BLANK_SPACE = " ";
-  /** Ancho de cada columna de la tabla. */
   private static final int WIDTH_COLUMN = 10;
 
   /** Datos de un experimento concreto. */

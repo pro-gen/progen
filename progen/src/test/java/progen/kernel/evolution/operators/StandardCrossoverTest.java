@@ -1,6 +1,3 @@
-/**
- *
- */
 package progen.kernel.evolution.operators;
 
 import static org.junit.Assert.assertFalse;
