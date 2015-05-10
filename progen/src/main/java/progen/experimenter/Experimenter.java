@@ -28,9 +28,6 @@ public abstract class Experimenter {
   private static final String SPACE_SYMBOL = " ";
   private static final int PROGEN_ID_ERROR = 31;
 
-  /**
-   * Constructor por defecto de todas las clases hijas.
-   */
   public Experimenter() {
     this.generateOutputDir();
     this.dumpContext();
@@ -64,7 +61,7 @@ public abstract class Experimenter {
    * @param copyPath
    *          Path de destino de la copia.
    */
-  protected void copyFile(String original, String copyPath) {
+  private void copyFile(String original, String copyPath) {
     if (original == null || copyPath == null) {
       throw new IllegalArgumentException(Error.get(PROGEN_ID_ERROR));
     } else {
@@ -117,15 +114,6 @@ public abstract class Experimenter {
     }
   }
 
-  /**
-   * Función recursiva que elimina todo el contenido de un directorio para poder
-   * eliminarlo.
-   * 
-   * @param path
-   *          Ruta de la carpeta a borrar.
-   * @return <code>true</code> si se pudo eliminar el directorio y
-   *         <code>false</code> en caso contrario.
-   */
   public boolean deleteDirectory(File path) {
     boolean deleted = true;
     if (path.exists()) {
