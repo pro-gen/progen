@@ -44,7 +44,7 @@ public class StandardCrossover extends GenneticOperator {
       final Tree treeA = mother.getTrees().get(key);
       final Tree treeB = father.getTrees().get(key);
       updateIndividualCrossover(individualsCrossover, mother, father, treeA, treeB);
-    }else{
+    } else {
       throw new SelectorSizeIncorrectValueException(2, individuals.size());
     }
     return individualsCrossover;
@@ -91,8 +91,7 @@ public class StandardCrossover extends GenneticOperator {
     Node crossNode2;
     Node parent1;
     Node parent2;
-    
-    
+
     boolean treesCrossed = false;
 
     crossNodes = selectNodes(treeA, treeB);
@@ -157,7 +156,7 @@ public class StandardCrossover extends GenneticOperator {
     Function function1;
     crossNode1 = getBranchNode(treeA);
     function1 = getRealFunction(crossNode1);
-    
+
     crossNode2 = getCrossNode2(treeB, function1);
 
     nodes.add(crossNode1);
@@ -171,7 +170,7 @@ public class StandardCrossover extends GenneticOperator {
     Function function2;
     crossNode2 = getBranchNode(treeB);
     function2 = getRealFunction(crossNode2);
-    
+
     while (!functionsHasSameReturnType(function1, function2)) {
       crossNode2 = getBranchNode(treeB);
       function2 = getRealFunction(crossNode2);
