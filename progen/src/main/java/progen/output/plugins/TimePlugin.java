@@ -108,6 +108,10 @@ public class TimePlugin implements MacroPlugin {
     // do nothing
   }
 
+  /**
+   * Es una operación idempotente, es decir, si se añaden <i>n</i> veces el mismo
+   * plugin, sólo se añadirá una única vez.
+   */
   @Override
   public void addPlugin(List<Plugin> pluginsCollection, Plugin plugin) {
     Plugin alreadyDefined = null;
