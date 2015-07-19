@@ -10,8 +10,10 @@ cache:
   - $TRAVIS_BUILD_DIR/gen-badge/node_modules
   - $TRAVIS_BUILD_DIR/.m2
 before_script:
-- git pull https://github.com/jirsis/gen-badge.git $TRAVIS_BUILD_DIR/gen-badge
-- git pull https://${GH_TOKEN}@github.com/pro-gen/pro-gen.github.io.git $TRAVIS_BUILD_DIR/pro-gen.github.io
+- rm -rf $TRAVIS_BUILD_DIR/gen-badge 2> /dev/null
+- rm -rf $TRAVIS_BUILD_DIR/pro-gen.github.io 2> /dev/null
+- git clone https://github.com/jirsis/gen-badge.git $TRAVIS_BUILD_DIR/gen-badge
+- git clone https://${GH_TOKEN}@github.com/pro-gen/pro-gen.github.io.git $TRAVIS_BUILD_DIR/pro-gen.github.io
 script:
 - cd progen
 - mvn clean verify site jacoco:report coveralls:jacoco
@@ -35,4 +37,3 @@ after_success:
   - git add -f reports/*
   - git commit -q -m "Travis build $TRAVIS_BUILD_NUMBER pushed to ProGen page"
   - git push -fq origin master
-  - rm -rf $TRAVIS_BUILD_DIR/pro-gen.github.io
