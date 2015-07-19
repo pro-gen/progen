@@ -5,10 +5,6 @@ jdk:
 env:
   global:
     secure: dEs2TyS0sPMhO9EYp4a3Krf2e3oDitQmmSedUr5NOhHeJYT0hryB+u6rk0ouExg6XIcENP34pZiTTT3Ko9en04BiJG7MVJb+J+TG6OZeXPLqTDjFGW1RIHMwS0tG5wUyA7d2SYGGwfv2pqM/D5grqfyKjwNQ38/HsWbqr5PMRx0=
-cache:
-  directories:
-  - $TRAVIS_BUILD_DIR/gen-badge/node_modules
-  - $TRAVIS_BUILD_DIR/.m2
 before_script:
 - rm -rf $TRAVIS_BUILD_DIR/gen-badge 2> /dev/null
 - rm -rf $TRAVIS_BUILD_DIR/pro-gen.github.io 2> /dev/null
