@@ -1,9 +1,11 @@
 languaje: java
+sudo: false
 jdk:
 - oraclejdk7
 cache:
   directories:
   - $TRAVIS_BUILD_DIR/gen-badge/node_modules
+  - $TRAVIS_BUILD_DIR/.m2
 before_script:
 - git clone https://github.com/jirsis/gen-badge.git $TRAVIS_BUILD_DIR/gen-badge
 - git clone https://${GH_TOKEN}@github.com/pro-gen/pro-gen.github.io.git $TRAVIS_BUILD_DIR/pro-gen.github.io
