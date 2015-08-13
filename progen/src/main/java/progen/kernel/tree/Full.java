@@ -18,9 +18,10 @@ import progen.kernel.grammar.Production;
  * @since 2.0
  */
 public class Full implements InitializeTreeMethod {
+  private static final long serialVersionUID = 3387278132317051831L;
+  
   private static final int DEFAULT_MAX_ATTEMPTS = 100;
   private static final String PROGEN_ACTIVE_SEARCH_PROPERTY = "progen.activeSearch";
-  private static final long serialVersionUID = 3387278132317051831L;
   /** Profundidad mínima que tendrá el árbol resultante. */
   private int minDepth;
   /** Profundidad máxima que tendrá el árbol resultante. */

@@ -8,10 +8,9 @@ import progen.kernel.error.Error;
  * 
  */
 public class SelectorSizeIncorrectValueException extends RuntimeException {
+  private static final long serialVersionUID = 7989167828358778207L;
 
   private static final int ID_ERROR = 26;
-  /** Para serialización. */
-  private static final long serialVersionUID = 7989167828358778207L;
 
   /**
    * Constructor de la excepción en la que se recibe por parámetro el tamaño del

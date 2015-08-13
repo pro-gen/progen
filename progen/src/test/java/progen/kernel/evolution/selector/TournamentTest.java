@@ -1,25 +1,24 @@
 package progen.kernel.evolution.selector;
 
-import org.junit.Before;
-import org.junit.Test;
-import progen.context.ProGenContext;
-import progen.kernel.evolution.selector.Selector;
-import progen.kernel.evolution.selector.Tournament;
-import progen.kernel.evolution.selector.TournamentSizeException;
-import progen.kernel.evolution.selector.TournamentSizeMandatoryException;
-import progen.kernel.population.Individual;
-import progen.kernel.population.Population;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import progen.context.ProGenContext;
+import progen.kernel.population.Individual;
+import progen.kernel.population.Population;
 
 /**
  * Clase que realiza un conjunto de test sobre la clase {@link Tournament}
  *
  * @author jirsis
  */
+@Ignore
 public class TournamentTest {
 
   /**
