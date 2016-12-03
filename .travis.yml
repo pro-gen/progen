@@ -4,7 +4,7 @@ jdk:
 - oraclejdk7
 env:
   global:
-    secure: dEs2TyS0sPMhO9EYp4a3Krf2e3oDitQmmSedUr5NOhHeJYT0hryB+u6rk0ouExg6XIcENP34pZiTTT3Ko9en04BiJG7MVJb+J+TG6OZeXPLqTDjFGW1RIHMwS0tG5wUyA7d2SYGGwfv2pqM/D5grqfyKjwNQ38/HsWbqr5PMRx0=
+  - secure: Tp3CUKlwhrUvcAI/LqlWhnk3pU57iwnzfVhukxB0thXXLLkfrGVGKWeOFQo9DPFbu+k2YC1A3tcnDMK771iYGmAz8Cyh+jK5dl/dHdUqFyjd0C2eos9IZlXjo0IVMBQInoHxpZXnRLeWN6sct6LntFgM6cOCx7lTDcVUY84LUKY=
 before_script:
 - rm -rf $TRAVIS_BUILD_DIR/gen-badge 2> /dev/null
 - rm -rf $TRAVIS_BUILD_DIR/pro-gen.github.io 2> /dev/null
@@ -14,22 +14,22 @@ script:
 - cd progen
 - mvn clean verify site jacoco:report coveralls:jacoco
 after_success:
-  - mkdir $TRAVIS_BUILD_DIR/progen/target/pmd
-  - cp $TRAVIS_BUILD_DIR/progen/target/pmd.xml $TRAVIS_BUILD_DIR/progen/target/pmd
-  - mvn xml:transform
-  - cp $TRAVIS_BUILD_DIR/progen/target/generated-resources/xml/xslt/pmd.xml $TRAVIS_BUILD_DIR/progen/target/site/pmd.html
-  - node -v
-  - cd $TRAVIS_BUILD_DIR/gen-badge
-  - npm install
-  - ./gen-badges.js $TRAVIS_BUILD_DIR/progen/target/
-  - git config --global user.email "travis@travis-ci.org"
-  - git config --global user.name "Travis-CI deployer"
-  - cd $TRAVIS_BUILD_DIR/pro-gen.github.io
-  - cp -v $TRAVIS_BUILD_DIR/progen/target/*svg .
-  - cp -v $TRAVIS_BUILD_DIR/progen/target/*xml .
-  - mkdir reports 2> /dev/null
-  - cp -r $TRAVIS_BUILD_DIR/progen/target/site/* reports
-  - git add -f *svg pmd.xml findbugs.xml checkstyle-result.xml
-  - git add -f reports/*
-  - git commit -q -m "Travis build $TRAVIS_BUILD_NUMBER pushed to ProGen page"
-  - git push -fq origin master
+- mkdir $TRAVIS_BUILD_DIR/progen/target/pmd
+- cp $TRAVIS_BUILD_DIR/progen/target/pmd.xml $TRAVIS_BUILD_DIR/progen/target/pmd
+- mvn xml:transform
+- cp $TRAVIS_BUILD_DIR/progen/target/generated-resources/xml/xslt/pmd.xml $TRAVIS_BUILD_DIR/progen/target/site/pmd.html
+- node -v
+- cd $TRAVIS_BUILD_DIR/gen-badge
+- npm install
+- "./gen-badges.js $TRAVIS_BUILD_DIR/progen/target/"
+- git config --global user.email "travis@travis-ci.org"
+- git config --global user.name "Travis-CI deployer"
+- cd $TRAVIS_BUILD_DIR/pro-gen.github.io
+- cp -v $TRAVIS_BUILD_DIR/progen/target/*svg .
+- cp -v $TRAVIS_BUILD_DIR/progen/target/*xml .
+- mkdir reports 2> /dev/null
+- cp -r $TRAVIS_BUILD_DIR/progen/target/site/* reports
+- git add -f *svg pmd.xml findbugs.xml checkstyle-result.xml
+- git add -f reports/*
+- git commit -q -m "Travis build $TRAVIS_BUILD_NUMBER pushed to ProGen page"
+- git push -fq origin master
