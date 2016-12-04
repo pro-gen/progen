@@ -26,6 +26,8 @@ after_success:
 - git config --global user.name "Travis-CI deployer"
 - git config --global push.default simple
 - cd $TRAVIS_BUILD_DIR/pro-gen.github.io
+- ls -l $TRAVIS_BUILD_DIR/progen/target/
+- ls -l $TRAVIS_BUILD_DIR/progen/target/*svg
 - cp -v $TRAVIS_BUILD_DIR/progen/target/*svg .
 - cp -v $TRAVIS_BUILD_DIR/progen/target/*xml .
 - mkdir reports-mvn 2> /dev/null
