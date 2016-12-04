@@ -5,7 +5,6 @@ jdk:
 env:
   global:
   - GITHUB_REPO_WEB: "pro-gen/pro-gen.github.io"
-  - secure: "CXGRLSF24JxD+fH6pFgl4F3gfUtK00Yw/I9j9U7CJvwbr+SQGBtQJD1O4X59Z2itNQpWMuF6o3g/W89H9XZwpmWgB3lHAsg1BTHRjL2w7JGXwyJVglAzpRCiOCspDHZbHNfkafx9IkeMan4WY6J418uhkbtqYolRta9Y/3ddJ10="
 before_script:
 - rm -rf $TRAVIS_BUILD_DIR/gen-badge 2> /dev/null
 - rm -rf $TRAVIS_BUILD_DIR/pro-gen.github.io 2> /dev/null
@@ -33,5 +32,5 @@ after_success:
 - git add -f *svg pmd.xml findbugs.xml checkstyle-result.xml
 - git add -f reports/*
 - git commit -q -m "Travis build $TRAVIS_BUILD_NUMBER pushed to ProGen page"
-- git push --force --quiet "https://${GH_TOKEN}@$github.com/${GITHUB_REPO_WEB}.git" origin master
+- git push --force --quiet "https://pro-gen:${GITHUB_API_KEY}@$github.com/${GITHUB_REPO_WEB}.git" origin master
 
