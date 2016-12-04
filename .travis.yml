@@ -24,7 +24,7 @@ after_success:
 - "./gen-badges.js $TRAVIS_BUILD_DIR/progen/target/"
 - git config --global user.email "travis@travis-ci.org"
 - git config --global user.name "Travis-CI deployer"
-- git config push.default simple
+- git config --global push.default simple
 - cd $TRAVIS_BUILD_DIR/pro-gen.github.io
 - cp -v $TRAVIS_BUILD_DIR/progen/target/*svg .
 - cp -v $TRAVIS_BUILD_DIR/progen/target/*xml .
