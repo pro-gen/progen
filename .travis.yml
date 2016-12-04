@@ -33,4 +33,4 @@ after_success:
 - git add -f *svg pmd.xml findbugs.xml checkstyle-result.xml
 - git add -f reports/*
 - git commit -q -m "Travis build $TRAVIS_BUILD_NUMBER pushed to ProGen page"
-- git push --force --quiet "https://${GITHUB_TOKEN}@$github.com/${GITHUB_REPO}.git origin master
+- git push --force --quiet "https://${GITHUB_TOKEN}@$github.com/${GITHUB_REPO}.git" origin master
