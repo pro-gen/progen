@@ -34,5 +34,4 @@ after_success:
 - git add -f reports-mvn/*
 - git commit -q -m "Travis build $TRAVIS_BUILD_NUMBER pushed to ProGen page"
 - git push --force --quiet "https://pro-gen:${GITHUB_API_KEY}@github.com/${GITHUB_REPO_WEB}.git"
-- echo $TRAVIS_BUILD_DIR
 
