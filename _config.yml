@@ -1,1 +1,1 @@
-include: ["/home/travis/build/pro-gen/progen/pro-gen.github.io/reports-mvn/jacoco/.sessions.html", "reports/jacoco/.reports/"]
+include: ["./reports-mvn/jacoco/.sessions.html", "reports/jacoco/.reports/"]
