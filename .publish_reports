@@ -1,5 +1,0 @@
-#!/bin/bash
-set -x
-GITHUB_API_KEY=$1
-GITHUB_REPO_WEB=$2
-git push --force --quiet "https://pro-gen:${GITHUB_API_KEY}@$github.com/${GITHUB_REPO_WEB}.git" origin master

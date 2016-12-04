@@ -32,7 +32,5 @@ after_success:
 - git add -f *svg pmd.xml findbugs.xml checkstyle-result.xml
 - git add -f reports/*
 - git commit -q -m "Travis build $TRAVIS_BUILD_NUMBER pushed to ProGen page"
-- pwd
-- ls -la ../
-- ../.publish_reports $GITHUB_API_KEY $GITHUB_REPO_WEB
+- git push --force --quiet "https://pro-gen:${GITHUB_API_KEY}@github.com/${GITHUB_REPO_WEB}.git" origin master
 
