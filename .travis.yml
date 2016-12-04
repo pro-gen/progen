@@ -33,6 +33,6 @@ after_success:
 - git add -f reports/*
 - git commit -q -m "Travis build $TRAVIS_BUILD_NUMBER pushed to ProGen page"
 - pwd
-- ls -la
-- ./.publish_reports $GITHUB_API_KEY $GITHUB_REPO_WEB
+- ls -la ../
+- ../.publish_reports $GITHUB_API_KEY $GITHUB_REPO_WEB
 
