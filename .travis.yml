@@ -36,5 +36,4 @@ after_success:
 - git push --force --quiet "https://pro-gen:${GITHUB_API_KEY}@github.com/${GITHUB_REPO_WEB}.git"
 - echo $TRAVIS_BUILD_DIR
 - pwd
-- ls -la
 
