@@ -22,6 +22,9 @@ after_success:
 - cd $TRAVIS_BUILD_DIR/gen-badge
 - npm install
 - "./gen-badges.js $TRAVIS_BUILD_DIR/progen/target/"
+- pwd
+- ls -l
+- ls -l $TRAVIS_BUILD_DIR/progen/target/
 - git config --global user.email "travis@travis-ci.org"
 - git config --global user.name "Travis-CI deployer"
 - git config --global push.default simple
