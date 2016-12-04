@@ -1,1 +1,0 @@
-include: ["./reports-mvn/jacoco/.sessions.html", "reports/jacoco/.reports/"]
