@@ -24,13 +24,16 @@ after_success:
 - "./gen-badges.js $TRAVIS_BUILD_DIR/progen/target/"
 - git config --global user.email "travis@travis-ci.org"
 - git config --global user.name "Travis-CI deployer"
+- git config push.default simple
 - cd $TRAVIS_BUILD_DIR/pro-gen.github.io
 - cp -v $TRAVIS_BUILD_DIR/progen/target/*svg .
 - cp -v $TRAVIS_BUILD_DIR/progen/target/*xml .
-- mkdir reports 2> /dev/null
-- cp -r $TRAVIS_BUILD_DIR/progen/target/site/* reports
+- mkdir reports-mvn 2> /dev/null
+- cp -r $TRAVIS_BUILD_DIR/progen/target/site/* reports-mvn
 - git add -f *svg pmd.xml findbugs.xml checkstyle-result.xml
-- git add -f reports/*
+- git add -f reports-mvn/*
 - git commit -q -m "Travis build $TRAVIS_BUILD_NUMBER pushed to ProGen page"
 - git push --force --quiet "https://pro-gen:${GITHUB_API_KEY}@github.com/${GITHUB_REPO_WEB}.git"
+- pwd
+- ls -la
 
