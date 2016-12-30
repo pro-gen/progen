@@ -22,15 +22,10 @@ after_success:
 - cd $TRAVIS_BUILD_DIR/gen-badge
 - npm install
 - "./gen-badges.js $TRAVIS_BUILD_DIR/progen/target/"
-- pwd
-- ls -l
-- ls -l $TRAVIS_BUILD_DIR/progen/target/
 - git config --global user.email "travis@travis-ci.org"
 - git config --global user.name "Travis-CI deployer"
 - git config --global push.default simple
 - cd $TRAVIS_BUILD_DIR/pro-gen.github.io
-- ls -l $TRAVIS_BUILD_DIR/progen/target/
-- ls -l $TRAVIS_BUILD_DIR/progen/target/*svg
 - cp -v $TRAVIS_BUILD_DIR/progen/target/*svg .
 - cp -v $TRAVIS_BUILD_DIR/progen/target/*xml .
 - mkdir reports-mvn 2> /dev/null
@@ -39,4 +34,4 @@ after_success:
 - git add -f reports-mvn/*
 - git commit -q -m "Travis build $TRAVIS_BUILD_NUMBER pushed to ProGen page"
 - git push --force --quiet "https://pro-gen:${GITHUB_API_KEY}@github.com/${GITHUB_REPO_WEB}.git"
-
+- bash <(curl -s https://codecov.io/bash)
