@@ -17,11 +17,11 @@ before_script:
 - git clone https://${GH_TOKEN}@github.com/${GITHUB_REPO_WEB}.git $TRAVIS_BUILD_DIR/pro-gen.github.io
 script:
 - cd progen
-- ./mvnw clean verify site jacoco:report coveralls:jacoco sonar:sonar
+- mvn clean verify site jacoco:report coveralls:jacoco sonar:sonar
 after_success:
 - mkdir $TRAVIS_BUILD_DIR/progen/target/pmd
 - cp $TRAVIS_BUILD_DIR/progen/target/pmd.xml $TRAVIS_BUILD_DIR/progen/target/pmd
-- ./mvnw xml:transform
+- mvn xml:transform
 - cp $TRAVIS_BUILD_DIR/progen/target/generated-resources/xml/xslt/pmd.xml $TRAVIS_BUILD_DIR/progen/target/site/pmd.html
 - node -v
 - cd $TRAVIS_BUILD_DIR/gen-badge
