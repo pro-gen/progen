@@ -15,38 +15,51 @@
 		<master.file>master_standalone.txt</master.file>
 		<jdk.version>1.7</jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.powermock.version>1.6.1</org.powermock.version>
-		<org.jacoco.version>0.7.1.201405082137</org.jacoco.version>
+
+		<findbugs.version>3.0.1</findbugs.version>
+		<junit.version>4.12</junit.version>
+		<mockito.version>1.9.5</mockito.version>
+		<powermock.version>1.6.1</powermock.version>
+
+		<checkstyle.plugin.version>2.12.1</checkstyle.plugin.version>
+		<compiler.plugin.version>3.1</compiler.plugin.version>
+		<coveralls.plugin.version>2.2.0</coveralls.plugin.version>
+		<exec.plugin.version>1.3</exec.plugin.version>
+		<jacoco.plugin.version>0.7.1.201405082137</jacoco.plugin.version>
+		<pmd.plugin.version>3.3</pmd.plugin.version>
+		<projectInfoReports.plugin.version>2.7</projectInfoReports.plugin.version>
+		<site.plugin.version>3.3</site.plugin.version>
+		<xml.plugin.version>1.0</xml.plugin.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.google.code.findbugs</groupId>
 			<artifactId>annotations</artifactId>
-			<version>3.0.0</version>
+			<version>${findbugs.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<version>1.9.5</version>
+			<version>${mockito.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-module-junit4</artifactId>
-			<version>${org.powermock.version}</version>
+			<version>${powermock.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-api-mockito</artifactId>
-			<version>${org.powermock.version}</version>
+			<version>${powermock.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -56,7 +69,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>${compiler.plugin.version}</version>
 				<configuration>
 					<encoding>${project.build.sourceEncoding}</encoding>
 					<source>${jdk.version}</source>
@@ -66,12 +79,12 @@
 			<plugin>
 				<groupId>org.eluder.coveralls</groupId>
 				<artifactId>coveralls-maven-plugin</artifactId>
-				<version>2.2.0</version>
+				<version>${coveralls.plugin.version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${org.jacoco.version}</version>
+				<version>${jacoco.plugin.version}</version>
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
@@ -84,7 +97,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.3</version>
+				<version>${exec.plugin.version}</version>
 				<configuration>
 					<executable>java</executable>
 					<mainClass>progen.ProGen</mainClass>
@@ -98,17 +111,17 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.3</version>
+				<version>${site.plugin.version}</version>
 				<configuration>
 					<reportPlugins>
 						<plugin>
 							<groupId>org.apache.maven.plugins</groupId>
 							<artifactId>maven-project-info-reports-plugin</artifactId>
-							<version>2.7</version>
+							<version>${projectInfoReports.plugin.version}</version>
 						</plugin>
 						<plugin>
 							<artifactId>maven-checkstyle-plugin</artifactId>
-							<version>2.12.1</version>
+							<version>${checkstyle.plugin.version}</version>
 							<configuration>
 								<configLocation>.checkstyle-rules.xml</configLocation>
 								<encoding>${project.build.sourceEncoding}</encoding>
@@ -120,7 +133,7 @@
 						<plugin>
 							<groupId>org.codehaus.mojo</groupId>
 							<artifactId>findbugs-maven-plugin</artifactId>
-							<version>2.5.4</version>
+							<version>${findbugs.version}</version>
 							<configuration>
 								<effort>Max</effort>
 								<failOnError>false</failOnError>
@@ -133,11 +146,11 @@
 						<plugin>
 							<groupId>org.jacoco</groupId>
 							<artifactId>jacoco-maven-plugin</artifactId>
-							<version>${org.jacoco.version}</version>
+							<version>${jacoco.version}</version>
 						</plugin>
 						<plugin>
 							<artifactId>maven-pmd-plugin</artifactId>
-							<version>3.3</version>
+							<version>${pmd.plugin.version}</version>
 							<reportSets>
 								<reportSet>
 									<reports>
@@ -162,7 +175,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>xml-maven-plugin</artifactId>
-				<version>1.0</version>
+				<version>${xml.plugin.version}</version>
 				<executions>
 					<execution>
 						<goals>
