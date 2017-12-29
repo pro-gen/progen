@@ -1,10 +1,15 @@
 languaje: java
 sudo: false
 jdk:
-- oraclejdk7
+- oraclejdk8
 env:
   global:
   - GITHUB_REPO_WEB: "pro-gen/pro-gen.github.io"
+addons:
+  sonarcloud:
+    organization: "pro-gen-github"
+    token:
+      secure: "EBiUBu5BisJWAnxnU6RyOfkVh7YaM7UfmYfYuniVlI/XQxgv0fjxeiWsyEzFFPNHwIK0gRTJJGoxgVj+ITYg7M1LXDzzlvAO9gwIIiIROpFiwkrQID0qiZlnVaIowTYel6KEjZD96py80sRAqzBR/Q66OkyPYI/E4QzL5Y3TsIg="
 before_script:
 - rm -rf $TRAVIS_BUILD_DIR/gen-badge 2> /dev/null
 - rm -rf $TRAVIS_BUILD_DIR/pro-gen.github.io 2> /dev/null
@@ -12,7 +17,7 @@ before_script:
 - git clone https://${GH_TOKEN}@github.com/${GITHUB_REPO_WEB}.git $TRAVIS_BUILD_DIR/pro-gen.github.io
 script:
 - cd progen
-- mvn clean verify site jacoco:report coveralls:jacoco
+- mvn clean verify site jacoco:report coveralls:jacoco sonar:sonar
 after_success:
 - mkdir $TRAVIS_BUILD_DIR/progen/target/pmd
 - cp $TRAVIS_BUILD_DIR/progen/target/pmd.xml $TRAVIS_BUILD_DIR/progen/target/pmd
@@ -37,3 +42,7 @@ after_success:
 - cd $TRAVIS_BUILD_DIR/progen
 - pwd
 - bash <(curl -s https://codecov.io/bash)
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
